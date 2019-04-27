@@ -3,6 +3,13 @@ project(dino)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(dino main.cpp)
+add_executable(
+        dino
+        main.cpp
+        Entity.hpp
+        Entity.cpp
+        Player.hpp
+        Player.cpp
+)
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)
