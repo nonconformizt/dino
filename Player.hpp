@@ -14,6 +14,9 @@ public:
 private:
     double speed = 3.0;
     int walk_counter = 0;
+    bool down = false,
+         left = false;
+//         right = false;
 };
 
 
