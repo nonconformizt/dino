@@ -3,18 +3,25 @@
 #define DINO_PLAYER_HPP
 
 #include "Entity.hpp"
+#include "Missile.hpp"
 #include <iostream>
 
 class Player : public Entity {
 
 public:
+    std::vector<Missile> missiles;
+
     Player();
     void update() final;
 
 private:
     double speed = 3.0;
     bool down = false,
-         left = false;
+         left = false,
+         spacePressed = false;
+
+    void fire();
+
 };
 
 

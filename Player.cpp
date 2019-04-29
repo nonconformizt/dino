@@ -66,6 +66,19 @@ void Player::update()
 
     walk_counter = (++walk_counter) % 10; // hehe, funny thing
 
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        spacePressed = true;
+    else if (spacePressed) {
+        spacePressed = false;
+        fire();
+    }
+
     sprite.setPosition(rect.getPosition());
 }
 
+void Player::fire()
+{
+    auto m = new Missile(rect.getPosition(), left ? -1 : 1);
+    missiles.push_back(*m);
+}

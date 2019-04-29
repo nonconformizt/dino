@@ -7,7 +7,7 @@
 class Missile : public Entity {
 
 public:
-    Missile();
+    Missile(sf::Vector2f pos, int dir);
     void update() final;
 
 private:

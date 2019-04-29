@@ -6,8 +6,6 @@
 int main(int argc, const char ** argv) {
 
     class Player player;
-    class Missile missile;
-    std::vector<Missile> missiles;
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Dino");
     window.setFramerateLimit(60);
@@ -26,7 +24,9 @@ int main(int argc, const char ** argv) {
 
         window.clear();
         player.update();
-        missile.update();
+
+        for( auto & missile : player.missiles )
+            missile.update();
 
         /* TEMP BACKGROUND */
         /* SOON WILL BE REPLACED WITH MAP */
@@ -36,8 +36,9 @@ int main(int argc, const char ** argv) {
         r.setFillColor(sf::Color(255, 255, 255, 255));
         window.draw(r);
 
+        for( auto const& missile : player.missiles )
+            window.draw(missile.sprite);
         window.draw(player.sprite);
-        window.draw(missile.sprite);
         window.display();
     }
 
