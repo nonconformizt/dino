@@ -9,14 +9,12 @@ class Player : public Entity {
 
 public:
     Player();
-    void update();
+    void update() final;
 
 private:
     double speed = 3.0;
-    int walk_counter = 0;
     bool down = false,
          left = false;
-//         right = false;
 };
 
 

@@ -10,6 +10,8 @@ add_executable(
         Entity.cpp
         Player.hpp
         Player.cpp
+        Missile.hpp
+        Missile.cpp
 )
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)

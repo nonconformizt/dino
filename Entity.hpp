@@ -10,7 +10,11 @@ public:
     sf::RectangleShape rect;
     sf::Texture texture;
     sf::Sprite sprite;
-    sf::Text text;
+
+    virtual void update() = 0;
+
+protected:
+    int walk_counter = 0;
 
 };
 

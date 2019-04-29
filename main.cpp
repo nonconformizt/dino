@@ -1,11 +1,13 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
+#include "Missile.hpp"
 
 int main(int argc, const char ** argv) {
 
     class Player player;
-
+    class Missile missile;
+    std::vector<Missile> missiles;
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Dino");
     window.setFramerateLimit(60);
@@ -24,8 +26,10 @@ int main(int argc, const char ** argv) {
 
         window.clear();
         player.update();
+        missile.update();
 
         /* TEMP BACKGROUND */
+        /* SOON WILL BE REPLACED WITH MAP */
         sf::RectangleShape r;
         r.setPosition(0, 0);
         r.setSize(sf::Vector2f(800, 600));
@@ -33,6 +37,7 @@ int main(int argc, const char ** argv) {
         window.draw(r);
 
         window.draw(player.sprite);
+        window.draw(missile.sprite);
         window.display();
     }
 

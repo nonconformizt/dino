@@ -7,7 +7,6 @@ Player::Player()
 
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
-//    sprite.scale(1.5, 1.5);
 
     rect.setSize(sf::Vector2f(64, 72));
     rect.setPosition(300, 200);
