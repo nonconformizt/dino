@@ -9,7 +9,8 @@ Player::Player()
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
 
     rect.setSize(sf::Vector2f(64, 72));
-    rect.setPosition(300, 200);
+    rect.setPosition(300, 500);
+    velocity.y += - jumpSpeed;
 }
 
 void Player::update()
@@ -35,7 +36,7 @@ void Player::update()
         else
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*64, 72, 64, 72));
 
-        velocity.x = -speed;
+        velocity.x = -walkSpeed;
         left = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
@@ -45,7 +46,7 @@ void Player::update()
         else
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*64, 0, 64, 72));
 
-        velocity.x = speed;
+        velocity.x = walkSpeed;
         left = false;
     }
     else {
@@ -70,8 +71,10 @@ void Player::update()
 
     // JUMP
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        if (!upPressed)
+        if (!upPressed) {
             std::cout << "JUMP!\n";
+            // velocity.y += - jumpSpeed;
+        }
         upPressed = true;
     }
     else
@@ -87,6 +90,9 @@ void Player::update()
         spacePressed = false;
 
 
+    // apply gravity
+    velocity.y += G;
+
     /**
      *  HANDLE COLLISION
      *  SOMWHERE IN HERE
@@ -100,4 +106,9 @@ void Player::fire()
 {
     auto m = new Missile(rect.getPosition(), left ? -1 : 1);
     missiles.push_back(*m);
+}
+
+void Player::render(sf::RectangleShape newPos)
+{
+    nextPos = newPos;
 }

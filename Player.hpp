@@ -10,14 +10,16 @@ class Player : public Entity {
 
 public:
     std::vector<Missile> missiles;
-    sf::RectangleShape next_pos;
+    sf::RectangleShape nextPos;
     sf::Vector2f velocity = {0, 0};
 
     Player();
     void update() final;
+    void render(sf::RectangleShape newPos);
 
 private:
-    double speed = 3.0;
+    double walkSpeed = 3.0,
+           jumpSpeed = 30.0;
 
     bool down = false, // is player bended down?
          left = false, // is player faced left?

@@ -12,6 +12,8 @@ add_executable(
         Player.cpp
         Missile.hpp
         Missile.cpp
+        Level.hpp
+        Level.cpp
 )
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)

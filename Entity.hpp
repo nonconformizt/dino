@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#define G 0.8
+
 class Entity {
 
 public:
