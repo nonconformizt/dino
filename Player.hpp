@@ -10,14 +10,18 @@ class Player : public Entity {
 
 public:
     std::vector<Missile> missiles;
+    sf::RectangleShape next_pos;
+    sf::Vector2f velocity = {0, 0};
 
     Player();
     void update() final;
 
 private:
     double speed = 3.0;
-    bool down = false,
-         left = false,
+
+    bool down = false, // is player bended down?
+         left = false, // is player faced left?
+         upPressed = false,
          spacePressed = false;
 
     void fire();

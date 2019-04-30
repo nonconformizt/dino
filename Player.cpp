@@ -35,8 +35,8 @@ void Player::update()
         else
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*64, 72, 64, 72));
 
+        velocity.x = -speed;
         left = true;
-        rect.move(-speed, 0);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         // идти вправо
@@ -45,11 +45,13 @@ void Player::update()
         else
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*64, 0, 64, 72));
 
+        velocity.x = speed;
         left = false;
-        rect.move(speed, 0);
     }
     else {
         // стоять на месте
+        velocity.x = 0;
+
         if (left) {
             if (down)
                 sprite.setTextureRect(sf::IntRect(0, 144 + 39, 83, 39));
@@ -66,14 +68,31 @@ void Player::update()
 
     walk_counter = (++walk_counter) % 10; // hehe, funny thing
 
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        spacePressed = true;
-    else if (spacePressed) {
-        spacePressed = false;
-        fire();
+    // JUMP
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        if (!upPressed)
+            std::cout << "JUMP!\n";
+        upPressed = true;
     }
+    else
+        upPressed = false;
 
+    // FIRE!!!!
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (!spacePressed)
+            fire();
+        spacePressed = true;
+    }
+    else
+        spacePressed = false;
+
+
+    /**
+     *  HANDLE COLLISION
+     *  SOMWHERE IN HERE
+     */
+
+    rect.move(velocity);
     sprite.setPosition(rect.getPosition());
 }
 
