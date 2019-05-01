@@ -8,7 +8,7 @@ int main(int argc, const char ** argv) {
 
     class Level level;
     class Player player;
-    sf::RectangleShape playerRect;
+    float playerOffset;
 
     sf::RenderWindow window(sf::VideoMode(990, 600), "Dino");
     window.setFramerateLimit(40);
@@ -43,8 +43,8 @@ int main(int argc, const char ** argv) {
         for( auto const& missile : player.missiles )
             window.draw(missile.sprite);
 
-        playerRect = level.checkMovement(player.nextPos, player.rect);
-        player.render(playerRect);
+        playerOffset = level.checkMovement(player.rect, player.desiredOffestY);
+        player.render(playerOffset);
         window.draw(player.sprite);
 
         window.display();

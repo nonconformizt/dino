@@ -37,47 +37,45 @@ void Level::loadFromFile()
     fclose(mapFile);
 }
 
-sf::RectangleShape Level::checkMovement(sf::RectangleShape next, sf::RectangleShape curr)
+float Level::checkMovement(sf::RectangleShape rect, float offset)
 {
+    using namespace std;
 
-    sf::FloatRect tempTile;
-    tempTile.width = 30;
-    tempTile.height = 10;
-    sf::RectangleShape tempPlayer;
-    tempPlayer.setPosition(curr.getPosition());
-    tempPlayer.setSize(curr.getSize());
+    // always can go up
+    if (offset <= G)
+        return offset;
 
-    //std::cout << curr.getPosition().x << "; " << curr.getPosition().y << std::endl;
+    rect.move(0, offset);
 
-    int centerTileX = int(curr.getPosition().x + curr.getSize().x / 2) / 30,
-        centerTileY = int(curr.getPosition().y + curr.getSize().y / 2) / 10;
+    sf::FloatRect tile = {0, 0, 30, 10};
+    int leftTile_j = int(rect.getPosition().x) / 30, // the most left tile under player (index)
+        rightTile_j = int(rect.getPosition().x + rect.getSize().x) / 30, // the most right one
+        topRow = int(rect.getPosition().y) / 10 + 6; // the upper tilemap layer
+    float limit;
 
-    // loop through all closest to player tiles
-    for (int i = centerTileX - 2; i <= centerTileX + 3; i++) {
-        for (int j = centerTileY - 10; j <= centerTileY + 5; j++) {
-            if (i >= 0 && j >= 0 && i < 33 && j < 60) {
-                if (tiles[j][i] == 1) {
-                    tempTile.left = 30 * i;
-                    tempTile.top = 10 * j;
-                    // if not intersects now, then MUST NOT intersect on the next frame
-                    if (!curr.getGlobalBounds().intersects(tempTile)) {
-                        // !kostyl begins!
-                        tempPlayer.setPosition(curr.getPosition().x, next.getPosition().y);
-                        if (tempPlayer.getGlobalBounds().intersects(tempTile)) {
-                            std::cout << "Cant go down!\n";
-                            // Cant go down!
-                            next.setPosition(next.getPosition().x, curr.getPosition().y); // move out
-                            return next;
-                        }
+
+    for (int j = leftTile_j; j <= rightTile_j; j++) {
+        for (int i = topRow; i < topRow + 10; i++) {
+            if (i >= 0 && i < 60 && j >= 0 && j < 33) {
+                if (tiles[i][j] == 1) {
+                    tile.left = 30 * j;
+                    tile.top = 10 * i;
+                    if (rect.getGlobalBounds().intersects(tile)) {
+
+                        rect.move(0, -offset); // revert to initial position
+                        limit = tile.top - rect.getPosition().y - rect.getSize().y; // player can move down
+                                                                                    // only to this point, never lower
+                        return (limit >= offset) ? offset : limit;
+
                     }
                 }
             }
         }
     }
 
+//  cout << offset << endl;
+    return offset;
 
-    std::cout << "==== !!! Can go down !!! ====\n";
-    return next;
 }
 
 

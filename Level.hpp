@@ -4,14 +4,13 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Entity.hpp"
 
 class Level {
 
 public:
     Level();
-    sf::RectangleShape checkMovement(
-            sf::RectangleShape next,
-            sf::RectangleShape curr);
+    float checkMovement(sf::RectangleShape rect, float offset);
 
     std::vector<sf::Sprite> platforms;
 

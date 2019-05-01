@@ -12,7 +12,6 @@ Player::Player()
     rect.setPosition(0, 408);
     nextPos.setSize(sf::Vector2f(64, 72));
     nextPos.setPosition(0, 408);
-//    velocity.y += - jumpSpeed;
 }
 
 void Player::update()
@@ -91,16 +90,12 @@ void Player::update()
     else
         spacePressed = false;
 
-
     // apply gravity
     velocity.y += G;
 
-    /**
-     *  HANDLE COLLISION
-     *  SOMWHERE IN HERE
-     */
-
     nextPos.move(velocity);
+
+    desiredOffestY = nextPos.getPosition().y - rect.getPosition().y;
 }
 
 void Player::fire()
@@ -109,14 +104,16 @@ void Player::fire()
     missiles.push_back(*m);
 }
 
-void Player::render(sf::RectangleShape newPos)
+void Player::render(float offset)
 {
     // detect stop
-    if (newPos.getPosition().y == rect.getPosition().y)
+    if (offset == 0) {
         velocity.y = 0;
+    }
 
-    rect = newPos;
-//    std::cout << newPos.getPosition().x << "; " << newPos.getPosition().y << std::endl;
+    std::cout << "OFFSET: " << offset << "\nVELOCITY: " << velocity.y << std::endl;
+    nextPos.setPosition(nextPos.getPosition().x, rect.getPosition().y + offset);
+    rect.setPosition(nextPos.getPosition());
     sprite.setPosition(rect.getPosition());
 
 }
