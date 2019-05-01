@@ -9,15 +9,18 @@ class Level {
 
 public:
     Level();
-    sf::RectangleShape checkMovement(sf::RectangleShape next, sf::RectangleShape curr);
+    sf::RectangleShape checkMovement(
+            sf::RectangleShape next,
+            sf::RectangleShape curr);
 
-    std::vector<sf::RectangleShape> platforms;
+    std::vector<sf::Sprite> platforms;
 
 
 private:
     void loadFromFile();
 
     int tiles[60][33] = {{0}};
+    sf::Texture platformTexture;
 
 
 };

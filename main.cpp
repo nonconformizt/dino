@@ -8,9 +8,10 @@ int main(int argc, const char ** argv) {
 
     class Level level;
     class Player player;
+    sf::RectangleShape playerRect;
 
     sf::RenderWindow window(sf::VideoMode(990, 600), "Dino");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(40);
 
     while (window.isOpen())
     {
@@ -38,9 +39,14 @@ int main(int argc, const char ** argv) {
 
         for( auto const& platform: level.platforms )
             window.draw(platform);
+
         for( auto const& missile : player.missiles )
             window.draw(missile.sprite);
+
+        playerRect = level.checkMovement(player.nextPos, player.rect);
+        player.render(playerRect);
         window.draw(player.sprite);
+
         window.display();
     }
 

@@ -3,14 +3,16 @@
 
 Player::Player()
 {
-    texture.loadFromFile("assets/player_v2.png");
+    texture.loadFromFile("assets/player.png");
 
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
 
     rect.setSize(sf::Vector2f(64, 72));
-    rect.setPosition(300, 500);
-    velocity.y += - jumpSpeed;
+    rect.setPosition(0, 408);
+    nextPos.setSize(sf::Vector2f(64, 72));
+    nextPos.setPosition(0, 408);
+//    velocity.y += - jumpSpeed;
 }
 
 void Player::update()
@@ -18,14 +20,14 @@ void Player::update()
 
     if ( !down && sf::Keyboard::isKeyPressed(sf::Keyboard::S) ) {
         // пригнуься
-        rect.setSize(sf::Vector2f(83, 39));
-        rect.move(0, 72 - 39);
+        nextPos.setSize(sf::Vector2f(83, 39));
+        nextPos.move(0, 72 - 39);
         down = true;
     }
     else if ( down && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) ) {
         // выпрямиться
-        rect.setSize(sf::Vector2f(64, 72));
-        rect.move(0, 39 - 72);
+        nextPos.setSize(sf::Vector2f(64, 72));
+        nextPos.move(0, 39 - 72);
         down = false;
     }
 
@@ -73,7 +75,7 @@ void Player::update()
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         if (!upPressed) {
             std::cout << "JUMP!\n";
-            // velocity.y += - jumpSpeed;
+             velocity.y = - jumpSpeed;
         }
         upPressed = true;
     }
@@ -98,8 +100,7 @@ void Player::update()
      *  SOMWHERE IN HERE
      */
 
-    rect.move(velocity);
-    sprite.setPosition(rect.getPosition());
+    nextPos.move(velocity);
 }
 
 void Player::fire()
@@ -110,5 +111,14 @@ void Player::fire()
 
 void Player::render(sf::RectangleShape newPos)
 {
-    nextPos = newPos;
+    // detect stop
+    if (newPos.getPosition().y == rect.getPosition().y)
+        velocity.y = 0;
+
+    rect = newPos;
+//    std::cout << newPos.getPosition().x << "; " << newPos.getPosition().y << std::endl;
+    sprite.setPosition(rect.getPosition());
+
 }
+
+

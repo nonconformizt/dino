@@ -19,7 +19,7 @@ public:
 
 private:
     double walkSpeed = 3.0,
-           jumpSpeed = 30.0;
+           jumpSpeed = 10.0;
 
     bool down = false, // is player bended down?
          left = false, // is player faced left?

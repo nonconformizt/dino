@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define G 0.8
+#define G 0.2
 
 class Entity {
 
