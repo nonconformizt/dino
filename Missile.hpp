@@ -11,7 +11,7 @@ public:
     void update() final;
 
 private:
-    double speed = 5.0;
+    double speed = 7.5;
     int direction = 1; // -1 for left; 1 for right
 };
 

@@ -41,6 +41,8 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
 {
     using namespace std;
 
+    cout << rect.getPosition().y << endl;
+
     // always can go up
     if (offset <= G)
         return offset;
@@ -48,9 +50,9 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
     rect.move(0, offset);
 
     sf::FloatRect tile = {0, 0, 30, 10};
-    int leftTile_j = int(rect.getPosition().x) / 30, // the most left tile under player (index)
-        rightTile_j = int(rect.getPosition().x + rect.getSize().x) / 30, // the most right one
-        topRow = int(rect.getPosition().y) / 10 + 6; // the upper tilemap layer
+    int leftTile_j = int(rect.getPosition().x + 25) / 30, // the most left tile under player (index)
+        rightTile_j = int(rect.getPosition().x + rect.getSize().x - 15) / 30, // the most right one
+        topRow = int(rect.getPosition().y) / 10 + 3; // the upper tilemap layer
     float limit;
 
 
@@ -73,7 +75,6 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
         }
     }
 
-//  cout << offset << endl;
     return offset;
 
 }

@@ -19,8 +19,8 @@ public:
 
 private:
     sf::RectangleShape nextPos;
-    double walkSpeed = 3.0,
-           jumpSpeed = 12.0;
+    double walkSpeed = 4.0,
+           jumpSpeed = 15.0;
     bool down = false, // is player bended down
          left = false, // is player faced left
          upPressed = false,

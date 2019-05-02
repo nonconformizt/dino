@@ -18,20 +18,24 @@ void Player::update()
 {
 
     if ( !down && sf::Keyboard::isKeyPressed(sf::Keyboard::S) ) {
-        // пригнуься
+        // bend down
         nextPos.setSize(sf::Vector2f(83, 39));
+//        rect.setSize(sf::Vector2f(83, 39));
         nextPos.move(0, 72 - 39);
+        rect.move(0, 72 - 39);
         down = true;
     }
     else if ( down && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) ) {
-        // выпрямиться
+        // stand straight
         nextPos.setSize(sf::Vector2f(64, 72));
+        rect.setSize(sf::Vector2f(64, 72));
         nextPos.move(0, 39 - 72);
+        rect.move(0, 39 - 72);
         down = false;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        // идти влево
+        // go left
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144 + 39, 83, 39));
         else
@@ -41,7 +45,7 @@ void Player::update()
         left = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        // идти вправо
+        // go right
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144, 83, 39));
         else
@@ -51,7 +55,7 @@ void Player::update()
         left = false;
     }
     else {
-        // стоять на месте
+        // stand still
         velocity.x = 0;
 
         if (left) {
@@ -72,10 +76,8 @@ void Player::update()
 
     // JUMP
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        if (!upPressed) {
-            std::cout << "JUMP!\n";
+        if (!upPressed)
              velocity.y = - jumpSpeed;
-        }
         upPressed = true;
     }
     else
@@ -111,11 +113,13 @@ void Player::render(float offset)
         velocity.y = 0;
     }
 
-    std::cout << "OFFSET: " << offset << "\nVELOCITY: " << velocity.y << std::endl;
+    if (down && (rect.getPosition().y == 541.6 || rect.getPosition().y == 541.0))
+        offset = 0;
+
+    //std::cout << "OFFSET: " << offset << "\nVELOCITY: " << velocity.y << std::endl;
     nextPos.setPosition(nextPos.getPosition().x, rect.getPosition().y + offset);
     rect.setPosition(nextPos.getPosition());
+    rect.setSize(nextPos.getSize());
     sprite.setPosition(rect.getPosition());
 
 }
-
-

@@ -11,7 +11,7 @@ int main(int argc, const char ** argv) {
     float playerOffset;
 
     sf::RenderWindow window(sf::VideoMode(990, 600), "Dino");
-    window.setFramerateLimit(40);
+    window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
