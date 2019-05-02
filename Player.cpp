@@ -16,11 +16,21 @@ Player::Player()
 
 void Player::update()
 {
+    // JUMP
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        if (!upPressed && !jump ) { // can`t jump in flight
+            jump = true;
+            velocity.y = - jumpSpeed;
+        }
+        upPressed = true;
+    }
+    else
+        upPressed = false;
 
     if ( !down && sf::Keyboard::isKeyPressed(sf::Keyboard::S) ) {
         // bend down
         nextPos.setSize(sf::Vector2f(83, 39));
-//        rect.setSize(sf::Vector2f(83, 39));
+        rect.setSize(sf::Vector2f(83, 39));
         nextPos.move(0, 72 - 39);
         rect.move(0, 72 - 39);
         down = true;
@@ -34,7 +44,7 @@ void Player::update()
         down = false;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !jump) {
         // go left
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144 + 39, 83, 39));
@@ -44,7 +54,7 @@ void Player::update()
         velocity.x = -walkSpeed;
         left = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !jump) {
         // go right
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144, 83, 39));
@@ -56,7 +66,9 @@ void Player::update()
     }
     else {
         // stand still
-        velocity.x = 0;
+
+        if (!jump) // keep horozontal speed in flight
+            velocity.x = 0;
 
         if (left) {
             if (down)
@@ -73,15 +85,6 @@ void Player::update()
     }
 
     walk_counter = (++walk_counter) % 10; // hehe, funny thing
-
-    // JUMP
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        if (!upPressed)
-             velocity.y = - jumpSpeed;
-        upPressed = true;
-    }
-    else
-        upPressed = false;
 
     // FIRE!!!!
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -109,14 +112,18 @@ void Player::fire()
 void Player::render(float offset)
 {
     // detect stop
-    if (offset == 0) {
+    // (if we wanted to move, but we can`t)
+    if ( desiredOffestY > 0 && offset == 0) {
         velocity.y = 0;
+        jump = false;
     }
+    else
+        jump = true;
 
+    // bugfix
     if (down && (rect.getPosition().y == 541.6 || rect.getPosition().y == 541.0))
         offset = 0;
 
-    //std::cout << "OFFSET: " << offset << "\nVELOCITY: " << velocity.y << std::endl;
     nextPos.setPosition(nextPos.getPosition().x, rect.getPosition().y + offset);
     rect.setPosition(nextPos.getPosition());
     rect.setSize(nextPos.getSize());
