@@ -18,7 +18,7 @@ public:
 private:
     void loadFromFile();
 
-    int tiles[60][33] = {{0}};
+    int tiles[LVL_TILES_H][LVL_TILES_W] = {{0}};
     sf::Texture platformTexture;
 
 

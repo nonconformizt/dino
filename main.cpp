@@ -3,15 +3,19 @@
 #include "Level.hpp"
 #include "Player.hpp"
 #include "Missile.hpp"
+#include "Camera.hpp"
 
-int main(int argc, const char ** argv) {
+int main(int argc, const char ** argv)
+{
+
+    sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "Dino");
+    window.setFramerateLimit(60);
 
     class Level level;
     class Player player;
     float playerOffset;
+    class Camera camera(&window, &(player.rect));
 
-    sf::RenderWindow window(sf::VideoMode(990, 600), "Dino");
-    window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
@@ -33,7 +37,7 @@ int main(int argc, const char ** argv) {
         /* SOON WILL BE REPLACED WITH MAP */
         sf::RectangleShape r;
         r.setPosition(0, 0);
-        r.setSize(sf::Vector2f(990, 600));
+        r.setSize(sf::Vector2f(LVL_W, LVL_H));
         r.setFillColor(sf::Color(255, 255, 255, 255));
         window.draw(r);
 
@@ -47,9 +51,10 @@ int main(int argc, const char ** argv) {
         player.render(playerOffset);
         window.draw(player.sprite);
 
+        camera.update();
+
         window.display();
     }
-
 
     return 0;
 }

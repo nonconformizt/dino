@@ -96,7 +96,7 @@ void Player::update()
         spacePressed = false;
 
     // apply gravity
-    velocity.y += G;
+    velocity.y += GR;
 
     nextPos.move(velocity);
 

@@ -2,9 +2,8 @@
 #ifndef DINO_ENTITY_HPP
 #define DINO_ENTITY_HPP
 
+#include "config.h"
 #include <SFML/Graphics.hpp>
-
-#define G 0.6
 
 class Entity {
 

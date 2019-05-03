@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(
         dino
         main.cpp
+        config.h
         Entity.hpp
         Entity.cpp
         Player.hpp
@@ -14,6 +15,8 @@ add_executable(
         Missile.cpp
         Level.hpp
         Level.cpp
+        Camera.hpp
+        Camera.cpp
 )
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)
