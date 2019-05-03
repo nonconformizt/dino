@@ -33,13 +33,7 @@ int main(int argc, const char ** argv)
         for( auto & missile : player.missiles )
             missile.update();
 
-        /* TEMP BACKGROUND */
-        /* SOON WILL BE REPLACED WITH MAP */
-        sf::RectangleShape r;
-        r.setPosition(0, 0);
-        r.setSize(sf::Vector2f(LVL_W, LVL_H));
-        r.setFillColor(sf::Color(255, 255, 255, 255));
-        window.draw(r);
+        window.draw(level.background);
 
         for( auto const& platform: level.platforms )
             window.draw(platform);

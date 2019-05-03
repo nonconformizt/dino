@@ -13,7 +13,7 @@ public:
     float checkMovement(sf::RectangleShape rect, float offset);
 
     std::vector<sf::Sprite> platforms;
-
+    sf::RectangleShape background;
 
 private:
     void loadFromFile();
