@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "Cactus.hpp"
 
 class Level {
 
@@ -13,6 +14,7 @@ public:
     float checkMovement(sf::RectangleShape rect, float offset);
 
     std::vector<sf::Sprite> platforms;
+    std::vector<Cactus> cactuses;
     sf::RectangleShape background;
 
 private:

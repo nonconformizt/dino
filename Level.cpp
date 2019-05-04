@@ -4,11 +4,11 @@
 Level::Level()
 {
     loadFromFile();
-    
+
     background.setPosition(0, 0);
     background.setSize(sf::Vector2f(LVL_W, LVL_H));
     background.setFillColor(sf::Color(255, 255, 255, 255));
-    
+
     platformTexture.loadFromFile("assets/tile.png");
     sf::Sprite tempSprite;
     tempSprite.setTexture(platformTexture);
@@ -22,6 +22,14 @@ Level::Level()
             }
         }
     }
+
+    sf::Vector2f pos[2] = {{400, 20}, {600, 20}};
+
+    for (int i = 0; i < 2; i++) {
+        auto c = new Cactus(sf::Vector2f(pos[i].x, pos[i].y));
+        cactuses.push_back(*c);
+    }
+
 }
 
 void Level::loadFromFile()

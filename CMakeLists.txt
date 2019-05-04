@@ -17,6 +17,8 @@ add_executable(
         Level.cpp
         Camera.hpp
         Camera.cpp
+        Cactus.hpp
+        Cactus.cpp
 )
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)
