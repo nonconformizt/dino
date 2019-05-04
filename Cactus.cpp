@@ -11,11 +11,10 @@ Cactus::Cactus(sf::Vector2f pos)
 
 bool Cactus::collision(sf::FloatRect player)
 {
-    // ???
     player.left += 10;
-    player.top += 10;
-    player.height -= 10;
-    player.width -= 10;
+    player.top += 0;
+    player.height -= 20;
+    player.width -= 20;
 
     return sprite.getGlobalBounds().intersects(player);
 }
