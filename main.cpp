@@ -39,6 +39,11 @@ int main(int argc, const char ** argv)
         for( auto const& cactus: level.cactuses )
             window.draw(cactus.sprite);
 
+        for( auto & ptero: level.pteros ) {
+            ptero.update();
+            window.draw(ptero.sprite);
+        }
+
         for( auto & missile : player.missiles ) {
             missile.update();
             window.draw(missile.sprite);
@@ -57,10 +62,16 @@ int main(int argc, const char ** argv)
             if (cactus.collision(player.sprite.getGlobalBounds()))
                 window.close();
 
+        for( auto & ptero: level.pteros )
+            if (ptero.collision(player.sprite.getGlobalBounds()))
+                window.close();
+
+
         window.display();
     }
 
     MessageBoxA(nullptr, "GAME OVER!", "Dino", 0);
 
     return 0;
+
 }

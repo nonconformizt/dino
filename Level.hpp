@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 #include "Cactus.hpp"
+#include "Pterodactyl.hpp"
 
 class Level {
 
@@ -15,6 +16,7 @@ public:
 
     std::vector<sf::Sprite> platforms;
     std::vector<Cactus> cactuses;
+    std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;
 
 private:

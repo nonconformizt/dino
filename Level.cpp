@@ -23,11 +23,18 @@ Level::Level()
         }
     }
 
-    sf::Vector2f pos[2] = {{400, 20}, {600, 20}};
+    sf::Vector2f pos[6] = {{170, 260}, {820, 70}, {200, 20}, {525, 20}, {550, 20}, {575, 20}};
+
+    for (int i = 0; i < 6; i++) {
+        auto c = new Cactus(pos[i]);
+        cactuses.push_back(*c);
+    }
+
+    sf::Vector2f pt[2] = {{900, 250}, {600, 20}};
 
     for (int i = 0; i < 2; i++) {
-        auto c = new Cactus(sf::Vector2f(pos[i].x, pos[i].y));
-        cactuses.push_back(*c);
+        auto p = new Pterodactyl(pt[i], 4.0);
+        pteros.push_back(*p);
     }
 
 }

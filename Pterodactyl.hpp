@@ -8,6 +8,7 @@ class Pterodactyl : public Entity {
 
 public:
     Pterodactyl(sf::Vector2f pos, float sp);
+    bool collision(sf::FloatRect player);
     void update() final;
 
 private:
