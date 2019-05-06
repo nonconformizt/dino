@@ -56,6 +56,7 @@ int main(int argc, const char ** argv)
 
         camera.update();
 
+
         // check if player must die
 
         for( auto & cactus: level.cactuses )
@@ -63,12 +64,21 @@ int main(int argc, const char ** argv)
                 window.close();
 
         for( auto & ptero: level.pteros )
-            if (ptero.collision(player.sprite.getGlobalBounds()))
+            if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds()))
                 window.close();
 
+        // check if pterodactyl must die
+
+        for( auto & missile : player.missiles ) {
+            for( auto & ptero: level.pteros )
+                if (!ptero.dead)
+                    if (ptero.collision(missile.sprite.getGlobalBounds()))
+                        ptero.dead = true;
+        }
 
         window.display();
     }
+
 
     MessageBoxA(nullptr, "GAME OVER!", "Dino", 0);
 
