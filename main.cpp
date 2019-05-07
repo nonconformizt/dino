@@ -6,6 +6,7 @@
 #include "Missile.hpp"
 #include "Camera.hpp"
 #include "Cactus.hpp"
+#include "Menu/Menu.hpp"
 
 int main(int argc, const char ** argv)
 {
@@ -13,79 +14,83 @@ int main(int argc, const char ** argv)
     sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "Dino");
     window.setFramerateLimit(60);
 
+
+    class Menu menu(&window);
     class Level level;
     class Player player;
     float playerOffset;
     class Camera camera(&window, &(player.rect));
 
-    sf::Font font;
-    font.loadFromFile("assets/font.ttf");
 
-//    sf::Text text;
-//    text.setFont(font);
-//    text.setString(L"SELECT GAME MODE . . .");
-//    text.setCharacterSize(40);
-//    text.setFillColor(sf::Color(83, 83, 83));
 
     while (window.isOpen())
     {
-        // Process events
-        sf::Event event;
-        while (window.pollEvent(event))
+        if (menu.getState() == -1)
         {
-            if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
-                window.close();
-        }
+            menu.update();
 
-        window.clear();
+        } else
+        {
 
-        window.draw(level.background);
+            // Process events
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
+                    window.close();
+            }
 
-        for( auto const& platform: level.platforms )
-            window.draw(platform);
+            window.clear();
 
-        for( auto const& cactus: level.cactuses )
-            window.draw(cactus.sprite);
+            window.draw(level.background);
 
-        for( auto & ptero: level.pteros ) {
-            ptero.update();
-            window.draw(ptero.sprite);
-        }
+            for( auto const& platform: level.platforms )
+                window.draw(platform);
 
-        for( auto & missile : player.missiles ) {
-            missile.update();
-            window.draw(missile.sprite);
-        }
+            for( auto const& cactus: level.cactuses )
+                window.draw(cactus.sprite);
 
-        player.update();
-        playerOffset = level.checkMovement(player.rect, player.desiredOffestY);
-        player.render(playerOffset);
-        window.draw(player.sprite);
+            for( auto & ptero: level.pteros ) {
+                ptero.update();
+                window.draw(ptero.sprite);
+            }
 
-        camera.update();
+            for( auto & missile : player.missiles ) {
+                missile.update();
+                window.draw(missile.sprite);
+            }
+
+            player.update();
+            playerOffset = level.checkMovement(player.rect, player.desiredOffestY);
+            player.render(playerOffset);
+            window.draw(player.sprite);
+
+            camera.update();
 
 
-        // check if player must die
+            // check if player must die
 
-        for( auto & cactus: level.cactuses )
-            if (cactus.collision(player.sprite.getGlobalBounds()))
-                window.close();
+            for( auto & cactus: level.cactuses )
+                if (cactus.collision(player.sprite.getGlobalBounds()))
+                    window.close();
 
-        for( auto & ptero: level.pteros )
-            if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds()))
-                window.close();
-
-        // check if pterodactyl must die
-
-        for( auto & missile : player.missiles ) {
             for( auto & ptero: level.pteros )
-                if (!ptero.dead)
-                    if (ptero.collision(missile.sprite.getGlobalBounds()))
-                        ptero.dead = true;
+                if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds()))
+                    window.close();
+
+            // check if pterodactyl must die
+
+            for( auto & missile : player.missiles ) {
+                for( auto & ptero: level.pteros )
+                    if (!ptero.dead)
+                        if (ptero.collision(missile.sprite.getGlobalBounds()))
+                            ptero.dead = true;
+            }
+
+
+            window.display();
         }
 
-
-        window.display();
     }
 
 
