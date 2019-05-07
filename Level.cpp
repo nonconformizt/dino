@@ -30,7 +30,7 @@ Level::Level()
         cactuses.push_back(*c);
     }
 
-    sf::Vector2f pt[2] = {{900, 250}, {600, 20}};
+    sf::Vector2f pt[2] = {{900, 230}, {600, 180}};
 
     for (int i = 0; i < 2; i++) {
         auto p = new Pterodactyl(pt[i], 4.0);

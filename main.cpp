@@ -18,6 +18,14 @@ int main(int argc, const char ** argv)
     float playerOffset;
     class Camera camera(&window, &(player.rect));
 
+    sf::Font font;
+    font.loadFromFile("assets/font.ttf");
+
+//    sf::Text text;
+//    text.setFont(font);
+//    text.setString(L"SELECT GAME MODE . . .");
+//    text.setCharacterSize(40);
+//    text.setFillColor(sf::Color(83, 83, 83));
 
     while (window.isOpen())
     {
@@ -76,11 +84,12 @@ int main(int argc, const char ** argv)
                         ptero.dead = true;
         }
 
+
         window.display();
     }
 
 
-    MessageBoxA(nullptr, "GAME OVER!", "Dino", 0);
+    //MessageBoxA(nullptr, "GAME OVER!", "Dino", 0);
 
     return 0;
 
