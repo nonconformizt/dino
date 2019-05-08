@@ -16,6 +16,7 @@ public:
     void update();
 
 private:
+    void deactivateAll();
 
     sf::RenderWindow * window;
     int state = -1; // see getState();
@@ -29,8 +30,11 @@ private:
     sf::Sprite btn1,
                btn2,
                smallBtns[3];
+    sf::Texture smallBtnTexture[3];
+    sf::Texture btnTexture;
     sf::RectangleShape sparks[40],
                        background;
+    int activeBtn = 0;
 
 };
 

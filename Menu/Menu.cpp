@@ -36,12 +36,29 @@ Menu::Menu(sf::RenderWindow * win)
     btn2Label.setFillColor(gray);
     btn2Label.setPosition(sf::Vector2f((WIN_W - btn2Label.getGlobalBounds().width) / 2, 445));
 
-    sf::Texture t;
-    t.loadFromFile("assets/button.png");
-    btn1.setTexture(t);
-    btn2.setTexture(t);
+    btnTexture.loadFromFile("assets/button.png");
+    btn1.setTexture(btnTexture);
+    btn2.setTexture(btnTexture);
     btn1.setTextureRect(sf::IntRect(0, 0, 293, 64));
+    btn1.setPosition(348, 297);
     btn2.setTextureRect(sf::IntRect(0, 0, 293, 64));
+    btn2.setPosition(348, 435);
+
+    smallBtnTexture[0].loadFromFile("assets/btn-rating.png");
+    smallBtnTexture[1].loadFromFile("assets/btn-achieve.png");
+    smallBtnTexture[2].loadFromFile("assets/btn-about.png");
+
+    smallBtns[0].setTexture(smallBtnTexture[0]);
+    smallBtns[1].setTexture(smallBtnTexture[1]);
+    smallBtns[2].setTexture(smallBtnTexture[2]);
+
+    smallBtns[0].setPosition(sf::Vector2f(913, 379));
+    smallBtns[1].setPosition(sf::Vector2f(913, 448));
+    smallBtns[2].setPosition(sf::Vector2f(913, 525));
+
+    smallBtns[0].setTextureRect(sf::IntRect(0, 0, 55, 55));
+    smallBtns[1].setTextureRect(sf::IntRect(0, 0, 55, 55));
+    smallBtns[2].setTextureRect(sf::IntRect(0, 0, 55, 55));
 
 }
 
@@ -53,10 +70,50 @@ void Menu::update()
     {
         if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
             window->close();
-        else if (event.type == sf::Event::KeyReleased &&
-                    (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Right))
-            {} // next button
+        else if (event.type == sf::Event::KeyPressed &&
+                 (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Tab)) {
+            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+                activeBtn = ++activeBtn % 5;
+            else {
+                activeBtn = --activeBtn % 5;
+                if (activeBtn == -1)
+                    activeBtn = 4;
+            }
+        } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+            if (activeBtn == 0)
+                state = 0;
+            else if (activeBtn == 1)
+                state = 1;
+        }
     }
+
+
+    switch (activeBtn)
+    {
+        case 0:
+            deactivateAll();
+            btn1.setTextureRect(sf::IntRect(293, 0, 293, 64));
+            btn1Label.setFillColor(sf::Color::White);
+            break;
+        case 1:
+            deactivateAll();
+            btn2.setTextureRect(sf::IntRect(293, 0, 293, 64));
+            btn2Label.setFillColor(sf::Color::White);
+            break;
+        case 2:
+            deactivateAll();
+            smallBtns[0].setTextureRect(sf::IntRect(55, 0, 55, 55));
+            break;
+        case 3:
+            deactivateAll();
+            smallBtns[1].setTextureRect(sf::IntRect(55, 0, 55, 55));
+            break;
+        case 4:
+            deactivateAll();
+            smallBtns[2].setTextureRect(sf::IntRect(55, 0, 55, 55));
+            break;
+    }
+
 
     window->clear();
     window->draw(background);
@@ -67,6 +124,9 @@ void Menu::update()
     window->draw(btn2);
     window->draw(btn1Label);
     window->draw(btn2Label);
+    window->draw(smallBtns[0]);
+    window->draw(smallBtns[1]);
+    window->draw(smallBtns[2]);
 
     window->display();
 }
@@ -74,4 +134,14 @@ void Menu::update()
 int Menu::getState()
 {
     return state;
+}
+
+void Menu::deactivateAll()
+{
+    btn1.setTextureRect(sf::IntRect(0, 0, 293, 64));
+    btn2.setTextureRect(sf::IntRect(0, 0, 293, 64));
+    btn1Label.setFillColor(gray);
+    btn2Label.setFillColor(gray);
+    for (int i = 0; i < 3; i++)
+        smallBtns[i].setTextureRect(sf::IntRect(0, 0, 55, 55));
 }
