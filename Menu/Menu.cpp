@@ -64,6 +64,8 @@ Menu::Menu(sf::RenderWindow * win)
         sparks[i].setFillColor(gray);
         sparks[i].setSize(sf::Vector2f(6, 6));
     }
+
+    rating = new Rating(window, &font);
 }
 
 void Menu::update()
@@ -72,8 +74,14 @@ void Menu::update()
     sf::Event event;
     while (window->pollEvent(event))
     {
-        if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
+        if (event.type == sf::Event::Closed)
             window->close();
+        else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+            if (rating->isShown())
+                rating->hide();
+            else
+                window->close();
+        }
         else if (event.type == sf::Event::KeyPressed &&
                  (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Tab)) {
             activeChanged = true;
@@ -89,6 +97,8 @@ void Menu::update()
                 state = 0;
             else if (activeBtn == 1)
                 state = 1;
+            else if (activeBtn == 2)
+                rating->show();
         }
     }
 
@@ -135,6 +145,8 @@ void Menu::update()
     window->draw(smallBtns[0]);
     window->draw(smallBtns[1]);
     window->draw(smallBtns[2]);
+
+    rating->render();
 
     window->display();
 }

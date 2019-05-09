@@ -14,11 +14,11 @@ int main(int argc, const char ** argv)
     window.setFramerateLimit(60);
 
 
-    class Menu menu(&window);
-    class Level level;
-    class Player player;
+    Menu menu(&window);
+    Level level;
+    Player player;
     float playerOffset;
-    class Camera camera(&window, &(player.rect));
+    Camera camera(&window, &(player.rect));
 
 
 

@@ -2,9 +2,10 @@
 #ifndef DINO_MENU_HPP
 #define DINO_MENU_HPP
 
-#include "../config.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "../config.h"
+#include "Rating.hpp"
 
 #define SPARKS_N 30
 
@@ -40,6 +41,8 @@ private:
                        background;
     int activeBtn = -1;
     bool activeChanged = false;
+
+    Rating * rating;
 
 };
 
