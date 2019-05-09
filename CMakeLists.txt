@@ -19,6 +19,6 @@ add_executable(
         Camera.cpp
         Cactus.hpp
         Cactus.cpp
-        Pterodactyl.cpp Pterodactyl.hpp Menu/Menu.cpp Menu/Menu.hpp)
+        Pterodactyl.cpp Pterodactyl.hpp Menu/Menu.cpp Menu/Menu.hpp Menu/Rating.cpp Menu/Rating.hpp)
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)

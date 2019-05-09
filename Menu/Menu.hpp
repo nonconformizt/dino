@@ -6,10 +6,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#define SPARKS_N 30
+
 class Menu {
 
 public:
-    Menu(sf::RenderWindow * win);
+    explicit Menu(sf::RenderWindow * win);
     int getState(); // returns number of level, if user intends to run some,
                     // or 0 if user intends to run "standard mode"
                     // or -1 if we`r still showing menu
@@ -17,6 +19,8 @@ public:
 
 private:
     void deactivateAll();
+    void initSparks();
+    void updateSparks();
 
     sf::RenderWindow * window;
     int state = -1; // see getState();
@@ -32,9 +36,10 @@ private:
                smallBtns[3];
     sf::Texture smallBtnTexture[3];
     sf::Texture btnTexture;
-    sf::RectangleShape sparks[40],
+    sf::RectangleShape sparks[SPARKS_N],
                        background;
-    int activeBtn = 0;
+    int activeBtn = -1;
+    bool activeChanged = false;
 
 };
 

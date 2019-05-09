@@ -60,6 +60,10 @@ Menu::Menu(sf::RenderWindow * win)
     smallBtns[1].setTextureRect(sf::IntRect(0, 0, 55, 55));
     smallBtns[2].setTextureRect(sf::IntRect(0, 0, 55, 55));
 
+    for (int i = 0; i < SPARKS_N; i++) {
+        sparks[i].setFillColor(gray);
+        sparks[i].setSize(sf::Vector2f(6, 6));
+    }
 }
 
 void Menu::update()
@@ -72,6 +76,7 @@ void Menu::update()
             window->close();
         else if (event.type == sf::Event::KeyPressed &&
                  (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Tab)) {
+            activeChanged = true;
             if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
                 activeBtn = ++activeBtn % 5;
             else {
@@ -88,35 +93,38 @@ void Menu::update()
     }
 
 
-    switch (activeBtn)
-    {
-        case 0:
-            deactivateAll();
-            btn1.setTextureRect(sf::IntRect(293, 0, 293, 64));
-            btn1Label.setFillColor(sf::Color::White);
-            break;
-        case 1:
-            deactivateAll();
-            btn2.setTextureRect(sf::IntRect(293, 0, 293, 64));
-            btn2Label.setFillColor(sf::Color::White);
-            break;
-        case 2:
-            deactivateAll();
-            smallBtns[0].setTextureRect(sf::IntRect(55, 0, 55, 55));
-            break;
-        case 3:
-            deactivateAll();
-            smallBtns[1].setTextureRect(sf::IntRect(55, 0, 55, 55));
-            break;
-        case 4:
-            deactivateAll();
-            smallBtns[2].setTextureRect(sf::IntRect(55, 0, 55, 55));
-            break;
+    if (activeChanged) {
+        deactivateAll();
+        switch (activeBtn) {
+            case 0:
+                initSparks();
+                btn1.setTextureRect(sf::IntRect(293, 0, 293, 64));
+                btn1Label.setFillColor(sf::Color::White);
+                break;
+            case 1:
+                initSparks();
+                btn2.setTextureRect(sf::IntRect(293, 0, 293, 64));
+                btn2Label.setFillColor(sf::Color::White);
+                break;
+            case 2:
+                smallBtns[0].setTextureRect(sf::IntRect(55, 0, 55, 55));
+                break;
+            case 3:
+                smallBtns[1].setTextureRect(sf::IntRect(55, 0, 55, 55));
+                break;
+            case 4:
+                smallBtns[2].setTextureRect(sf::IntRect(55, 0, 55, 55));
+                break;
+        }
+        activeChanged = false;
     }
-
 
     window->clear();
     window->draw(background);
+
+    if (activeBtn == 0 || activeBtn == 1) {
+        updateSparks();
+    }
 
     window->draw(title);
     window->draw(subtitle);
@@ -142,6 +150,34 @@ void Menu::deactivateAll()
     btn2.setTextureRect(sf::IntRect(0, 0, 293, 64));
     btn1Label.setFillColor(gray);
     btn2Label.setFillColor(gray);
+
     for (int i = 0; i < 3; i++)
         smallBtns[i].setTextureRect(sf::IntRect(0, 0, 55, 55));
+}
+
+void Menu::initSparks()
+{
+    int topOffset = (activeBtn) ? 435 : 297;
+
+    for (int i = 0; i < SPARKS_N; i++) {
+        sparks[i].setPosition( (rand() % (297 + 1)) + 340,
+                               (rand() % (64 + 1)) + topOffset - 10 );
+    }
+
+}
+
+void Menu::updateSparks()
+{
+    int topOffset = (activeBtn) ? 435 : 297;
+
+    for (int i = 0; i < SPARKS_N; i++)
+    {
+        sparks[i].move(0, -1.7);
+        if (sparks[i].getPosition().y < topOffset - 50)
+            sparks[i].setPosition( (rand() % (297 + 1)) + 340,
+                                   (rand() % (64 + 1)) + topOffset - 10 );
+
+        window->draw(sparks[i]);
+    }
+
 }
