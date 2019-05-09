@@ -4,27 +4,16 @@
 
 #include <SFML/Graphics.hpp>
 #include "../config.h"
+#include "Modal.hpp"
 
-class Rating {
+class Rating : public Modal {
 
 public:
     explicit Rating(sf::RenderWindow * win, sf::Font * f);
-    void show() { shown = true; }
-    void hide() { shown = false; }
-    bool isShown() { return shown; }
-    void render();
+    void render() final;
 
 
 private:
-    bool shown = false;
-
-    sf::RenderWindow * window;
-    sf::Texture blockTex;
-    sf::Sprite block;
-    sf::RectangleShape bg;
-    sf::Text title;
-    sf::Font * font;
-
     sf::Text listText[10],
              listNum[10];
     sf::RectangleShape listBullet[10];
