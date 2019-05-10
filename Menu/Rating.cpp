@@ -26,7 +26,7 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
     bg.setFillColor(sf::Color(83, 83, 83, 150));
 
     title.setFont(*font);
-    title.setFillColor(sf::Color(83, 83, 83));
+    title.setFillColor(GRAY);
     title.setCharacterSize(29);
     title.setPosition(424, 63);
     title.setString("Rating");
@@ -36,13 +36,13 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
     {
         listText[i].setCharacterSize(21);
         listText[i].setFont(*font);
-        listText[i].setFillColor(sf::Color(83, 83, 83));
+        listText[i].setFillColor(GRAY);
         listText[i].setPosition(360, offset + 3);
         listText[i].setString(names[i] + " - " + std::to_string(records[i]));
 
         listNum[i].setCharacterSize(21);
         listNum[i].setFont(*font);
-        listNum[i].setFillColor((i < 3) ? sf::Color::White : sf::Color(83, 83, 83));
+        listNum[i].setFillColor((i < 3) ? sf::Color::White : GRAY);
         if (i == 0)
             listNum[i].setPosition(323, offset + 3);
         else if (i == 9)
@@ -53,7 +53,7 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
 
         listBullet[i].setSize(sf::Vector2f(30, 30));
         listBullet[i].setPosition(315, offset);
-        listBullet[i].setFillColor((i < 3) ? sf::Color(83, 83, 83) : sf::Color(220, 220, 220));
+        listBullet[i].setFillColor((i < 3) ? GRAY : LIGHT_GRAY);
     }
 
 }

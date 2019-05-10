@@ -77,7 +77,8 @@ void Menu::update()
     {
         if (event.type == sf::Event::Closed)
             window->close();
-        else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+        else if (event.key.code == sf::Keyboard::Escape && event.type == sf::Event::KeyPressed)
+        {
             if (rating->isShown())
                 rating->hide();
             else if (levelMenu->isShown())
@@ -85,21 +86,36 @@ void Menu::update()
             else
                 window->close();
         }
-        else if (event.type == sf::Event::KeyPressed &&
-                 (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Tab)) {
-            activeChanged = true;
-            if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
-                activeBtn = ++activeBtn % 5;
-            else {
-                activeBtn = --activeBtn % 5;
-                if (activeBtn == -1)
-                    activeBtn = 4;
+        else if ((event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Tab) &&
+                    event.type == sf::Event::KeyPressed)
+        {
+            if (levelMenu->isShown()) {
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+                    levelMenu->navForward();
+                else
+                    levelMenu->navBack();
             }
-        } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+            else {
+                activeChanged = true;
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+                    activeBtn = ++activeBtn % 5;
+                else {
+                    activeBtn = --activeBtn % 5;
+                    if (activeBtn == -1)
+                        activeBtn = 4;
+                }
+            }
+
+        } else if (event.key.code == sf::Keyboard::Enter && event.type == sf::Event::KeyPressed) {
             if (activeBtn == 0)
                 state = 0;
-            else if (activeBtn == 1)
-                levelMenu->show();
+            else if (activeBtn == 1) {
+                if (levelMenu->isShown()) {
+                    state = levelMenu->getLevel();
+                    levelMenu->hide();
+                } else
+                    levelMenu->show();
+            }
             else if (activeBtn == 2)
                 rating->show();
         }

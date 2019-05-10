@@ -19,6 +19,8 @@
 
 #define GR 0.6
 
+#define GRAY sf::Color(83, 83, 83)
+#define LIGHT_GRAY sf::Color(220, 220, 220)
 
 
 #endif //DINO_CONFIG_H
