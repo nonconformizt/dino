@@ -6,6 +6,7 @@
 #include <iostream>
 #include "../config.h"
 #include "Rating.hpp"
+#include "LevelMenu.hpp"
 
 #define SPARKS_N 30
 
@@ -42,6 +43,7 @@ private:
     int activeBtn = -1;
     bool activeChanged = false;
 
+    LevelMenu * levelMenu;
     Rating * rating;
 
 };

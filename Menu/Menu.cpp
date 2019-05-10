@@ -65,6 +65,7 @@ Menu::Menu(sf::RenderWindow * win)
         sparks[i].setSize(sf::Vector2f(6, 6));
     }
 
+    levelMenu = new LevelMenu(window, &font);
     rating = new Rating(window, &font);
 }
 
@@ -79,6 +80,8 @@ void Menu::update()
         else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
             if (rating->isShown())
                 rating->hide();
+            else if (levelMenu->isShown())
+                levelMenu->hide();
             else
                 window->close();
         }
@@ -96,7 +99,7 @@ void Menu::update()
             if (activeBtn == 0)
                 state = 0;
             else if (activeBtn == 1)
-                state = 1;
+                levelMenu->show();
             else if (activeBtn == 2)
                 rating->show();
         }
@@ -147,6 +150,7 @@ void Menu::update()
     window->draw(smallBtns[2]);
 
     rating->render();
+    levelMenu->render();
 
     window->display();
 }

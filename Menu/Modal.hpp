@@ -3,6 +3,7 @@
 #define DINO_MODAL_HPP
 
 #include <SFML/Graphics.hpp>
+#include "../config.h"
 
 class Modal {
 

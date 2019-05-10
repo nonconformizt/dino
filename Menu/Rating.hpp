@@ -2,8 +2,6 @@
 #ifndef DINO_RATING_HPP
 #define DINO_RATING_HPP
 
-#include <SFML/Graphics.hpp>
-#include "../config.h"
 #include "Modal.hpp"
 
 class Rating : public Modal {
