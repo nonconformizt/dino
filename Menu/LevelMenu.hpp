@@ -7,6 +7,7 @@
 
 // number of levels
 #define LVLS_N 5
+#define SPARKS 100
 
 
 class LevelMenu : public Modal {
@@ -22,6 +23,8 @@ public:
 
 private:
     void redrawStars();
+    void initSparks();
+    void updateSparks();
 
     sf::RectangleShape block;
     sf::Texture levelListTex;
@@ -29,6 +32,7 @@ private:
     sf::Text levelListNums[10];
     sf::Sprite levelStars[10][3];
     sf::Texture levelStarTex, levelSmallStarTex;
+    sf::RectangleShape sparks[SPARKS];
 
     int activeLevel = 0;
     int levelInfo[10] = {3, 0, 2, 1, 0}; // how many stars gamer have in each level

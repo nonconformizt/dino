@@ -11,7 +11,7 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
      *    Load data about level passing somewhere here...
      */
 
-    block.setPosition(86 + 30, 70);
+    block.setPosition(116, 70);
     block.setSize(sf::Vector2f(740, 470));
     block.setFillColor(sf::Color::White);
 
@@ -54,6 +54,12 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
 
     }
 
+    for (int i = 0; i < SPARKS; i++) {
+        sparks[i].setFillColor(sf::Color::White);
+        sparks[i].setSize(sf::Vector2f(6, 6));
+    }
+    initSparks();
+
 }
 
 void LevelMenu::render()
@@ -61,6 +67,7 @@ void LevelMenu::render()
     if (shown)
     {
         window->draw(bg);
+        updateSparks();
         window->draw(block);
         window->draw(title);
 
@@ -121,4 +128,23 @@ void LevelMenu::redrawStars()
     }
 }
 
+void LevelMenu::initSparks()
+{
+    for (int i = 0; i < SPARKS; i++) {
+        sparks[i].setPosition( (rand() % 740) + 116,
+                               (rand() % 70) + 50);
+    }
+}
 
+void LevelMenu::updateSparks()
+{
+    for (int i = 0; i < SPARKS; i++)
+    {
+        sparks[i].move(0, -1.7);
+        if (sparks[i].getPosition().y < 20)
+            sparks[i].setPosition( (rand() % 740) + 116,
+                                   (rand() % 70) + 50);
+
+        window->draw(sparks[i]);
+    }
+}

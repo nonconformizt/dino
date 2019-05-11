@@ -231,7 +231,6 @@ void Menu::initSparks()
         sparks[i].setPosition( (rand() % (286)) + 350,
                                (rand() % (65)) + topOffset - 10 );
     }
-
 }
 
 void Menu::updateSparks()
@@ -247,5 +246,4 @@ void Menu::updateSparks()
 
         window->draw(sparks[i]);
     }
-
 }

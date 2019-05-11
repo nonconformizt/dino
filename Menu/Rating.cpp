@@ -56,6 +56,11 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
         listBullet[i].setFillColor((i < 3) ? GRAY : LIGHT_GRAY);
     }
 
+    for (int i = 0; i < SP_N; i++) {
+        sparks[i].setFillColor(sf::Color::White);
+        sparks[i].setSize(sf::Vector2f(6, 6));
+    }
+    initSparks();
 }
 
 void Rating::render()
@@ -63,6 +68,7 @@ void Rating::render()
     if (shown)
     {
         window->draw(bg);
+        updateSparks();
         window->draw(block);
         window->draw(title);
 
@@ -72,5 +78,26 @@ void Rating::render()
             window->draw(listBullet[i]);
             window->draw(listNum[i]);
         }
+    }
+}
+
+void Rating::initSparks()
+{
+    for (int i = 0; i < SP_N; i++) {
+        sparks[i].setPosition( (rand() % 390) + 295,
+                               (rand() % 70) + 50);
+    }
+}
+
+void Rating::updateSparks()
+{
+    for (int i = 0; i < SP_N; i++)
+    {
+        sparks[i].move(0, -1.7);
+        if (sparks[i].getPosition().y < 10)
+            sparks[i].setPosition( (rand() % 390) + 295,
+                                   (rand() % 70) + 50);
+
+        window->draw(sparks[i]);
     }
 }

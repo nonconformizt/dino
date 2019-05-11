@@ -4,6 +4,8 @@
 
 #include "Modal.hpp"
 
+#define SP_N 60
+
 class Rating : public Modal {
 
 public:
@@ -12,9 +14,13 @@ public:
 
 
 private:
+    void initSparks();
+    void updateSparks();
+
     sf::Text listText[10],
              listNum[10];
     sf::RectangleShape listBullet[10];
+    sf::RectangleShape sparks[SP_N];
 };
 
 
