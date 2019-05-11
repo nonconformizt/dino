@@ -118,11 +118,47 @@ void Menu::update()
             }
             else if (activeBtn == 2)
                 rating->show();
+        } else if (event.type == sf::Event::MouseMoved)
+        {
+            int x = sf::Mouse::getPosition(*window).x,
+                y = sf::Mouse::getPosition(*window).y,
+                newActive = -1;
+
+            // fucking kostyl
+
+            if (btn1.getGlobalBounds().contains(x, y))
+                newActive = 0;
+            else if (btn2.getGlobalBounds().contains(x, y))
+                newActive = 1;
+            // yes, i know about loops, but im too lazy
+            else if (smallBtns[0].getGlobalBounds().contains(x, y))
+                newActive = 2;
+            else if (smallBtns[1].getGlobalBounds().contains(x, y))
+                newActive = 3;
+            else if (smallBtns[2].getGlobalBounds().contains(x, y))
+                newActive = 4;
+            else
+                newActive = -1;
+
+            activeChanged = (activeBtn != newActive);
+            activeBtn = newActive;
+
+        } else if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
+        {
+            int x = sf::Mouse::getPosition(*window).x,
+                y = sf::Mouse::getPosition(*window).y;
+
+            if (btn1.getGlobalBounds().contains(x, y))
+                state = 0;
+            else if (btn2.getGlobalBounds().contains(x, y) && !levelMenu->isShown())
+                levelMenu->show();
+            else if (smallBtns[0].getGlobalBounds().contains(x, y) && !rating->isShown())
+                rating->show();
         }
     }
 
 
-    if (activeChanged) {
+    if (activeChanged) {z
         deactivateAll();
         switch (activeBtn) {
             case 0:

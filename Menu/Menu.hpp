@@ -17,6 +17,7 @@ public:
     int getState(); // returns number of level, if user intends to run some,
                     // or 0 if user intends to run "standard mode"
                     // or -1 if we`r still showing menu
+    void open() { state = -1; };
     void update();
 
 private:
