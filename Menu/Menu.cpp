@@ -122,7 +122,7 @@ void Menu::update()
         {
             int x = sf::Mouse::getPosition(*window).x,
                 y = sf::Mouse::getPosition(*window).y,
-                newActive = -1;
+                newActive;
 
             // fucking kostyl
 
@@ -158,7 +158,7 @@ void Menu::update()
     }
 
 
-    if (activeChanged) {z
+    if (activeChanged) {
         deactivateAll();
         switch (activeBtn) {
             case 0:
@@ -228,8 +228,8 @@ void Menu::initSparks()
     int topOffset = (activeBtn) ? 435 : 297;
 
     for (int i = 0; i < SPARKS_N; i++) {
-        sparks[i].setPosition( (rand() % (297 + 1)) + 340,
-                               (rand() % (64 + 1)) + topOffset - 10 );
+        sparks[i].setPosition( (rand() % (286)) + 350,
+                               (rand() % (65)) + topOffset - 10 );
     }
 
 }
@@ -242,8 +242,8 @@ void Menu::updateSparks()
     {
         sparks[i].move(0, -1.7);
         if (sparks[i].getPosition().y < topOffset - 50)
-            sparks[i].setPosition( (rand() % (297 + 1)) + 340,
-                                   (rand() % (64 + 1)) + topOffset - 10 );
+            sparks[i].setPosition( (rand() % (286)) + 350,
+                                   (rand() % (65)) + topOffset - 10 );
 
         window->draw(sparks[i]);
     }
