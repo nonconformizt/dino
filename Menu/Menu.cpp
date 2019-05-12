@@ -74,8 +74,8 @@ void Menu::update()
     ////////////// PROCESS MOUSE MOVEMENT /////////////////
 
     int x = sf::Mouse::getPosition(*window).x,
-            y = sf::Mouse::getPosition(*window).y,
-            newActive;
+        y = sf::Mouse::getPosition(*window).y,
+        newActive;
 
     // fucking kostyl
 

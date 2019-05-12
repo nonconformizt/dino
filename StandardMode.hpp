@@ -1,6 +1,9 @@
+//
+// Created by nonconformist on 12.05.2019.
+//
 
-#ifndef DINO_LEVEL_HPP
-#define DINO_LEVEL_HPP
+#ifndef DINO_STANDARDMODE_HPP
+#define DINO_STANDARDMODE_HPP
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -10,10 +13,11 @@
 #include "Camera.hpp"
 #include "Pterodactyl.hpp"
 
-class Level {
+#define A 0.004
 
+class StandardMode {
 public:
-    Level(sf::RenderWindow * win);
+    explicit StandardMode(sf::RenderWindow * win);
     void update();
 
 private:
@@ -33,7 +37,9 @@ private:
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;
 
+    float velocity = 0;
+
 };
 
 
-#endif //DINO_LEVEL_HPP
+#endif //DINO_STANDARDMODE_HPP

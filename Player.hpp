@@ -16,12 +16,15 @@ public:
     Player();
     void update() final;
     void render(float offset);
+    void setStandartMode(bool isStandard) {standardMode = isStandard;}
+    void setStModeSpeed(float speed) {velocity.x = speed;}
 
 private:
     sf::RectangleShape nextPos;
-    double walkSpeed = 5.0,
-           jumpSpeed = 12.0;
-    bool down = false, // is player bended down
+    float walkSpeed = 5.0,
+          jumpSpeed = 12.0;
+    bool standardMode = false,
+         down = false, // is player bended down
          left = false, // is player faced left
          jump = false, // is player in jump
          upPressed = false,

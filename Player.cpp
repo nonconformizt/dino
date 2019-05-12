@@ -54,7 +54,8 @@ void Player::update()
         velocity.x = -walkSpeed;
         left = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !jump) {
+    // in standard mode u r walking right permanently
+    else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D) || standardMode) && !jump) {
         // go right
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144, 83, 39));
@@ -67,7 +68,7 @@ void Player::update()
     else {
         // stand still
 
-        if (!jump) // keep horozontal speed in flight
+        if (!jump && !standardMode) // keep horizontal speed in flight and in standard mode
             velocity.x = 0;
 
         if (left) {
@@ -87,7 +88,7 @@ void Player::update()
     walk_counter = (++walk_counter) % 10; // hehe, funny thing
 
     // FIRE!!!!
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !standardMode) {
         if (!spacePressed)
             fire();
         spacePressed = true;
