@@ -71,6 +71,34 @@ Menu::Menu(sf::RenderWindow * win)
 
 void Menu::update()
 {
+    ////////////// PROCESS MOUSE MOVEMENT /////////////////
+
+    int x = sf::Mouse::getPosition(*window).x,
+            y = sf::Mouse::getPosition(*window).y,
+            newActive;
+
+    // fucking kostyl
+
+    if (btn1.getGlobalBounds().contains(x, y))
+        newActive = 0;
+    else if (btn2.getGlobalBounds().contains(x, y))
+        newActive = 1;
+        // yes, i know about loops, but im too lazy
+    else if (smallBtns[0].getGlobalBounds().contains(x, y))
+        newActive = 2;
+    else if (smallBtns[1].getGlobalBounds().contains(x, y))
+        newActive = 3;
+    else if (smallBtns[2].getGlobalBounds().contains(x, y))
+        newActive = 4;
+    else
+        newActive = activeBtn;
+
+    activeChanged = (activeBtn != newActive);
+    activeBtn = newActive;
+
+    //////////////////////////////////////////////////////
+
+
     // Process events
     sf::Event event;
     while (window->pollEvent(event))
@@ -132,35 +160,8 @@ void Menu::update()
         }
     }
 
-    ////////////// PROCESS MOUSE MOVEMENT /////////////////
-
-    int x = sf::Mouse::getPosition(*window).x,
-            y = sf::Mouse::getPosition(*window).y,
-            newActive;
-
-    // fucking kostyl
-
-    if (btn1.getGlobalBounds().contains(x, y))
-        newActive = 0;
-    else if (btn2.getGlobalBounds().contains(x, y))
-        newActive = 1;
-        // yes, i know about loops, but im too lazy
-    else if (smallBtns[0].getGlobalBounds().contains(x, y))
-        newActive = 2;
-    else if (smallBtns[1].getGlobalBounds().contains(x, y))
-        newActive = 3;
-    else if (smallBtns[2].getGlobalBounds().contains(x, y))
-        newActive = 4;
-    else
-        newActive = -1;
-
-    activeChanged = (activeBtn != newActive);
-    activeBtn = newActive;
-
-    //////////////////////////////////////////////////////
-
-
-    if (activeChanged) {
+    if (activeChanged)
+    {
         deactivateAll();
         switch (activeBtn) {
             case 0:
