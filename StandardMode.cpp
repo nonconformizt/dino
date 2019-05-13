@@ -15,13 +15,13 @@ StandardMode::StandardMode(sf::RenderWindow * win)
 }
 
 
-float StandardMode::checkMovement(sf::RectangleShape rect, float offset)
+float StandardMode::checkMovement(const sf::RectangleShape * rect, float offset)
 {
     // always can go up
     if (offset <= 0)
         return offset;
 
-    float bottom = rect.getGlobalBounds().top + rect.getGlobalBounds().height;
+    float bottom = rect->getPosition().y + rect->getSize().y;
 
     if (bottom + offset > GROUND)
         return GROUND - bottom;
@@ -63,7 +63,7 @@ void StandardMode::update()
 
     player.setStModeSpeed(velocity);
     player.update();
-    playerOffset = checkMovement(player.rect, player.desiredOffestY);
+    playerOffset = checkMovement(&player.rect, player.desiredOffestY);
     player.render(playerOffset);
     window->draw(player.sprite);
 
@@ -102,13 +102,6 @@ void StandardMode::initObjects()
         tempSprite.setPosition(TILE_W * i, GROUND);
         platforms.push_back(tempSprite);
     }
-
-
-//    auto c = new Cactus(pos[i]);
-//    cactuses.push_back(*c);
-//
-//    auto p = new Pterodactyl(pt[i], 4.0);
-//    pteros.push_back(*p);
 
 }
 

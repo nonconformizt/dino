@@ -2,22 +2,18 @@
 #include <SFML/Graphics.hpp>
 #include "Level.hpp"
 #include "StandardMode.hpp"
-#include "Player.hpp"
-#include "Missile.hpp"
-#include "Camera.hpp"
-#include "Cactus.hpp"
 #include "Menu/Menu.hpp"
 
 int main(int argc, const char ** argv)
 {
 
-    sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "Dino");
+    sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "DINO REMASTERED_");
     window.setFramerateLimit(60);
 
 
     Menu menu(&window);
     Level level(&window);
-    StandardMode standart(&window);
+    StandardMode standard(&window);
 
 
     while (window.isOpen())
@@ -25,7 +21,7 @@ int main(int argc, const char ** argv)
         if (menu.getState() == -1)
             menu.update();
         else if(menu.getState() == 0)
-            standart.update();
+            standard.update();
         else
             level.update();
 

@@ -24,7 +24,7 @@ public:
 private:
     void initObjects();
     void redrawTiles();
-    float checkMovement(sf::RectangleShape rect, float offset);
+    float checkMovement(const sf::RectangleShape * rect, float offset);
 
     sf::RenderWindow * window;
     sf::Texture platformTexture;
@@ -35,7 +35,7 @@ private:
 
     std::vector<sf::Sprite> platforms;
     Player player;
-    float playerOffset;
+    float playerOffset = 0;
     std::vector<Cactus> cactuses;
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;

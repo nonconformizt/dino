@@ -12,7 +12,7 @@
 class Cactus : public Entity {
 
 public:
-    Cactus(sf::Vector2f pos); // pos is bottom left point, Y is counting from bottom!
+    explicit Cactus(sf::Vector2f pos); //! pos is bottom left point, Y is counting from bottom
     bool collision(sf::FloatRect player);
     void update() final;
 

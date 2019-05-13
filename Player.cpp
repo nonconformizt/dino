@@ -44,7 +44,7 @@ void Player::update()
         down = false;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !jump) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !jump && !standardMode) {
         // go left
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144 + 39, 83, 39));
