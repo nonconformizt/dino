@@ -13,7 +13,8 @@
 #include "Camera.hpp"
 #include "Pterodactyl.hpp"
 
-#define A 0.004
+#define A 0.001
+#define GROUND (TILE_H * 50)
 
 class StandardMode {
 public:
@@ -21,15 +22,17 @@ public:
     void update();
 
 private:
-    void loadFromFile();
     void initObjects();
+    void redrawTiles();
     float checkMovement(sf::RectangleShape rect, float offset);
 
     sf::RenderWindow * window;
     sf::Texture platformTexture;
 
-    Camera * camera;
-    int tiles[LVL_TILES_H][LVL_TILES_W] = {{0}};
+    // view movement for standard mode is much simpler,
+    // so no need to use Camera class
+    sf::View view;
+
     std::vector<sf::Sprite> platforms;
     Player player;
     float playerOffset;
@@ -37,7 +40,7 @@ private:
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;
 
-    float velocity = 0;
+    float velocity = 3.0;
 
 };
 

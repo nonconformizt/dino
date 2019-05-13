@@ -19,6 +19,18 @@ add_executable(
         Camera.cpp
         Cactus.hpp
         Cactus.cpp
-        Pterodactyl.cpp Pterodactyl.hpp Menu/Menu.cpp Menu/Menu.hpp Menu/Rating.cpp Menu/Rating.hpp Menu/LevelMenu.cpp Menu/LevelMenu.hpp Menu/Modal.cpp Menu/Modal.hpp StandardMode.cpp StandardMode.hpp)
+        Pterodactyl.cpp
+        Pterodactyl.hpp
+        Menu/Menu.cpp
+        Menu/Menu.hpp
+        Menu/Rating.cpp
+        Menu/Rating.hpp
+        Menu/LevelMenu.cpp
+        Menu/LevelMenu.hpp
+        Menu/Modal.cpp
+        Menu/Modal.hpp
+        StandardMode.cpp
+        StandardMode.hpp
+)
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)

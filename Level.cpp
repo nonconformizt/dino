@@ -4,7 +4,6 @@
 Level::Level(sf::RenderWindow * win)
 {
     window = win;
-    //player = new Player;
     loadFromFile();
     initObjects();
 

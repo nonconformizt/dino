@@ -9,9 +9,9 @@ Player::Player()
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
 
     rect.setSize(sf::Vector2f(64, 72));
-    rect.setPosition(0, 408);
+    rect.setPosition(50, 350);
     nextPos.setSize(sf::Vector2f(64, 72));
-    nextPos.setPosition(0, 408);
+    nextPos.setPosition(50, 350);
 }
 
 void Player::update()

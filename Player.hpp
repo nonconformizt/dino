@@ -17,7 +17,7 @@ public:
     void update() final;
     void render(float offset);
     void setStandartMode(bool isStandard) {standardMode = isStandard;}
-    void setStModeSpeed(float speed) {velocity.x = speed;}
+    void setStModeSpeed(float speed) {walkSpeed = speed;}
 
 private:
     sf::RectangleShape nextPos;
