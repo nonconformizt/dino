@@ -6,6 +6,8 @@
 #define DINO_STANDARDMODE_HPP
 
 #include <iostream>
+#include <random>
+#include <ctime>
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 #include "Player.hpp"
@@ -25,6 +27,7 @@ private:
     void initObjects();
     void redrawTiles();
     float checkMovement(const sf::RectangleShape * rect, float offset);
+    int random(int a, int b);
 
     sf::RenderWindow * window;
     sf::Texture platformTexture;
@@ -40,7 +43,14 @@ private:
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;
 
-    float velocity = 3.0;
+    float velocity = 6.0;
+
+    // map generation
+
+    float distance = velocity * 30  ; // minimal distance between cactuses
+    float lastCactusX; // no comments
+    std::mt19937 mt; // for c++11 rendom library
+
 
 };
 

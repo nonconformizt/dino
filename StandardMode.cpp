@@ -12,6 +12,7 @@ StandardMode::StandardMode(sf::RenderWindow * win)
 
     player.setStandartMode(true);
 
+    mt.seed(time(nullptr)*time(nullptr));
 }
 
 
@@ -75,7 +76,7 @@ void StandardMode::update()
 
     for( auto & cactus: cactuses )
         if (cactus.collision(player.sprite.getGlobalBounds()))
-            /* player is dead */;
+            window->close();
 
     for( auto & ptero: pteros )
         if (ptero.collision(player.sprite.getGlobalBounds()))
@@ -97,10 +98,19 @@ void StandardMode::initObjects()
     tempSprite.setTexture(platformTexture);
     tempSprite.setTextureRect(sf::IntRect(0, 0, 30, 10));
 
-
-    for (int i = 0; i < 50; i++) {
+    int i;
+    for (i = 0; i < 50; i++) {
         tempSprite.setPosition(TILE_W * i, GROUND);
         platforms.push_back(tempSprite);
+    }
+
+    float pos = 4 * distance;
+    for (i = 0; i < 5; i++) {
+        auto c = new Cactus(sf::Vector2f(pos, WIN_H - GROUND));
+        cactuses.push_back(*c);
+
+        lastCactusX = pos;
+        pos += random(int(distance), int(5 * distance));
     }
 
 }
@@ -122,4 +132,23 @@ void StandardMode::redrawTiles()
         platforms.push_back(tempSprite);
     }
 
+    // if cactus is out of sight
+//    if (platforms[0].getGlobalBounds().left < left - TILE_W) {
+//
+//        platforms.erase(platforms.begin());
+//
+//        sf::Sprite tempSprite;
+//        tempSprite.setTexture(platformTexture);
+//        tempSprite.setTextureRect(sf::IntRect(0, 0, 30, 10));
+//
+//        tempSprite.setPosition(platforms.back().getGlobalBounds().left + TILE_W, GROUND);
+//        platforms.push_back(tempSprite);
+//    }
+
+}
+
+int StandardMode::random(int a, int b)
+{
+    std::uniform_real_distribution<float> dist(a, b);
+    return floor(dist(mt));
 }
