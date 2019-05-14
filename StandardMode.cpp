@@ -76,11 +76,13 @@ void StandardMode::update()
 
     for( auto & cactus: cactuses )
         if (cactus.collision(player.sprite.getGlobalBounds()))
+            // handle player`s death
             window->close();
 
     for( auto & ptero: pteros )
         if (ptero.collision(player.sprite.getGlobalBounds()))
-            /* player is dead */;
+            // handle player`s death
+            window->close();
 
     window->display();
 
@@ -117,10 +119,10 @@ void StandardMode::initObjects()
 
 void StandardMode::redrawTiles()
 {
-    float left = view.getCenter().x - WIN_W / 2;
+    float l_border = view.getCenter().x - WIN_W / 2;
 
     // if tile is out of sight
-    if (platforms[0].getGlobalBounds().left < left - TILE_W) {
+    if (platforms[0].getGlobalBounds().left < l_border - TILE_W) {
 
         platforms.erase(platforms.begin());
 
@@ -130,20 +132,18 @@ void StandardMode::redrawTiles()
 
         tempSprite.setPosition(platforms.back().getGlobalBounds().left + TILE_W, GROUND);
         platforms.push_back(tempSprite);
+
     }
 
     // if cactus is out of sight
-//    if (platforms[0].getGlobalBounds().left < left - TILE_W) {
-//
-//        platforms.erase(platforms.begin());
-//
-//        sf::Sprite tempSprite;
-//        tempSprite.setTexture(platformTexture);
-//        tempSprite.setTextureRect(sf::IntRect(0, 0, 30, 10));
-//
-//        tempSprite.setPosition(platforms.back().getGlobalBounds().left + TILE_W, GROUND);
-//        platforms.push_back(tempSprite);
-//    }
+    if (cactuses[0].sprite.getPosition().x < l_border - 100)
+    {
+        cactuses.erase(cactuses.begin());
+
+        lastCactusX += random(int(distance), int(5 * distance));
+        auto c = new Cactus(sf::Vector2f(lastCactusX, WIN_H - GROUND));
+        cactuses.push_back(*c);
+    }
 
 }
 
