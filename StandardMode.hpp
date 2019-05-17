@@ -26,6 +26,7 @@ public:
 private:
     void initObjects();
     void redrawTiles();
+    void updateScore();
     float checkMovement(const sf::RectangleShape * rect, float offset);
     int random(int a, int b);
 
@@ -42,14 +43,16 @@ private:
     std::vector<Cactus> cactuses;
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;
+    sf::Font font;
+    sf::Text score;
 
     float velocity = 6.0;
 
     // map generation
 
     float distance = velocity * 30  ; // minimal distance between cactuses
-    float lastCactusX;
-    float lastPteroX;
+    float lastCactusX = 0;
+    float lastPteroX = 0;
     std::mt19937 mt; // for c++11 random library
 
 

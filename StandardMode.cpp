@@ -40,6 +40,7 @@ void StandardMode::update()
     }
 
     window->clear();
+    window->setView(view);
 
     background.move(velocity, 0);
     window->draw(background);
@@ -70,7 +71,6 @@ void StandardMode::update()
 
     // move camera
     view.move(velocity, 0);
-    window->setView(view);
 
     // check if player must die
 
@@ -83,6 +83,10 @@ void StandardMode::update()
         if (ptero.collision(player.sprite.getGlobalBounds()))
             // handle player`s death
             window->close();
+
+    window->setView(window->getDefaultView());
+    updateScore();
+    window->draw(score);
 
     window->display();
 
@@ -126,6 +130,13 @@ void StandardMode::initObjects()
         pos += random(500, 1500);
     }
 
+    font.loadFromFile("assets/font.ttf");
+    score.setFont(font);
+    score.setString("Hello");
+    score.setCharacterSize(24);
+    score.setFillColor(GRAY);
+    score.setPosition(WIN_W - score.getGlobalBounds().width, 0);
+
 }
 
 void StandardMode::redrawTiles()
@@ -162,4 +173,14 @@ int StandardMode::random(int a, int b)
 {
     std::uniform_real_distribution<float> dist(a, b);
     return floor(dist(mt));
+}
+
+void StandardMode::updateScore()
+{
+    std::string sc = std::to_string((int) player.rect.getGlobalBounds().left / 70);
+    for (int i = 0, len = 5 - sc.length(); i < len; i++)
+        sc.insert(0, "0"); // fucking weird
+
+    score.setString("SCORE: " + sc);
+    score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
 }
