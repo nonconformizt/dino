@@ -1,9 +1,11 @@
 
+#include <cmath>
 #include "Pterodactyl.hpp"
 
 Pterodactyl::Pterodactyl(sf::Vector2f pos, float sp)
 {
-    speed = sp;
+    speed = sp > 0 ? sp : -sp;
+    dir = (sp > 0) ? 1 : -1;
 
     texture.loadFromFile("assets/ptero.png");
 
@@ -31,7 +33,7 @@ void Pterodactyl::update()
     if (dead)
         rect.move(0, 20);
 
-    if ((rect.getPosition().x < -100) || (rect.getPosition().x > LVL_W+100))
+    if (((rect.getPosition().x < -100) || (rect.getPosition().x > LVL_W+100)) && !standardMode)
         dir *= -1;
 
 

@@ -48,8 +48,9 @@ private:
     // map generation
 
     float distance = velocity * 30  ; // minimal distance between cactuses
-    float lastCactusX; // no comments
-    std::mt19937 mt; // for c++11 rendom library
+    float lastCactusX;
+    float lastPteroX;
+    std::mt19937 mt; // for c++11 random library
 
 
 };

@@ -115,6 +115,17 @@ void StandardMode::initObjects()
         pos += random(int(distance), int(5 * distance));
     }
 
+
+    pos = 3000;
+    for (i = 0; i < 5; i++) {
+        auto p = new Pterodactyl(sf::Vector2f(pos, LVL_H - GROUND + 200), -3);
+        p->setStMode();
+        pteros.push_back(*p);
+
+        lastPteroX = pos;
+        pos += random(500, 1500);
+    }
+
 }
 
 void StandardMode::redrawTiles()
