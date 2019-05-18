@@ -19,6 +19,7 @@
 #define GROUND (TILE_H * 50)
 
 class StandardMode {
+
 public:
     explicit StandardMode(sf::RenderWindow * win);
     void update();
