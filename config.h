@@ -9,13 +9,8 @@
 #define TILE_W 30
 #define TILE_H 10
 
-// how many tiles level have horizontally
-#define LVL_TILES_W (53)
-// how many tiles level have vertically
-#define LVL_TILES_H (60)
-
-#define LVL_W (LVL_TILES_W * TILE_W)
-#define LVL_H (LVL_TILES_H * TILE_H)
+#define LVL_W (lvlTilesW * TILE_W)
+#define LVL_H (lvlTilesH * TILE_H)
 
 #define GR 0.6
 

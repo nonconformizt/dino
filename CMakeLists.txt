@@ -31,6 +31,6 @@ add_executable(
         Menu/Modal.hpp
         StandardMode.cpp
         StandardMode.hpp
-)
+        globals.hpp)
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)

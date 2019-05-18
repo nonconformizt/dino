@@ -3,6 +3,7 @@
 #define DINO_ENTITY_HPP
 
 #include "config.h"
+#include "globals.hpp"
 #include <SFML/Graphics.hpp>
 
 class Entity {

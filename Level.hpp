@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "globals.hpp"
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "Cactus.hpp"
@@ -25,10 +26,10 @@ private:
     sf::Texture platformTexture;
 
     Camera * camera;
-    int tiles[LVL_TILES_H][LVL_TILES_W] = {{0}};
+    std::vector<std::vector<int>> tiles;
     std::vector<sf::Sprite> platforms;
     Player player;
-    float playerOffset;
+    float playerOffset = 0;
     std::vector<Cactus> cactuses;
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;

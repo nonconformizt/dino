@@ -4,6 +4,8 @@
 #include "StandardMode.hpp"
 #include "Menu/Menu.hpp"
 
+int lvlTilesW, lvlTilesH;
+
 int main(int argc, const char ** argv)
 {
 

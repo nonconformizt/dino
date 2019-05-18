@@ -14,17 +14,31 @@ Level::Level(sf::RenderWindow * win)
 void Level::loadFromFile()
 {
     FILE * mapFile = fopen("assets/level.txt", "r");
-    char buffer[LVL_TILES_W + 1];
+    char ch;
+    int i = 0, j = 0;
 
-    for (int i = 0; i < LVL_TILES_H; i++) {
-        fread(buffer, LVL_TILES_W, 1, mapFile);
+    while ((ch = fgetc(mapFile)) != EOF)
+    {
+        auto r = new std::vector<int>;
 
-        for (int j = 0; j < LVL_TILES_W; j++)
-            tiles[i][j] = buffer[j] - '0';
+        do {
+            r->push_back(ch - '0');
+            j++;
+        } while ((ch = fgetc(mapFile)) != '\n' && ch != EOF);
 
-        fseek(mapFile, 2, SEEK_CUR); // skip new line symbol
-                                     // (dont ask me why second arg is 2)
+        tiles.push_back(*r);
+        lvlTilesW = j;
+        i++;
+        j = 0;
     }
+    lvlTilesH = i;
+
+    /*for (auto r : tiles)
+    {
+        for (auto i : r)
+            std::cout << i;
+        std::cout << '\n';
+    }*/
 
     fclose(mapFile);
 }
@@ -46,7 +60,7 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
 
     for (int j = leftTile_j; j <= rightTile_j; j++) {
         for (int i = topRow; i < topRow + 10; i++) {
-            if (i >= 0 && i < LVL_TILES_H && j >= 0 && j < LVL_TILES_W) {
+            if (i >= 0 && i < lvlTilesH && j >= 0 && j < lvlTilesW) {
                 if (tiles[i][j] == 1) {
                     tile.left = 30 * j;
                     tile.top = 10 * i;
@@ -139,8 +153,8 @@ void Level::initObjects()
     tempSprite.setTexture(platformTexture);
     tempSprite.setTextureRect(sf::IntRect(0, 0, 30, 10));
 
-    for (int i = 0; i < LVL_TILES_H; i++) {
-        for (int j = 0; j < LVL_TILES_W; j++) {
+    for (int i = 0; i < lvlTilesH; i++) {
+        for (int j = 0; j < lvlTilesW; j++) {
             if (tiles[i][j] == 1) {
                 tempSprite.setPosition(TILE_W * j, TILE_H * i);
                 platforms.push_back(tempSprite);

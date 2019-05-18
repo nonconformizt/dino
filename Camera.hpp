@@ -2,6 +2,7 @@
 #ifndef DINO_CAMERA_HPP
 #define DINO_CAMERA_HPP
 
+#include "globals.hpp"
 #include "config.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
