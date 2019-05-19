@@ -107,6 +107,11 @@ void Level::update()
         window->draw(ptero.sprite);
     }
 
+    for( auto & coin: coins ) {
+        coin.update();
+        window->draw(coin.sprite);
+    }
+
     for( auto & missile : player.missiles ) {
         missile.update();
         window->draw(missile.sprite);
@@ -139,6 +144,15 @@ void Level::update()
                     ptero.dead = true;
     }
 
+    // check if coin collected
+
+    for (auto it = coins.begin(); it != coins.end(); it++) {
+        if (player.rect.getGlobalBounds().intersects(it->sprite.getGlobalBounds())) {
+            coins.erase(it);
+            it --;
+        }
+    }
+
     window->display();
 }
 
@@ -162,17 +176,25 @@ void Level::initObjects()
         }
     }
 
-    sf::Vector2f pos[6] = {{170, 260}, {820, 70}, {200, 20}, {525, 20}, {550, 20}, {575, 20}};
+    sf::Vector2f cact[6] = {{170, 260}, {820, 70}, {200, 20}, {525, 20}, {550, 20}, {575, 20}};
 
-    for (int i = 0; i < 6; i++) {
-        auto c = new Cactus(pos[i]);
+    for (auto cPos : cact) {
+        auto c = new Cactus(cPos);
         cactuses.push_back(*c);
     }
 
     sf::Vector2f pt[2] = {{900, 230}, {600, 180}};
 
-    for (int i = 0; i < 2; i++) {
-        auto p = new Pterodactyl(pt[i], 4.0);
+    for (auto ptPos : pt) {
+        auto p = new Pterodactyl(ptPos, 4.0);
         pteros.push_back(*p);
     }
+
+    sf::Vector2f coinsP[3] = {{200, 200}, {300, 200}, {400, 200}};
+
+    for (auto coinPos : coinsP) {
+        auto c = new Coin(coinPos);
+        coins.push_back(*c);
+    }
+
 }

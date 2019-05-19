@@ -8,13 +8,14 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "Cactus.hpp"
+#include "Coin.hpp"
 #include "Camera.hpp"
 #include "Pterodactyl.hpp"
 
 class Level {
 
 public:
-    Level(sf::RenderWindow * win);
+    explicit Level(sf::RenderWindow * win);
     void update();
 
 private:
@@ -32,6 +33,7 @@ private:
     float playerOffset = 0;
     std::vector<Cactus> cactuses;
     std::vector<Pterodactyl> pteros;
+    std::vector<Coin> coins;
     sf::RectangleShape background;
 
 };
