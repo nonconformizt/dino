@@ -146,6 +146,8 @@ void StandardMode::redrawTiles()
     // if tile is out of sight
     if (platforms[0].getGlobalBounds().left < l_border - TILE_W) {
 
+        //delete(&platforms[0]);
+
         platforms.erase(platforms.begin());
 
         sf::Sprite tempSprite;

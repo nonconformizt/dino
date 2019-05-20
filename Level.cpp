@@ -84,8 +84,8 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
 
 void Level::update()
 {
-// Process events
-    sf::Event event;
+    // Process events
+    sf::Event event = sf::Event();
     while (window->pollEvent(event))
     {
         if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
@@ -129,20 +129,19 @@ void Level::update()
 
     for( auto & cactus: cactuses )
         if (cactus.collision(player.sprite.getGlobalBounds()))
-            /* player is dead */;
+            window->close();
 
     for( auto & ptero: pteros )
         if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds()))
-            /* player is dead */;
+            window->close();
 
     // check if pterodactyl must die
 
-    for( auto & missile : player.missiles ) {
+    for( auto & missile : player.missiles )
         for( auto & ptero: pteros )
             if (!ptero.dead)
                 if (ptero.collision(missile.sprite.getGlobalBounds()))
                     ptero.dead = true;
-    }
 
     // check if coin collected
 
