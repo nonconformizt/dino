@@ -17,7 +17,7 @@ void Level::loadFromFile()
     char ch;
     int i = 0, j = 0;
 
-    while ((ch = fgetc(mapFile)) != EOF)
+    while ((ch = fgetc(mapFile)) != '=') // '=' is a sign of map end
     {
         auto r = new std::vector<int>;
 
@@ -33,12 +33,19 @@ void Level::loadFromFile()
     }
     lvlTilesH = i;
 
-    /*for (auto r : tiles)
+    int tempX, tempY;
+    while (true)
     {
-        for (auto i : r)
-            std::cout << i;
-        std::cout << '\n';
-    }*/
+        fscanf(mapFile, "%d", &tempX);
+        if (tempX == -1) // -1 is a sign of pterodactyl array end
+            break;
+
+        fscanf(mapFile, "%d", &tempY);
+        if (tempY == -1)
+            break;
+
+        pteroPos.emplace_back(sf::Vector2f(tempX, tempY));
+    }
 
     fclose(mapFile);
 }
@@ -182,17 +189,15 @@ void Level::initObjects()
         cactuses.push_back(*c);
     }
 
-    sf::Vector2f pt[2] = {{900, 230}, {600, 180}};
-
-    for (auto ptPos : pt) {
-        auto p = new Pterodactyl(ptPos, 4.0);
+    for (const auto pos: pteroPos) {
+        auto p = new Pterodactyl(pos, 4.0);
         pteros.push_back(*p);
     }
 
     sf::Vector2f coinsP[3] = {{200, 200}, {300, 200}, {400, 200}};
 
-    for (auto coinPos : coinsP) {
-        auto c = new Coin(coinPos);
+    for (auto coinPosition : coinsP) {
+        auto c = new Coin(coinPosition);
         coins.push_back(*c);
     }
 

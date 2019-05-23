@@ -24,17 +24,25 @@ private:
     float checkMovement(sf::RectangleShape rect, float offset);
 
     sf::RenderWindow * window;
+    sf::RectangleShape background;
     sf::Texture platformTexture;
 
     Camera * camera;
+
     std::vector<std::vector<int>> tiles;
     std::vector<sf::Sprite> platforms;
+
     Player player;
     float playerOffset = 0;
+
+    std::vector<sf::Vector2f> cactPos;
     std::vector<Cactus> cactuses;
+
+    std::vector<sf::Vector2f> pteroPos;
     std::vector<Pterodactyl> pteros;
+
+    std::vector<sf::Vector2f> coinPos;
     std::vector<Coin> coins;
-    sf::RectangleShape background;
 
 };
 
