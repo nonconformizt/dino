@@ -34,17 +34,37 @@ void Level::loadFromFile()
     lvlTilesH = i;
 
     int tempX, tempY;
-    while (true)
-    {
+    while (true) {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1) // -1 is a sign of pterodactyl array end
             break;
-
         fscanf(mapFile, "%d", &tempY);
         if (tempY == -1)
             break;
 
         pteroPos.emplace_back(sf::Vector2f(tempX, tempY));
+    }
+
+    while (true) {
+        fscanf(mapFile, "%d", &tempX);
+        if (tempX == -1)
+            break;
+        fscanf(mapFile, "%d", &tempY);
+        if (tempY == -1)
+            break;
+
+        cactPos.emplace_back(sf::Vector2f(tempX, tempY));
+    }
+
+    while (true) {
+        fscanf(mapFile, "%d", &tempX);
+        if (tempX == -1)
+            break;
+        fscanf(mapFile, "%d", &tempY);
+        if (tempY == -1)
+            break;
+
+        coinPos.emplace_back(sf::Vector2f(tempX, tempY));
     }
 
     fclose(mapFile);
@@ -182,9 +202,7 @@ void Level::initObjects()
         }
     }
 
-    sf::Vector2f cact[6] = {{170, 260}, {820, 70}, {200, 20}, {525, 20}, {550, 20}, {575, 20}};
-
-    for (auto cPos : cact) {
+    for (auto cPos : cactPos) {
         auto c = new Cactus(cPos);
         cactuses.push_back(*c);
     }
@@ -194,9 +212,7 @@ void Level::initObjects()
         pteros.push_back(*p);
     }
 
-    sf::Vector2f coinsP[3] = {{200, 200}, {300, 200}, {400, 200}};
-
-    for (auto coinPosition : coinsP) {
+    for (auto coinPosition : coinPos) {
         auto c = new Coin(coinPosition);
         coins.push_back(*c);
     }
