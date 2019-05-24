@@ -33,19 +33,28 @@ void Level::loadFromFile()
     }
     lvlTilesH = i;
 
-    int tempX, tempY;
-    while (true) {
+    int tempX, tempY, tempSpeed;
+
+    // read pterodactyls position
+    while (true)
+    {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1) // -1 is a sign of pterodactyl array end
             break;
         fscanf(mapFile, "%d", &tempY);
         if (tempY == -1)
             break;
+        fscanf(mapFile, "%d", &tempSpeed);
+        if (tempSpeed == -1)
+            break;
 
         pteroPos.emplace_back(sf::Vector2f(tempX, tempY));
+        pteroSpeed.push_back(tempSpeed);
     }
 
-    while (true) {
+    // read cactuses position
+    while (true)
+    {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1)
             break;
@@ -56,7 +65,9 @@ void Level::loadFromFile()
         cactPos.emplace_back(sf::Vector2f(tempX, tempY));
     }
 
-    while (true) {
+    // read coins position
+    while (true)
+    {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1)
             break;
@@ -64,7 +75,7 @@ void Level::loadFromFile()
         if (tempY == -1)
             break;
 
-        coinPos.emplace_back(sf::Vector2f(tempX, tempY));
+        coinPos.emplace_back(sf::Vector2f(tempX, lvlTilesH * TILE_H - tempY));
     }
 
     fclose(mapFile);
@@ -207,8 +218,8 @@ void Level::initObjects()
         cactuses.push_back(*c);
     }
 
-    for (const auto pos: pteroPos) {
-        auto p = new Pterodactyl(pos, 4.0);
+    for (int i = 0; i < pteroPos.size(); i++) {
+        auto p = new Pterodactyl(pteroPos[i], pteroSpeed[i]);
         pteros.push_back(*p);
     }
 

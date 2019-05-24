@@ -31,7 +31,7 @@ void Pterodactyl::update()
     rect.move(dir * speed, 0);
 
     if (dead)
-        rect.move(0, 20);
+        rect.move(0, 10);
 
     if (((rect.getPosition().x < -100) || (rect.getPosition().x > LVL_W+100)) && !standardMode)
         dir *= -1;

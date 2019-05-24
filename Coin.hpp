@@ -6,7 +6,7 @@
 class Coin : public Entity {
 
 public:
-    Coin(sf::Vector2f pos);
+    explicit Coin(sf::Vector2f pos);
     void update() final;
 
 private:

@@ -1,4 +1,3 @@
-
 #ifndef DINO_LEVEL_HPP
 #define DINO_LEVEL_HPP
 
@@ -39,6 +38,7 @@ private:
     std::vector<Cactus> cactuses;
 
     std::vector<sf::Vector2f> pteroPos;
+    std::vector<float> pteroSpeed;
     std::vector<Pterodactyl> pteros;
 
     std::vector<sf::Vector2f> coinPos;
