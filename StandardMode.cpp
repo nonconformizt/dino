@@ -12,7 +12,7 @@ StandardMode::StandardMode(sf::RenderWindow * win)
 
     player.setStandartMode(true);
 
-    mt.seed(time(nullptr)*time(nullptr));
+    mt.seed(time(nullptr) * sf::Mouse::getPosition().x);
 }
 
 

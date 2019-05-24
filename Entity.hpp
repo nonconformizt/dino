@@ -4,6 +4,7 @@
 
 #include "config.h"
 #include "globals.hpp"
+#include <cmath>
 #include <SFML/Graphics.hpp>
 
 class Entity {

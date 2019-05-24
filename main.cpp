@@ -20,11 +20,12 @@ int main(int argc, const char ** argv)
 
     while (window.isOpen())
     {
-        if (menu.getState() == -1)
+
+        /*if (menu.getState() == -1)
             menu.update();
         else if(menu.getState() == 0)
             standard.update();
-        else
+        else*/
             level.update();
 
     }
@@ -33,3 +34,4 @@ int main(int argc, const char ** argv)
     return 0;
 
 }
+
