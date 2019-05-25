@@ -9,9 +9,12 @@ Player::Player()
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
 
     rect.setSize(sf::Vector2f(64, 72));
-    rect.setPosition(50, 350);
+    rect.setPosition(50, 1300);
+//    rect.setPosition(650, 100);
     nextPos.setSize(sf::Vector2f(64, 72));
-    nextPos.setPosition(50, 350);
+    nextPos.setPosition(50, 1300);
+//    nextPos.setPosition(650, 100);
+
 }
 
 void Player::update()
@@ -101,7 +104,8 @@ void Player::update()
 
     nextPos.move(velocity);
 
-    desiredOffestY = nextPos.getPosition().y - rect.getPosition().y;
+    desiredOffsetY = nextPos.getPosition().y - rect.getPosition().y;
+
 }
 
 void Player::fire()
@@ -114,14 +118,14 @@ void Player::render(float offset)
 {
     // detect stop
     // (if we wanted to move, but we can`t)
-    if ( desiredOffestY > 0 && offset == 0) {
+    if ( desiredOffsetY > 0 && offset == 0) {
         velocity.y = 0;
         jump = false;
     }
     else
         jump = true;
 
-    // bugfix
+    // bug fix
     if (down && (rect.getPosition().y == 541.6 || rect.getPosition().y == 541.0))
         offset = 0;
 

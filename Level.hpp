@@ -20,6 +20,7 @@ public:
 private:
     void loadFromFile();
     void initObjects();
+    void drawScore();
     float checkMovement(sf::RectangleShape rect, float offset);
 
     sf::RenderWindow * window;
@@ -33,6 +34,7 @@ private:
 
     Player player;
     float playerOffset = 0;
+    int lives;
 
     std::vector<sf::Vector2f> cactPos;
     std::vector<Cactus> cactuses;
@@ -43,6 +45,10 @@ private:
 
     std::vector<sf::Vector2f> coinPos;
     std::vector<Coin> coins;
+    int coinsCollected = 0;
+
+    sf::Font font;
+    sf::Text score, scoreShadow;
 
 };
 

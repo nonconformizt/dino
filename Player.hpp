@@ -11,12 +11,12 @@ class Player : public Entity {
 public:
     std::vector<Missile> missiles;
     sf::Vector2f velocity = {0, 0};
-    float desiredOffestY = 0.0;
+    float desiredOffsetY = 0.0;
 
     Player();
     void update() final;
     void render(float offset);
-    void setStandartMode(bool isStandard) {standardMode = isStandard;}
+    void setStandardMode(bool isStandard) {standardMode = isStandard;}
     void setStModeSpeed(float speed) {walkSpeed = speed;}
 
 private:

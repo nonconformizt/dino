@@ -48,7 +48,7 @@ void Level::loadFromFile()
         if (tempSpeed == -1)
             break;
 
-        pteroPos.emplace_back(sf::Vector2f(tempX, tempY));
+        pteroPos.emplace_back(sf::Vector2f(tempX, lvlTilesH * TILE_H - tempY));
         pteroSpeed.push_back(tempSpeed);
     }
 
@@ -132,6 +132,8 @@ void Level::update()
 
     window->clear();
 
+    camera->update();
+
     window->draw(background);
 
     for( auto const& platform: platforms )
@@ -156,12 +158,15 @@ void Level::update()
     }
 
     player.update();
-    playerOffset = checkMovement(player.rect, player.desiredOffestY);
+    playerOffset = checkMovement(player.rect, player.desiredOffsetY);
     player.render(playerOffset);
     window->draw(player.sprite);
 
-    camera->update();
+    //int posX = int( player.rect.getPosition().x);
+    //int posY = int( lvlTilesH * TILE_H - (player.rect.getPosition().y + player.rect.getSize().y) );
+    //std::cout << "x: " << posX << "; y: " << posY << std::endl;
 
+    drawScore();
 
     // check if player must die
 
@@ -185,8 +190,8 @@ void Level::update()
 
     for (auto it = coins.begin(); it != coins.end(); it++) {
         if (player.rect.getGlobalBounds().intersects(it->sprite.getGlobalBounds())) {
-            coins.erase(it);
-            it --;
+            coins.erase(it--);
+            coinsCollected++;
         }
     }
 
@@ -198,6 +203,21 @@ void Level::initObjects()
     background.setPosition(0, 0);
     background.setSize(sf::Vector2f(LVL_W, LVL_H));
     background.setFillColor(sf::Color::White);
+
+    font.loadFromFile("assets/font.ttf");
+    score.setFont(font);
+    score.setCharacterSize(20);
+    score.setString("Hello world");
+    score.setPosition(0, lvlTilesH * 10 - 100);
+    score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
+    score.setFillColor(GRAY);
+
+    scoreShadow.setFont(font);
+    scoreShadow.setCharacterSize(20);
+    scoreShadow.setString("Hello world");
+    scoreShadow.setPosition(0 + 3, lvlTilesH * 10 - 100 + 3);
+    scoreShadow.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
+    scoreShadow.setFillColor(sf::Color::White);
 
     platformTexture.loadFromFile("assets/tile.png");
     sf::Sprite tempSprite;
@@ -228,4 +248,12 @@ void Level::initObjects()
         coins.push_back(*c);
     }
 
+}
+
+void Level::drawScore()
+{
+    window->setView(window->getDefaultView());
+    score.setString("COINS: " + std::to_string(coinsCollected));
+    score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
+    window->draw(score);
 }

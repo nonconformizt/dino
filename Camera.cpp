@@ -37,6 +37,3 @@ void Camera::update()
     window->setView(view);
 
 }
-
-
-

@@ -10,7 +10,7 @@ StandardMode::StandardMode(sf::RenderWindow * win)
     view.setSize(window->getSize().x, window->getSize().y);
     window->setView(view);
 
-    player.setStandartMode(true);
+    player.setStandardMode(true);
 
     mt.seed(time(nullptr) * sf::Mouse::getPosition().x);
 }
@@ -65,7 +65,7 @@ void StandardMode::update()
 
     player.setStModeSpeed(velocity);
     player.update();
-    playerOffset = checkMovement(&player.rect, player.desiredOffestY);
+    playerOffset = checkMovement(&player.rect, player.desiredOffsetY);
     player.render(playerOffset);
     window->draw(player.sprite);
 
