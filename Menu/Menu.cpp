@@ -25,10 +25,10 @@ Menu::Menu(sf::RenderWindow * win)
     subtitle.setPosition(sf::Vector2f((WIN_W - subtitle.getGlobalBounds().width) / 2, 155));
 
     btn1Label.setFont(font);
-    btn1Label.setString("STANDART MODE");
-    btn1Label.setCharacterSize(23);
+    btn1Label.setString("INFINITE MODE");
+    btn1Label.setCharacterSize(28);
     btn1Label.setFillColor(gray);
-    btn1Label.setPosition(sf::Vector2f((WIN_W - btn1Label.getGlobalBounds().width) / 2, 315));
+    btn1Label.setPosition(sf::Vector2f((WIN_W - btn1Label.getGlobalBounds().width) / 2, 312));
 
     btn2Label.setFont(font);
     btn2Label.setString("LEVELS");
@@ -60,9 +60,9 @@ Menu::Menu(sf::RenderWindow * win)
     smallBtns[1].setTextureRect(sf::IntRect(0, 0, 55, 55));
     smallBtns[2].setTextureRect(sf::IntRect(0, 0, 55, 55));
 
-    for (int i = 0; i < SPARKS_N; i++) {
-        sparks[i].setFillColor(gray);
-        sparks[i].setSize(sf::Vector2f(6, 6));
+    for (auto & spark : sparks) {
+        spark.setFillColor(gray);
+        spark.setSize(sf::Vector2f(6, 6));
     }
 
     levelMenu = new LevelMenu(window, &font);
@@ -77,29 +77,34 @@ void Menu::update()
         y = sf::Mouse::getPosition(*window).y,
         newActive;
 
-    // fucking kostyl
+    if (x != prevMouseX || y != prevMouseY)
+    {
+        // fucking kostyl
 
-    if (btn1.getGlobalBounds().contains(x, y))
-        newActive = 0;
-    else if (btn2.getGlobalBounds().contains(x, y))
-        newActive = 1;
+        if (btn1.getGlobalBounds().contains(x, y))
+            newActive = 0;
+        else if (btn2.getGlobalBounds().contains(x, y))
+            newActive = 1;
         // yes, i know about loops, but im too lazy
-    else if (smallBtns[0].getGlobalBounds().contains(x, y))
-        newActive = 2;
-    else if (smallBtns[1].getGlobalBounds().contains(x, y))
-        newActive = 3;
-    else if (smallBtns[2].getGlobalBounds().contains(x, y))
-        newActive = 4;
-    else
-        newActive = activeBtn;
+        else if (smallBtns[0].getGlobalBounds().contains(x, y))
+            newActive = 2;
+        else if (smallBtns[1].getGlobalBounds().contains(x, y))
+            newActive = 3;
+        else if (smallBtns[2].getGlobalBounds().contains(x, y))
+            newActive = 4;
+        else
+            newActive = activeBtn;
 
-    activeChanged = (activeBtn != newActive);
-    activeBtn = newActive;
+        activeChanged = (activeBtn != newActive);
+        activeBtn = newActive;
+    }
 
-    //////////////////////////////////////////////////////
+    prevMouseX = x;
+    prevMouseY = y;
 
 
-    // Process events
+    ///////////// PROCESS KEYBOARD EVENTS ////////////////
+
     sf::Event event;
     while (window->pollEvent(event))
     {
@@ -151,12 +156,18 @@ void Menu::update()
             int x = sf::Mouse::getPosition(*window).x,
                 y = sf::Mouse::getPosition(*window).y;
 
-            if (btn1.getGlobalBounds().contains(x, y))
-                state = 0;
-            else if (btn2.getGlobalBounds().contains(x, y) && !levelMenu->isShown())
-                levelMenu->show();
-            else if (smallBtns[0].getGlobalBounds().contains(x, y) && !rating->isShown())
-                rating->show();
+            if (levelMenu->isShown())
+                state = levelMenu->mouseClicked(sf::Vector2i(x, y));
+            else
+            {
+                if (btn1.getGlobalBounds().contains(x, y))
+                    state = 0;
+                else if (btn2.getGlobalBounds().contains(x, y) && !levelMenu->isShown())
+                    levelMenu->show();
+                else if (smallBtns[0].getGlobalBounds().contains(x, y) && !rating->isShown())
+                    rating->show();
+            }
+
         }
     }
 

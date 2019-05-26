@@ -6,7 +6,8 @@
 #include "Modal.hpp"
 
 // number of levels
-#define LVLS_N 5
+#define LVLS_N 3
+#define MAX_LVLS 10
 #define SPARKS 100
 
 
@@ -15,6 +16,7 @@ class LevelMenu : public Modal {
 public:
     LevelMenu(sf::RenderWindow * win, sf::Font * f);
     void render() final;
+    int mouseClicked(sf::Vector2i pos);
     void navForward()
                 { activeLevel++; if (activeLevel > LVLS_N) activeLevel = 1; };
     void navBack()
@@ -28,14 +30,16 @@ private:
 
     sf::RectangleShape block;
     sf::Texture levelListTex;
-    sf::Sprite levelListBoxes[10];
-    sf::Text levelListNums[10];
-    sf::Sprite levelStars[10][3];
+    sf::Sprite levelListBoxes[MAX_LVLS];
+    sf::Text levelListNums[MAX_LVLS];
+    sf::Sprite levelStars[MAX_LVLS][3];
     sf::Texture levelStarTex, levelSmallStarTex;
     sf::RectangleShape sparks[SPARKS];
 
     int activeLevel = 0;
-    int levelInfo[10] = {3, 0, 2, 1, 0}; // how many stars gamer have in each level
+    int levelCollectedStars[MAX_LVLS] = {2, 3, 1}; // how many stars gamer have in each level
+
+    int prevMouseX = 0, prevMouseY = 0;
 
 };
 

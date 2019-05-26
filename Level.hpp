@@ -11,6 +11,8 @@
 #include "Camera.hpp"
 #include "Pterodactyl.hpp"
 
+#define LIVES_N 3
+
 class Level {
 
 public:
@@ -21,6 +23,7 @@ private:
     void loadFromFile();
     void initObjects();
     void drawScore();
+    void kill();
     float checkMovement(sf::RectangleShape rect, float offset);
 
     sf::RenderWindow * window;
@@ -34,7 +37,11 @@ private:
 
     Player player;
     float playerOffset = 0;
-    int lives;
+    sf::Vector2f saving = sf::Vector2f(50, 1300);
+
+    int lives = LIVES_N;
+    sf::Texture heart;
+    sf::Sprite hearts[LIVES_N];
 
     std::vector<sf::Vector2f> cactPos;
     std::vector<Cactus> cactuses;

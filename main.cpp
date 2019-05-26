@@ -14,19 +14,19 @@ int main(int argc, const char ** argv)
     window.setFramerateLimit(60);
 
 
-    //Menu menu(&window);
+    Menu menu(&window);
     Level level(&window);
-    //StandardMode standard(&window);
+    StandardMode standard(&window);
 
 
     while (window.isOpen())
     {
 
-        /*if (menu.getState() == -1)
+        if (menu.getState() == -1)
             menu.update();
         else if(menu.getState() == 0)
             standard.update();
-        else*/
+        else
             level.update();
 
     }
@@ -37,5 +37,3 @@ int main(int argc, const char ** argv)
 }
 
 
-// 900 230 4
-// 600 180 4

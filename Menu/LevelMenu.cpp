@@ -12,7 +12,7 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
      */
 
     block.setPosition(116, 70);
-    block.setSize(sf::Vector2f(740, 470));
+    block.setSize(sf::Vector2f(740, 430));
     block.setFillColor(sf::Color::White);
 
     bg.setSize(sf::Vector2f(WIN_W, WIN_H));
@@ -28,35 +28,44 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
     levelStarTex.loadFromFile("assets/star.png");
     levelSmallStarTex.loadFromFile("assets/star-small.png");
 
-    for (int i = 0, left = 185; i < 5; i++, left += 105 + 20)
+    for (int j = 0, left = 185, top = 190; j < MAX_LVLS; j++, left += 125)
     {
-        levelListBoxes[i].setTexture(levelListTex);
-        levelListBoxes[i].setPosition(left, 164);
-        levelListBoxes[i].setTextureRect(sf::IntRect(0, 0, 105, 106));
+        if (j == 5) {
+            left = 185;
+            top = 330;
+        }
+
+        levelListBoxes[j].setTexture(levelListTex);
+        levelListBoxes[j].setPosition(left, top);
+        levelListBoxes[j].setTextureRect(sf::IntRect(0, 0, 105, 106));
+    }
+
+    for (int i = 0, left = 185; i < LVLS_N; i++, left += 125)
+    {
 
         levelListNums[i].setFont(*font);
-        levelListNums[i].setPosition((i == 0) ? (left + 40) : (left + 30), 164);
+        levelListNums[i].setPosition((i == 0) ? (left + 40) : (left + 30), 189);
         levelListNums[i].setFillColor(GRAY);
         levelListNums[i].setCharacterSize(52);
         levelListNums[i].setString(std::to_string(i+1));
 
-        levelStars[i][0].setPosition(left + 8, 235);
+        levelStars[i][0].setPosition(left + 8, 260);
         levelStars[i][0].setTexture(levelSmallStarTex);
         levelStars[i][0].setTextureRect(sf::IntRect(28, 0, 28, 28));
 
-        levelStars[i][1].setPosition(left + 37, 227);
+        levelStars[i][1].setPosition(left + 37, 252);
         levelStars[i][1].setTexture(levelStarTex);
         levelStars[i][1].setTextureRect(sf::IntRect(34, 0, 34, 36));
 
-        levelStars[i][2].setPosition(left + 70, 235);
+        levelStars[i][2].setPosition(left + 70, 260);
         levelStars[i][2].setTexture(levelSmallStarTex);
         levelStars[i][2].setTextureRect(sf::IntRect(28, 0, 28, 28));
 
     }
 
-    for (int i = 0; i < SPARKS; i++) {
-        sparks[i].setFillColor(sf::Color::White);
-        sparks[i].setSize(sf::Vector2f(6, 6));
+    for (auto & spark : sparks) {
+        spark.setFillColor(sf::Color::White);
+        spark.setSize(sf::Vector2f(6, 6));
     }
     initSparks();
 
@@ -64,30 +73,48 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
 
 void LevelMenu::render()
 {
-    if (shown)
+    if (!shown)
+        return;
+
+    ////////////// PROCESS MOUSE MOVEMENT /////////////////
+
+    int x = sf::Mouse::getPosition(*window).x,
+        y = sf::Mouse::getPosition(*window).y;
+
+    if (x != prevMouseX || y != prevMouseY)
     {
-        window->draw(bg);
-        updateSparks();
-        window->draw(block);
-        window->draw(title);
+        for (int i = 0; i < LVLS_N; i++)
+            if (levelListBoxes[i].getGlobalBounds().contains(x, y))
+                activeLevel = i + 1;
+    }
 
-        redrawStars();
+    prevMouseX = x;
+    prevMouseY = y;
 
-        for (int i = 0; i < 5; i++) {
 
-            window->draw(levelListBoxes[i]);
-            window->draw(levelListNums[i]);
+    window->draw(bg);
+    updateSparks();
+    window->draw(block);
+    window->draw(title);
 
-            for (const sf::Sprite & s : levelStars[i])
-                window->draw(s);
+    redrawStars();
 
-            if ((i + 1) == activeLevel) {
-                levelListBoxes[i].setTextureRect(sf::IntRect(105, 0, 105, 106));
-                levelListNums[i].setFillColor(sf::Color::White);
-            } else {
-                levelListBoxes[i].setTextureRect(sf::IntRect(0, 0, 105, 106));
-                levelListNums[i].setFillColor(GRAY);
-            }
+    for (const auto & listBox : levelListBoxes)
+        window->draw(listBox);
+
+    for (int i = 0; i < LVLS_N; i++) {
+
+        window->draw(levelListNums[i]);
+
+        for (const sf::Sprite & s : levelStars[i])
+            window->draw(s);
+
+        if ((i + 1) == activeLevel) {
+            levelListBoxes[i].setTextureRect(sf::IntRect(105, 0, 105, 106));
+            levelListNums[i].setFillColor(sf::Color::White);
+        } else {
+            levelListBoxes[i].setTextureRect(sf::IntRect(0, 0, 105, 106));
+            levelListNums[i].setFillColor(GRAY);
         }
     }
 
@@ -95,9 +122,9 @@ void LevelMenu::render()
 
 void LevelMenu::redrawStars()
 {
-    for (int i = 0, left = 185; i < 5; i++, left += 105 + 20)
+    for (int i = 0, left = 185; i < LVLS_N; i++, left += 105 + 20)
     {
-        if (levelInfo[i] >= 1)  {
+        if (levelCollectedStars[i] >= 1)  {
             // make star active
             if ((i + 1) == activeLevel) // exactly this level chosen
                 levelStars[i][0].setTextureRect(sf::IntRect(56, 0, 28, 28));
@@ -107,7 +134,7 @@ void LevelMenu::redrawStars()
         else
             levelStars[i][0].setTextureRect(sf::IntRect(28, 0, 28, 28));
 
-        if (levelInfo[i] >= 2)  {
+        if (levelCollectedStars[i] >= 2)  {
             if ((i + 1) == activeLevel)
                 levelStars[i][1].setTextureRect(sf::IntRect(68, 0, 34, 36));
             else
@@ -116,7 +143,7 @@ void LevelMenu::redrawStars()
         else
             levelStars[i][1].setTextureRect(sf::IntRect(34, 0, 34, 36));
 
-        if (levelInfo[i] >= 3)  {
+        if (levelCollectedStars[i] >= 3)  {
             if ((i + 1) == activeLevel)
                 levelStars[i][2].setTextureRect(sf::IntRect(56, 0, 28, 28));
             else
@@ -147,4 +174,13 @@ void LevelMenu::updateSparks()
 
         window->draw(sparks[i]);
     }
+}
+
+int LevelMenu::mouseClicked(sf::Vector2i pos)
+{
+    for (int i = 0; i < LVLS_N; i++)
+        if (levelListBoxes[i].getGlobalBounds().contains(pos.x, pos.y))
+            return i + 1;
+
+    return -1;
 }

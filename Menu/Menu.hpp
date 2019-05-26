@@ -47,6 +47,8 @@ private:
     LevelMenu * levelMenu;
     Rating * rating;
 
+    int prevMouseX = 0, prevMouseY = 0;
+
 };
 
 

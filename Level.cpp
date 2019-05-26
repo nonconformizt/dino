@@ -128,6 +128,8 @@ void Level::update()
     {
         if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
             window->close();
+        else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Q)
+            saving = player.rect.getPosition();
     }
 
     window->clear();
@@ -168,15 +170,18 @@ void Level::update()
 
     drawScore();
 
+    for (const auto & h : hearts)
+        window->draw(h);
+
     // check if player must die
 
     for( auto & cactus: cactuses )
         if (cactus.collision(player.sprite.getGlobalBounds()))
-            window->close();
+            kill();
 
     for( auto & ptero: pteros )
         if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds()))
-            window->close();
+            kill();
 
     // check if pterodactyl must die
 
@@ -207,17 +212,25 @@ void Level::initObjects()
     font.loadFromFile("assets/font.ttf");
     score.setFont(font);
     score.setCharacterSize(20);
-    score.setString("Hello world");
+    score.setString("COINS: 0");
     score.setPosition(0, lvlTilesH * 10 - 100);
     score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
     score.setFillColor(GRAY);
 
     scoreShadow.setFont(font);
     scoreShadow.setCharacterSize(20);
-    scoreShadow.setString("Hello world");
+    scoreShadow.setString("COINS: 0");
     scoreShadow.setPosition(0 + 3, lvlTilesH * 10 - 100 + 3);
     scoreShadow.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
     scoreShadow.setFillColor(sf::Color::White);
+
+    heart.loadFromFile("assets/heart.png");
+    for (int i = LIVES_N - 1; i >= 0; i--)
+    {
+        hearts[i].setTextureRect(sf::IntRect(0, 0, 22, 20));
+        hearts[i].setTexture(heart);
+        hearts[i].setPosition(WIN_W - 40 - i * 30, 50);
+    }
 
     platformTexture.loadFromFile("assets/tile.png");
     sf::Sprite tempSprite;
@@ -256,4 +269,26 @@ void Level::drawScore()
     score.setString("COINS: " + std::to_string(coinsCollected));
     score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
     window->draw(score);
+}
+
+void Level::kill()
+{
+    lives--;
+    if (lives < 0)
+        window->close();
+
+    for (int i = 0; i < LIVES_N; i++)
+    {
+        if (lives > i)
+            hearts[i].setTextureRect(sf::IntRect(0, 0, 22, 20));
+        else
+            hearts[i].setTextureRect(sf::IntRect(22, 0, 22, 20));
+    }
+
+    // load saving
+    player.teleport(saving);
+
+    window->clear(GRAY);
+    window->display();
+    sf::sleep(sf::seconds(1));
 }

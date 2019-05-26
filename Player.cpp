@@ -10,10 +10,8 @@ Player::Player()
 
     rect.setSize(sf::Vector2f(64, 72));
     rect.setPosition(50, 1300);
-//    rect.setPosition(650, 100);
     nextPos.setSize(sf::Vector2f(64, 72));
     nextPos.setPosition(50, 1300);
-//    nextPos.setPosition(650, 100);
 
 }
 
@@ -134,4 +132,11 @@ void Player::render(float offset)
     rect.setSize(nextPos.getSize());
     sprite.setPosition(rect.getPosition());
 
+}
+
+void Player::teleport(sf::Vector2f pos)
+{
+    rect.setPosition(pos);
+    nextPos.setPosition(pos);
+    velocity = {0, 0};
 }
