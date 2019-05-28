@@ -23,6 +23,7 @@ class StandardMode {
 public:
     explicit StandardMode(sf::RenderWindow * win);
     void update();
+    void reset() {};
 
 private:
     void initObjects();

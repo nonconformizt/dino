@@ -221,7 +221,7 @@ void Menu::update()
     window->display();
 }
 
-int Menu::getState()
+size_t Menu::getState()
 {
     return state;
 }

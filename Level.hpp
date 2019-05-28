@@ -18,13 +18,17 @@ class Level {
 public:
     explicit Level(sf::RenderWindow * win);
     void update();
+    void load(size_t lvl);
 
 private:
-    void loadFromFile();
+    void getLevelFromFile();
     void initObjects();
+    void createEntities();
     void drawScore();
     void kill();
     float checkMovement(sf::RectangleShape rect, float offset);
+
+    size_t currentLevel = 1;
 
     sf::RenderWindow * window;
     sf::RectangleShape background;

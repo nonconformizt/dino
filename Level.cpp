@@ -4,16 +4,18 @@
 Level::Level(sf::RenderWindow * win)
 {
     window = win;
-    loadFromFile();
+    getLevelFromFile();
     initObjects();
 
     camera = new Camera(window, &(player.rect));
 
 }
 
-void Level::loadFromFile()
+void Level::getLevelFromFile()
 {
-    FILE * mapFile = fopen("assets/level.txt", "r");
+    std::string filename = "assets/level"+ std::to_string(currentLevel) +".txt";
+    FILE * mapFile = fopen(filename.c_str(), "r");
+
     char ch;
     int i = 0, j = 0;
 
@@ -77,6 +79,7 @@ void Level::loadFromFile()
 
         coinPos.emplace_back(sf::Vector2f(tempX, lvlTilesH * TILE_H - tempY));
     }
+
 
     fclose(mapFile);
 }
@@ -164,9 +167,9 @@ void Level::update()
     player.render(playerOffset);
     window->draw(player.sprite);
 
-    //int posX = int( player.rect.getPosition().x);
-    //int posY = int( lvlTilesH * TILE_H - (player.rect.getPosition().y + player.rect.getSize().y) );
-    //std::cout << "x: " << posX << "; y: " << posY << std::endl;
+    int posX = int( player.rect.getPosition().x);
+    int posY = int( lvlTilesH * TILE_H - (player.rect.getPosition().y + player.rect.getSize().y) );
+    std::cout << "x: " << posX << "; y: " << posY << std::endl;
 
     drawScore();
 
@@ -193,10 +196,14 @@ void Level::update()
 
     // check if coin collected
 
-    for (auto it = coins.begin(); it != coins.end(); it++) {
-        if (player.rect.getGlobalBounds().intersects(it->sprite.getGlobalBounds())) {
-            coins.erase(it--);
+    for (auto coinIter = coins.begin(); coinIter != coins.end(); coinIter++)
+    {
+        if (player.rect.getGlobalBounds().intersects(coinIter->sprite.getGlobalBounds()))
+        {
+            delete(&coinIter);
+            coins.erase(coinIter);
             coinsCollected++;
+            coinIter--;
         }
     }
 
@@ -233,6 +240,11 @@ void Level::initObjects()
     }
 
     platformTexture.loadFromFile("assets/tile.png");
+
+}
+
+void Level::createEntities()
+{
     sf::Sprite tempSprite;
     tempSprite.setTexture(platformTexture);
     tempSprite.setTextureRect(sf::IntRect(0, 0, 30, 10));
@@ -260,8 +272,8 @@ void Level::initObjects()
         auto c = new Coin(coinPosition);
         coins.push_back(*c);
     }
-
 }
+
 
 void Level::drawScore()
 {
@@ -292,3 +304,37 @@ void Level::kill()
     window->display();
     sf::sleep(sf::seconds(1));
 }
+
+// almost constructor
+void Level::load(const size_t lvl)
+{
+    std::cout << "So fucking what?\n";
+
+    currentLevel = lvl;
+
+    cactuses.clear();
+
+    pteros.clear();
+    pteroSpeed.clear();
+    pteroPos.clear();
+
+    coins.clear();
+    coinPos.clear();
+    coinsCollected = 0;
+
+    tiles.clear();
+    platforms.clear();
+
+    lives = LIVES_N;
+    playerOffset = 0;
+    player.teleport(sf::Vector2f(100, 800));
+
+    score.setString("COINS: 0");
+    scoreShadow.setString("COINS: 0");
+
+    getLevelFromFile();
+    createEntities();
+
+    background.setSize(sf::Vector2f(LVL_W, LVL_H));
+}
+
