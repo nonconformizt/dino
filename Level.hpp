@@ -40,6 +40,7 @@ private:
     std::vector<sf::Sprite> platforms;
 
     Player player;
+    sf::Vector2f startPosition;
     float playerOffset = 0;
     sf::Vector2f saving = sf::Vector2f(50, 1300);
 
@@ -57,6 +58,10 @@ private:
     std::vector<sf::Vector2f> coinPos;
     std::vector<Coin> coins;
     int coinsCollected = 0;
+
+    sf::Vector2f flagPosition;
+    sf::Texture flagTexture;
+    sf::Sprite flag;
 
     sf::Font font;
     sf::Text score, scoreShadow;

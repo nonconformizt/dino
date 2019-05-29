@@ -77,9 +77,20 @@ void Level::getLevelFromFile()
         if (tempY == -1)
             break;
 
-        coinPos.emplace_back(sf::Vector2f(tempX, lvlTilesH * TILE_H - tempY));
+        coinPos.emplace_back(sf::Vector2f(tempX, LVL_H - tempY));
     }
 
+    // read player start position
+    fscanf(mapFile, "%d", &tempX);
+    fscanf(mapFile, "%d", &tempY);
+
+    startPosition = saving = sf::Vector2f(tempX, LVL_H - tempY);
+
+    // read flag position
+    fscanf(mapFile, "%d", &tempX);
+    fscanf(mapFile, "%d", &tempY);
+
+    flagPosition = sf::Vector2f(tempX, LVL_H - 55 - tempY); // 55 is flag height
 
     fclose(mapFile);
 }
@@ -162,13 +173,15 @@ void Level::update()
         window->draw(missile.sprite);
     }
 
+    window->draw(flag);
+
     player.update();
     playerOffset = checkMovement(player.rect, player.desiredOffsetY);
     player.render(playerOffset);
     window->draw(player.sprite);
 
     int posX = int( player.rect.getPosition().x);
-    int posY = int( lvlTilesH * TILE_H - (player.rect.getPosition().y + player.rect.getSize().y) );
+    int posY = int( LVL_H - (player.rect.getPosition().y + player.rect.getSize().y) );
     std::cout << "x: " << posX << "; y: " << posY << std::endl;
 
     drawScore();
@@ -207,6 +220,10 @@ void Level::update()
         }
     }
 
+    // check if flag was reached
+    if (player.rect.getGlobalBounds().intersects(flag.getGlobalBounds()))
+        window->close();
+
     window->display();
 }
 
@@ -241,6 +258,12 @@ void Level::initObjects()
 
     platformTexture.loadFromFile("assets/tile.png");
 
+    flagTexture.loadFromFile("assets/flag.png");
+    flag.setTexture(flagTexture);
+    flag.setTextureRect(sf::IntRect(0, 0, 30, 55));
+    flag.setPosition(flagPosition);
+
+    player.teleport(startPosition);
 }
 
 void Level::createEntities()
@@ -302,7 +325,7 @@ void Level::kill()
 
     window->clear(GRAY);
     window->display();
-    sf::sleep(sf::seconds(1));
+    sf::sleep(sf::seconds(0.7));
 }
 
 // almost constructor
