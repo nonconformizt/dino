@@ -186,6 +186,10 @@ void Level::update()
 
     drawScore();
 
+    window->draw(gameOver);
+    window->draw(gameOverText);
+    window->draw(gameoverSmallText);
+
     for (const auto & h : hearts)
         window->draw(h);
 
@@ -247,6 +251,23 @@ void Level::initObjects()
     scoreShadow.setPosition(0 + 3, lvlTilesH * 10 - 100 + 3);
     scoreShadow.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
     scoreShadow.setFillColor(sf::Color::White);
+
+    gameOverTexture.loadFromFile("assets/gameover.png");
+    gameOver.setTexture(gameOverTexture);
+    gameOver.setPosition(WIN_W / 2 - (float) gameOverTexture.getSize().x / 2, 120);
+
+    gameOverText.setFont(font);
+    gameOverText.setString("GAME OVER");
+    gameOverText.setCharacterSize(45);
+    gameOverText.setFillColor(GRAY);
+    gameOverText.setPosition(WIN_W / 2 - (gameOverText.getGlobalBounds().width / 2), 200);
+
+    gameoverSmallText.setFont(font);
+    gameoverSmallText.setCharacterSize(20);
+    gameoverSmallText.setString("Press Esc to open menu\n or Enter to try again");
+    gameoverSmallText.setFillColor(GRAY);
+    gameoverSmallText.setPosition(WIN_W / 2 - (gameoverSmallText.getGlobalBounds().width / 2), 280);
+
 
     heart.loadFromFile("assets/heart.png");
     for (int i = LIVES_N - 1; i >= 0; i--)
