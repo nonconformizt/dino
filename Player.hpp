@@ -13,6 +13,8 @@ public:
     sf::Vector2f velocity = {0, 0};
     float desiredOffsetY = 0.0;
 
+    bool dead = false;
+
     Player();
     void update() final;
     void render(float offset);

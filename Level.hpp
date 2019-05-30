@@ -25,6 +25,8 @@ private:
     void initObjects();
     void createEntities();
     void drawScore();
+    void drawGameOver();
+    void drawHearts();
     void kill();
     float checkMovement(sf::RectangleShape rect, float offset);
 
@@ -43,7 +45,6 @@ private:
     sf::Vector2f startPosition;
     float playerOffset = 0;
     sf::Vector2f saving = sf::Vector2f(50, 1300);
-    bool dead = false;
 
     int lives = LIVES_N;
     sf::Texture heart;

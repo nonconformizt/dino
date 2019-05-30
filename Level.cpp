@@ -141,9 +141,12 @@ void Level::update()
     while (window->pollEvent(event))
     {
         if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
-            window->close();
+            window->close(); // open menu here
         else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Q)
             saving = player.rect.getPosition();
+        else if (player.dead && event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Enter)
+            // reload game
+            load(currentLevel);
     }
 
     window->clear();
@@ -186,9 +189,9 @@ void Level::update()
 
     drawScore();
 
-    window->draw(gameOver);
-    window->draw(gameOverText);
-    window->draw(gameoverSmallText);
+    if (player.dead)
+        drawGameOver();
+
 
     for (const auto & h : hearts)
         window->draw(h);
@@ -196,12 +199,16 @@ void Level::update()
     // check if player must die
 
     for( auto & cactus: cactuses )
-        if (cactus.collision(player.sprite.getGlobalBounds()))
+        if (cactus.collision(player.sprite.getGlobalBounds())) {
             kill();
+            break;
+        }
 
     for( auto & ptero: pteros )
-        if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds()))
+        if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds())) {
             kill();
+            break;
+        }
 
     // check if pterodactyl must die
 
@@ -327,12 +334,16 @@ void Level::drawScore()
     window->draw(score);
 }
 
-void Level::kill()
+void Level::drawGameOver()
 {
-    lives--;
-    if (lives < 0)
-        window->close();
+    window->setView(window->getDefaultView());
+    window->draw(gameOver);
+    window->draw(gameOverText);
+    window->draw(gameoverSmallText);
+}
 
+void Level::drawHearts()
+{
     for (int i = 0; i < LIVES_N; i++)
     {
         if (lives > i)
@@ -340,6 +351,15 @@ void Level::kill()
         else
             hearts[i].setTextureRect(sf::IntRect(22, 0, 22, 20));
     }
+}
+
+void Level::kill()
+{
+    lives--;
+    if (lives < 0)
+        player.dead = true;
+
+    drawHearts();
 
     // load saving
     player.teleport(saving);
@@ -352,8 +372,6 @@ void Level::kill()
 // almost constructor
 void Level::load(const size_t lvl)
 {
-    std::cout << "So fucking what?\n";
-
     currentLevel = lvl;
 
     cactuses.clear();
@@ -371,7 +389,9 @@ void Level::load(const size_t lvl)
 
     lives = LIVES_N;
     playerOffset = 0;
+    player.dead = false;
     player.teleport(sf::Vector2f(100, 800));
+    drawHearts();
 
     score.setString("COINS: 0");
     scoreShadow.setString("COINS: 0");

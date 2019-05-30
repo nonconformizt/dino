@@ -17,6 +17,8 @@ Player::Player()
 
 void Player::update()
 {
+    if (dead) return;
+
     // JUMP
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         if (!upPressed && !jump ) { // can`t jump in flight
