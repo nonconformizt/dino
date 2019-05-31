@@ -19,6 +19,7 @@ public:
     void update() final;
     void render(float offset);
     void teleport(sf::Vector2f pos);
+    void stop() { velocity.x = velocity.y = 0; };
     void setStandardMode(bool isStandard) {standardMode = isStandard;}
     void setStModeSpeed(float speed) {walkSpeed = speed;}
 

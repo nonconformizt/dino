@@ -178,9 +178,12 @@ void Level::update()
 
     window->draw(flag);
 
-    player.update();
-    playerOffset = checkMovement(player.rect, player.desiredOffsetY);
-    player.render(playerOffset);
+    if (!player.dead)
+    {
+        player.update();
+        playerOffset = checkMovement(player.rect, player.desiredOffsetY);
+        player.render(playerOffset);
+    }
     window->draw(player.sprite);
 
     int posX = int( player.rect.getPosition().x);
@@ -356,8 +359,11 @@ void Level::drawHearts()
 void Level::kill()
 {
     lives--;
-    if (lives < 0)
+    if (lives <= 0)
+    {
         player.dead = true;
+        return;
+    }
 
     drawHearts();
 
