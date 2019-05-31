@@ -1,13 +1,14 @@
 
 #include "Menu.hpp"
+using namespace sf;
 
 Menu::Menu(sf::RenderWindow * win)
 {
     window = win;
 
     background.setPosition(0, 0);
-    background.setSize(sf::Vector2f(WIN_W, WIN_H));
-    background.setFillColor(sf::Color::White);
+    background.setSize(Vector2f(WIN_W, WIN_H));
+    background.setFillColor(Color::White);
 
     font.loadFromFile("assets/font.ttf");
 
@@ -15,33 +16,33 @@ Menu::Menu(sf::RenderWindow * win)
     title.setString("DINO REMASTERED_");
     title.setCharacterSize(57);
     title.setFillColor(gray);
-    title.setPosition(sf::Vector2f((WIN_W - title.getGlobalBounds().width + 20) / 2, 86));
+    title.setPosition(Vector2f((WIN_W - title.getGlobalBounds().width + 20) / 2, 86));
 
 
     subtitle.setFont(font);
     subtitle.setString("BY BOGDAN KORZH");
     subtitle.setCharacterSize(23);
     subtitle.setFillColor(gray);
-    subtitle.setPosition(sf::Vector2f((WIN_W - subtitle.getGlobalBounds().width) / 2, 155));
+    subtitle.setPosition(Vector2f((WIN_W - subtitle.getGlobalBounds().width) / 2, 155));
 
     btn1Label.setFont(font);
     btn1Label.setString("INFINITE MODE");
     btn1Label.setCharacterSize(28);
     btn1Label.setFillColor(gray);
-    btn1Label.setPosition(sf::Vector2f((WIN_W - btn1Label.getGlobalBounds().width) / 2, 312));
+    btn1Label.setPosition(Vector2f((WIN_W - btn1Label.getGlobalBounds().width) / 2, 312));
 
     btn2Label.setFont(font);
     btn2Label.setString("LEVELS");
     btn2Label.setCharacterSize(34);
     btn2Label.setFillColor(gray);
-    btn2Label.setPosition(sf::Vector2f((WIN_W - btn2Label.getGlobalBounds().width) / 2, 445));
+    btn2Label.setPosition(Vector2f((WIN_W - btn2Label.getGlobalBounds().width) / 2, 445));
 
     btnTexture.loadFromFile("assets/button.png");
     btn1.setTexture(btnTexture);
     btn2.setTexture(btnTexture);
-    btn1.setTextureRect(sf::IntRect(0, 0, 293, 64));
+    btn1.setTextureRect(IntRect(0, 0, 293, 64));
     btn1.setPosition(348, 297);
-    btn2.setTextureRect(sf::IntRect(0, 0, 293, 64));
+    btn2.setTextureRect(IntRect(0, 0, 293, 64));
     btn2.setPosition(348, 435);
 
     smallBtnTexture[0].loadFromFile("assets/btn-rating.png");
@@ -62,10 +63,11 @@ Menu::Menu(sf::RenderWindow * win)
 
     for (auto & spark : sparks) {
         spark.setFillColor(gray);
-        spark.setSize(sf::Vector2f(6, 6));
+        spark.setSize(Vector2f(6, 6));
     }
 
     levelMenu = new LevelMenu(window, &font);
+    characterMenu = new CharacterMenu(window, &font);
     rating = new Rating(window, &font);
 }
 
@@ -105,12 +107,12 @@ void Menu::update()
 
     ///////////// PROCESS KEYBOARD EVENTS ////////////////
 
-    sf::Event event;
-    while (window->pollEvent(event))
+    sf::Event ev;
+    while (window->pollEvent(ev))
     {
-        if (event.type == sf::Event::Closed)
+        if (ev.type == Event::Closed)
             window->close();
-        else if (event.key.code == sf::Keyboard::Escape && event.type == sf::Event::KeyPressed)
+        else if (ev.key.code == Keyboard::Escape && ev.type == Event::KeyPressed)
         {
             if (rating->isShown())
                 rating->hide();
@@ -119,18 +121,18 @@ void Menu::update()
             else
                 window->close();
         }
-        else if ((event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Tab) &&
-                    event.type == sf::Event::KeyPressed)
+        else if ((ev.key.code == Keyboard::Space || ev.key.code == Keyboard::Tab) &&
+                    ev.type == Event::KeyPressed)
         {
             if (levelMenu->isShown()) {
-                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+                if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
                     levelMenu->navForward();
                 else
                     levelMenu->navBack();
             }
             else {
                 activeChanged = true;
-                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+                if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
                     activeBtn = ++activeBtn % 5;
                 else {
                     activeBtn = --activeBtn % 5;
@@ -139,9 +141,15 @@ void Menu::update()
                 }
             }
 
-        } else if (event.key.code == sf::Keyboard::Enter && event.type == sf::Event::KeyPressed) {
-            if (activeBtn == 0)
-                state = 0;
+        } else if (ev.key.code == Keyboard::Enter && ev.type == Event::KeyPressed) {
+            if (activeBtn == 0) {
+                // open infinite mode
+                // first open character menu
+
+                characterMenu->show();
+
+                // state = 0;
+            }
             else if (activeBtn == 1) {
                 if (levelMenu->isShown()) {
                     state = levelMenu->getLevel();
@@ -151,10 +159,10 @@ void Menu::update()
             }
             else if (activeBtn == 2)
                 rating->show();
-        }  else if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
+        }  else if (ev.mouseButton.button == Mouse::Left && ev.type == Event::MouseButtonPressed)
         {
-            int x = sf::Mouse::getPosition(*window).x,
-                y = sf::Mouse::getPosition(*window).y;
+            int x = Mouse::getPosition(*window).x,
+                y = Mouse::getPosition(*window).y;
 
             if (levelMenu->isShown())
                 state = levelMenu->mouseClicked(sf::Vector2i(x, y));
@@ -217,6 +225,7 @@ void Menu::update()
 
     rating->render();
     levelMenu->render();
+    characterMenu->render();
 
     window->display();
 }

@@ -33,6 +33,8 @@ add_executable(
         StandardMode.hpp
         globals.hpp
         Coin.cpp
-        Coin.hpp)
+        Coin.hpp
+        Menu/CharacterMenu.cpp
+        Menu/CharacterMenu.hpp)
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)

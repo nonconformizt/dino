@@ -19,6 +19,7 @@ public:
     explicit Level(sf::RenderWindow * win);
     void update();
     void load(size_t lvl);
+    size_t getLevel() { return currentLevel; }
 
 private:
     void getLevelFromFile();

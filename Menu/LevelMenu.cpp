@@ -19,10 +19,10 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
     bg.setFillColor(sf::Color(83, 83, 83, 150));
 
     title.setString("Choose level:");
+    title.setFont(*font);
     title.setFillColor(sf::Color(83, 83, 83));
     title.setCharacterSize(34);
-    title.setPosition(340, 100);
-    title.setFont(*font);
+    title.setPosition(WIN_W / 2 - title.getGlobalBounds().width / 2, 100);
 
     levelListTex.loadFromFile("assets/level-container.png");
     levelStarTex.loadFromFile("assets/star.png");
@@ -73,8 +73,7 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
 
 void LevelMenu::render()
 {
-    if (!shown)
-        return;
+    if (!shown) return;
 
     ////////////// PROCESS MOUSE MOVEMENT /////////////////
 

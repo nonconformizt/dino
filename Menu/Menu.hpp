@@ -7,6 +7,7 @@
 #include "../config.h"
 #include "Rating.hpp"
 #include "LevelMenu.hpp"
+#include "CharacterMenu.hpp"
 
 #define SPARKS_N 30
 
@@ -45,6 +46,7 @@ private:
     bool activeChanged = false;
 
     LevelMenu * levelMenu;
+    CharacterMenu * characterMenu;
     Rating * rating;
 
     int prevMouseX = 0, prevMouseY = 0;

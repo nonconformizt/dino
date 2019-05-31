@@ -141,7 +141,7 @@ void Level::update()
     while (window->pollEvent(event))
     {
         if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
-            window->close(); // open menu here
+            currentLevel = -1; // menu will open
         else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Q)
             saving = player.rect.getPosition();
         else if (player.dead && event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Enter)
@@ -186,9 +186,11 @@ void Level::update()
     }
     window->draw(player.sprite);
 
+    /*
     int posX = int( player.rect.getPosition().x);
     int posY = int( LVL_H - (player.rect.getPosition().y + player.rect.getSize().y) );
     std::cout << "x: " << posX << "; y: " << posY << std::endl;
+    */
 
     drawScore();
 
@@ -348,17 +350,13 @@ void Level::drawGameOver()
 void Level::drawHearts()
 {
     for (int i = 0; i < LIVES_N; i++)
-    {
-        if (lives > i)
-            hearts[i].setTextureRect(sf::IntRect(0, 0, 22, 20));
-        else
-            hearts[i].setTextureRect(sf::IntRect(22, 0, 22, 20));
-    }
+        hearts[i].setTextureRect(sf::IntRect(lives > i ? 0 : 22, 0, 22, 20));
 }
 
 void Level::kill()
 {
     lives--;
+
     if (lives <= 0)
     {
         player.dead = true;
@@ -381,10 +379,12 @@ void Level::load(const size_t lvl)
     currentLevel = lvl;
 
     cactuses.clear();
+    cactPos.clear();
 
     pteros.clear();
     pteroSpeed.clear();
     pteroPos.clear();
+
 
     coins.clear();
     coinPos.clear();

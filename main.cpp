@@ -29,10 +29,16 @@ int main(int argc, const char ** argv)
 
             if (state == 0)
                 standard.reset();
-            else if (state >= 1 && state <= 3) {
+            else if (state >= 1 && state <= 3)
                 level.load(state);
-            }
         }
+        else if (state >= 1 && state <= 3 && level.getLevel() == -1) // level opened
+        {
+            // if level was finished
+            state = -1;
+            menu.open();
+        }
+
 
         if (state == -1)
             menu.update();
