@@ -8,6 +8,7 @@
 #include "Rating.hpp"
 #include "LevelMenu.hpp"
 #include "CharacterMenu.hpp"
+#include "TextField.hpp"
 
 #define SPARKS_N 30
 
@@ -51,8 +52,11 @@ private:
     LevelMenu * levelMenu;
     CharacterMenu * characterMenu;
     Rating * rating;
+    TextField * textField;
 
     int prevMouseX = 0, prevMouseY = 0;
+
+    std::string test = "";
 
 };
 

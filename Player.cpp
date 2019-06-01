@@ -3,6 +3,7 @@
 
 Player::Player()
 {
+
     texture.loadFromFile("assets/player1.png");
 
     sprite.setTexture(texture);
@@ -18,6 +19,17 @@ Player::Player()
 void Player::setCharacter(size_t character)
 {
     texture.loadFromFile("assets/player" + std::to_string(character + 1) + ".png");
+
+    switch (character)
+    {
+        case 0: jumpSpeed = 12.0;
+            break;
+        case 1: jumpSpeed = 15.0;
+            break;
+        case 2: jumpSpeed = 19.0;
+            break;
+        default: break;
+    }
 }
 
 void Player::update()

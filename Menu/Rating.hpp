@@ -16,6 +16,7 @@ public:
 private:
     void initSparks();
     void updateSparks();
+    void readRating();
 
     sf::Text listText[10],
              listNum[10];

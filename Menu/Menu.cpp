@@ -193,6 +193,13 @@ void Menu::update()
             }
 
         }
+        /*else if (ev.type == sf::Event::TextEntered)
+        {
+            test += (char) ev.text.unicode;
+            std::cout << "Symbol: " << ev.text.unicode << std::endl;
+            std::cout << test << std::endl;
+
+        }*/
     }
 
     if (activeChanged)

@@ -1,21 +1,11 @@
 
 #include "Rating.hpp"
-
+#include <iostream>
 
 Rating::Rating(sf::RenderWindow * win, sf::Font * f)
 {
     window = win;
     font = f;
-
-    /**
-     *    Load data from database somewhere here...
-     */
-
-    std::string names[10] =
-            {"Bogdan", "Korzh", "Also Bogdan", "Bogdan", "Bogdan", "Bogdan", "Bogdan", "Bogdan", "Bogdan","Bogdan"};
-
-    int records[10] =
-            {1488, 1234, 1200, 983, 627, 589, 569, 432, 234, 232};
 
     blockTex.loadFromFile("assets/rating-container.png");
     block.setTexture(blockTex);
@@ -38,7 +28,7 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
         listText[i].setFont(*font);
         listText[i].setFillColor(GRAY);
         listText[i].setPosition(360, offset + 3);
-        listText[i].setString(names[i] + " - " + std::to_string(records[i]));
+        listText[i].setString("");
 
         listNum[i].setCharacterSize(21);
         listNum[i].setFont(*font);
@@ -55,6 +45,8 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
         listBullet[i].setPosition(315, offset);
         listBullet[i].setFillColor((i < 3) ? GRAY : LIGHT_GRAY);
     }
+
+    readRating();
 
     for (int i = 0; i < SP_N; i++) {
         sparks[i].setFillColor(sf::Color::White);
@@ -78,6 +70,36 @@ void Rating::render()
             window->draw(listBullet[i]);
             window->draw(listNum[i]);
         }
+    }
+}
+
+void Rating::readRating()
+{
+    using namespace std;
+
+    string filename = "assets/rating.txt";
+    FILE * mapFile = fopen(filename.c_str(), "r");
+    char ch;
+    int i = 0;
+
+    while (i < 10)
+    {
+        string name;
+        int score, length = 0;
+
+        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF)
+            if (length++ <= 13)
+                name += ch;
+
+        fscanf(mapFile, "%d", &score);
+
+        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF)
+            ; // skip to the end of the line
+
+        listText[i++].setString(name + " - " + to_string(score));
+
+        if (ch == EOF)
+            break;
     }
 }
 

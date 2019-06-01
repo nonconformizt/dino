@@ -35,6 +35,6 @@ add_executable(
         Coin.cpp
         Coin.hpp
         Menu/CharacterMenu.cpp
-        Menu/CharacterMenu.hpp)
+        Menu/CharacterMenu.hpp Menu/TextField.cpp Menu/TextField.hpp)
 
 target_link_libraries(dino sfml-graphics sfml-window sfml-system)
