@@ -24,6 +24,7 @@ public:
     explicit StandardMode(sf::RenderWindow * win);
     void update();
     void reset() {};
+    void setCharacter(size_t ch) { player.setCharacter(ch); }
 
 private:
     void initObjects();

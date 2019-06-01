@@ -27,8 +27,10 @@ int main(int argc, const char ** argv)
         {
             state = menu.getState();
 
-            if (state == 0)
+            if (state == 0 ) {
+                standard.setCharacter(menu.getCharacter());
                 standard.reset();
+            }
             else if (state >= 1 && state <= 3)
                 level.load(state);
         }

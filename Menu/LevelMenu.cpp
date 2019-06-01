@@ -42,7 +42,6 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
 
     for (int i = 0, left = 185; i < LVLS_N; i++, left += 125)
     {
-
         levelListNums[i].setFont(*font);
         levelListNums[i].setPosition((i == 0) ? (left + 40) : (left + 30), 189);
         levelListNums[i].setFillColor(GRAY);
@@ -60,7 +59,6 @@ LevelMenu::LevelMenu(sf::RenderWindow *win, sf::Font *f)
         levelStars[i][2].setPosition(left + 70, 260);
         levelStars[i][2].setTexture(levelSmallStarTex);
         levelStars[i][2].setTextureRect(sf::IntRect(28, 0, 28, 28));
-
     }
 
     for (auto & spark : sparks) {

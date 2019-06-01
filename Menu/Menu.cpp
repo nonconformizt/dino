@@ -118,17 +118,25 @@ void Menu::update()
                 rating->hide();
             else if (levelMenu->isShown())
                 levelMenu->hide();
+            else if (characterMenu->isShown())
+                characterMenu->hide();
             else
                 window->close();
         }
-        else if ((ev.key.code == Keyboard::Space || ev.key.code == Keyboard::Tab) &&
-                    ev.type == Event::KeyPressed)
+        else if ((ev.key.code == Keyboard::Space || ev.key.code == Keyboard::Tab) && ev.type == Event::KeyPressed)
         {
             if (levelMenu->isShown()) {
                 if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
                     levelMenu->navForward();
                 else
                     levelMenu->navBack();
+            }
+            if (characterMenu->isShown())
+            {
+                if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
+                    characterMenu->navForward();
+                else
+                    characterMenu->navBack();
             }
             else {
                 activeChanged = true;
@@ -141,14 +149,17 @@ void Menu::update()
                 }
             }
 
-        } else if (ev.key.code == Keyboard::Enter && ev.type == Event::KeyPressed) {
+        }
+        else if (ev.key.code == Keyboard::Enter && ev.type == Event::KeyPressed)
+        {
             if (activeBtn == 0) {
-                // open infinite mode
-                // first open character menu
-
-                characterMenu->show();
-
-                // state = 0;
+                if (characterMenu->isShown()) {
+                    character = characterMenu->getCharacter();
+                    characterMenu->hide();
+                    // run infinite mode
+                    if (character != -1) state = 0;
+                } else
+                    characterMenu->show();
             }
             else if (activeBtn == 1) {
                 if (levelMenu->isShown()) {
@@ -159,17 +170,22 @@ void Menu::update()
             }
             else if (activeBtn == 2)
                 rating->show();
-        }  else if (ev.mouseButton.button == Mouse::Left && ev.type == Event::MouseButtonPressed)
+        }
+        else if (ev.mouseButton.button == Mouse::Left && ev.type == Event::MouseButtonPressed)
         {
             int x = Mouse::getPosition(*window).x,
                 y = Mouse::getPosition(*window).y;
 
             if (levelMenu->isShown())
                 state = levelMenu->mouseClicked(sf::Vector2i(x, y));
+            else if (characterMenu->isShown()) {
+                character = characterMenu->mouseClicked(sf::Vector2i(x, y));
+                if (character != -1) state = 0;
+            }
             else
             {
                 if (btn1.getGlobalBounds().contains(x, y))
-                    state = 0;
+                    characterMenu->show();
                 else if (btn2.getGlobalBounds().contains(x, y) && !levelMenu->isShown())
                     levelMenu->show();
                 else if (smallBtns[0].getGlobalBounds().contains(x, y) && !rating->isShown())

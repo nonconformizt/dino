@@ -18,6 +18,7 @@ public:
     size_t getState(); // returns number of level, if user intends to run some,
                        // or 0 if user intends to run "standard mode"
                        // or -1 if we`r still showing menu
+   int getCharacter() { return character; }
     void open() { state = -1; };
     void update();
 
@@ -28,6 +29,8 @@ private:
 
     sf::RenderWindow * window;
     int state = -1; // see getState();
+
+    int character = -1;
 
     sf::Font font;
     const sf::Color gray = sf::Color(83, 83, 83);

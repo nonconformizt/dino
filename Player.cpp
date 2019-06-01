@@ -3,7 +3,7 @@
 
 Player::Player()
 {
-    texture.loadFromFile("assets/player.png");
+    texture.loadFromFile("assets/player1.png");
 
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
@@ -13,6 +13,11 @@ Player::Player()
     nextPos.setSize(sf::Vector2f(64, 72));
     nextPos.setPosition(50, 800);
 
+}
+
+void Player::setCharacter(size_t character)
+{
+    texture.loadFromFile("assets/player" + std::to_string(character + 1) + ".png");
 }
 
 void Player::update()
