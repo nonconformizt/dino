@@ -11,12 +11,11 @@ class Rating : public Modal {
 public:
     explicit Rating(sf::RenderWindow * win, sf::Font * f);
     void render() final;
-
+    void readRating();
 
 private:
     void initSparks();
     void updateSparks();
-    void readRating();
 
     sf::Text listText[10],
              listNum[10];

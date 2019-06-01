@@ -162,8 +162,10 @@ void Menu::update()
             if (textField->isShown())
             {
                 tempPlayerName = textField->getString();
+                std::cout << "Player name: " << tempPlayerName << "\n";
                 textField->hide();
                 pushHighscore();
+                std::cout << "Here!!!!\n";
             }
             else if (activeBtn == 0)
             {
@@ -318,7 +320,7 @@ void Menu::writeHighscore(int score)
     string names[10] = {""};
     int scores[10] = {0};
 
-    while (i++ < 10)
+    while (i < 10)
     {
         string name;
         int sc;
@@ -329,7 +331,7 @@ void Menu::writeHighscore(int score)
         fscanf(ratingFile, "%d", &sc);
 
         names[i] = name;
-        scores[i] = sc;
+        scores[i++] = sc;
 
         while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF);
 
@@ -338,12 +340,13 @@ void Menu::writeHighscore(int score)
 
     // if highscore bigger then smallest score
     if (score > scores[i-1]) {
-        // we need to push this score
+        // we need to push THIS score
         tempHigscore = score;
         // ask user for name
         textField->show();
     }
 
+    fclose(ratingFile);
 }
 
 void Menu::pushHighscore()
@@ -356,7 +359,7 @@ void Menu::pushHighscore()
     string names[10] = {""};
     int scores[10] = {0};
 
-    while (i++ < 10)
+    while (i < 10)
     {
         string name;
         int sc;
@@ -367,7 +370,7 @@ void Menu::pushHighscore()
         fscanf(ratingFile, "%d", &sc);
 
         names[i] = name;
-        scores[i] = sc;
+        scores[i++] = sc;
 
         while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF);
 
@@ -383,7 +386,9 @@ void Menu::pushHighscore()
 
     int indexToPush = i;
 
-    for(i = 9; i < indexToPush; i--)
+    std::cout << "Index: " << indexToPush << "\n";
+
+    for(i = 9; i > indexToPush; i--)
     {
         scores[i] = scores[i-1];
         names[i] = names[i-1];
@@ -403,8 +408,10 @@ void Menu::pushHighscore()
 
         fputs((names[i] + "\n").c_str(), ratingFile);
         fprintf(ratingFile, "%d", scores[i]);
+        fputs("\n", ratingFile);
     }
 
     fclose(ratingFile);
 
+    rating->readRating(); // just reload
 }

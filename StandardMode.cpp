@@ -76,13 +76,11 @@ void StandardMode::update()
 
     for( auto & cactus: cactuses )
         if (cactus.collision(player.sprite.getGlobalBounds()))
-            // handle player`s death
-            window->close();
+            kill();
 
     for( auto & ptero: pteros )
         if (ptero.collision(player.sprite.getGlobalBounds()))
-            // handle player`s death
-            window->close();
+            kill();
 
     window->setView(window->getDefaultView());
     updateScore();
@@ -201,7 +199,6 @@ void StandardMode::kill()
 {
     player.dead = true;
     state = -1;
-
 }
 
 void StandardMode::reset()

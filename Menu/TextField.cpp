@@ -34,10 +34,6 @@ TextField::TextField(sf::RenderWindow *win, sf::Font *f)
     fieldText.setCharacterSize(23);
     fieldText.setPosition(WIN_W / 2 - fieldText.getGlobalBounds().width / 2, 210);
 
-
-    // temp
-    shown = true;
-
 }
 
 void TextField::render()
