@@ -76,7 +76,7 @@ void Rating::render()
 void Rating::readRating()
 {
     using namespace std;
-    FILE * mapFile = fopen("assets/rating.txt", "r");
+    FILE * ratingFile = fopen("assets/rating.txt", "r");
     char ch;
     int i = 0;
 
@@ -85,13 +85,13 @@ void Rating::readRating()
         string name;
         int score, length = 0;
 
-        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF)
+        while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF)
             if (length++ <= 13)
                 name += ch;
 
-        fscanf(mapFile, "%d", &score);
+        fscanf(ratingFile, "%d", &score);
 
-        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF)
+        while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF)
             ; // skip to the end of the line
 
         listText[i++].setString(name + " - " + to_string(score));
@@ -99,6 +99,8 @@ void Rating::readRating()
         if (ch == EOF)
             break;
     }
+
+    fclose(ratingFile);
 }
 
 void Rating::initSparks()

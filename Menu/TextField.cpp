@@ -7,7 +7,7 @@ TextField::TextField(sf::RenderWindow *win, sf::Font *f)
     window = win;
     font = f;
 
-    block.setSize(sf::Vector2f(600, 330));
+    block.setSize(sf::Vector2f(410, 150));
     block.setPosition(WIN_W / 2 - block.getSize().x / 2, 120);
     block.setFillColor(sf::Color::White);
 
@@ -16,10 +16,26 @@ TextField::TextField(sf::RenderWindow *win, sf::Font *f)
 
     title.setString("Enter your name:");
     title.setFont(*font);
-    title.setFillColor(sf::Color(83, 83, 83));
-    title.setCharacterSize(34);
-    title.setPosition(WIN_W / 2 - title.getGlobalBounds().width / 2, 150);
+    title.setFillColor(GRAY);
+    title.setCharacterSize(26);
+    title.setPosition(WIN_W / 2 - title.getGlobalBounds().width / 2, 140);
 
+    fieldBorder.setSize(sf::Vector2f(370, 44));
+    fieldBorder.setPosition(WIN_W / 2 - fieldBorder.getSize().x / 2, 200);
+    fieldBorder.setFillColor(GRAY);
+
+    fieldBackground.setSize(sf::Vector2f(360, 34));
+    fieldBackground.setPosition(WIN_W / 2 - fieldBackground.getSize().x / 2, 205);
+    fieldBackground.setFillColor(sf::Color::White);
+
+    fieldText.setString("Hello_world");
+    fieldText.setFont(*font);
+    fieldText.setFillColor(GRAY);
+    fieldText.setCharacterSize(23);
+    fieldText.setPosition(WIN_W / 2 - fieldText.getGlobalBounds().width / 2, 210);
+
+
+    // temp
     shown = true;
 
 }
@@ -31,6 +47,9 @@ void TextField::render()
     window->draw(bg);
     window->draw(block);
     window->draw(title);
+    window->draw(fieldBorder);
+    window->draw(fieldBackground);
+    window->draw(fieldText);
 
 }
 
@@ -41,7 +60,9 @@ void TextField::input(sf::Uint32 code)
     else if (code == 8) // backspace
         str = str.substr(0, str.length() - 1);
 
-    std::cout << str << std::endl;
+    fieldText.setString(str);
+    fieldText.setPosition(WIN_W / 2 - fieldText.getGlobalBounds().width / 2, 210);
+
 }
 
 void TextField::hide()

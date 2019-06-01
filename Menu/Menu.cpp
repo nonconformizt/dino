@@ -109,7 +109,7 @@ void Menu::update()
 
     ///////////// PROCESS KEYBOARD EVENTS ////////////////
 
-    sf::Event ev;
+    Event ev;
     while (window->pollEvent(ev))
     {
         if (ev.type == Event::Closed)
@@ -129,6 +129,9 @@ void Menu::update()
         }
         else if ((ev.key.code == Keyboard::Space || ev.key.code == Keyboard::Tab) && ev.type == Event::KeyPressed)
         {
+            if (rating->isShown() || textField->isShown())
+                break;
+
             if (levelMenu->isShown()) {
                 if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
                     levelMenu->navForward();
@@ -158,8 +161,9 @@ void Menu::update()
         {
             if (textField->isShown())
             {
-                playerName = textField->getString();
+                tempPlayerName = textField->getString();
                 textField->hide();
+                pushHighscore();
             }
             else if (activeBtn == 0)
             {
@@ -307,7 +311,7 @@ void Menu::updateSparks()
 void Menu::writeHighscore(int score)
 {
     using namespace std;
-    FILE * mapFile = fopen("assets/rating.txt", "r");
+    FILE * ratingFile = fopen("assets/rating.txt", "r");
     char ch;
     int i = 0;
 
@@ -319,27 +323,88 @@ void Menu::writeHighscore(int score)
         string name;
         int sc;
 
-        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF)
+        while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF)
                 name += ch;
 
-        fscanf(mapFile, "%d", &sc);
+        fscanf(ratingFile, "%d", &sc);
 
         names[i] = name;
         scores[i] = sc;
 
-        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF);
+        while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF);
 
         if (ch == EOF) break;
     }
 
-    // if highscore bigger then less score
+    // if highscore bigger then smallest score
+    if (score > scores[i-1]) {
+        // we need to push this score
+        tempHigscore = score;
+        // ask user for name
+        textField->show();
+    }
 
-    // ask user for name
+}
 
-    textField->show();
+void Menu::pushHighscore()
+{
+    using namespace std;
+    FILE * ratingFile = fopen("assets/rating.txt", "r");
+    char ch;
+    int i = 0;
 
-    // push into correct place
+    string names[10] = {""};
+    int scores[10] = {0};
 
-    // write to file
+    while (i++ < 10)
+    {
+        string name;
+        int sc;
+
+        while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF)
+            name += ch;
+
+        fscanf(ratingFile, "%d", &sc);
+
+        names[i] = name;
+        scores[i] = sc;
+
+        while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF);
+
+        if (ch == EOF) break;
+    }
+
+    for (i = 0; i < 10; i++)
+        if (tempHigscore >= scores[i])
+            // push here
+            break;
+
+    if (i >= 10) return;
+
+    int indexToPush = i;
+
+    for(i = 9; i < indexToPush; i--)
+    {
+        scores[i] = scores[i-1];
+        names[i] = names[i-1];
+    }
+
+    scores[i] = tempHigscore;
+    names[i] = tempPlayerName;
+
+    fclose(ratingFile);
+
+    ratingFile = fopen("assets/rating.txt", "w+");
+
+    for (i = 0; i < 10; i++)
+    {
+        if (!scores[i])
+            break;
+
+        fputs((names[i] + "\n").c_str(), ratingFile);
+        fprintf(ratingFile, "%d", scores[i]);
+    }
+
+    fclose(ratingFile);
 
 }

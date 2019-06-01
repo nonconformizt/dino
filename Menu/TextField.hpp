@@ -11,11 +11,13 @@ public:
     void render() final;
     void input(sf::Uint32 code);
     std::string getString() { return str; }
+    void hide() override;
 
 private:
-    void hide();
-
     sf::RectangleShape block;
+    sf::RectangleShape fieldBorder;
+    sf::RectangleShape fieldBackground;
+    sf::Text fieldText;
     std::string str;
 
 };

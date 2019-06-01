@@ -28,6 +28,7 @@ private:
     void deactivateAll();
     void initSparks();
     void updateSparks();
+    void pushHighscore();
 
     sf::RenderWindow * window;
     int state = -1; // see getState();
@@ -55,7 +56,8 @@ private:
     Rating * rating;
     TextField * textField;
 
-    std::string playerName;
+    int tempHigscore;
+    std::string tempPlayerName;
 
     int prevMouseX = 0, prevMouseY = 0;
 
