@@ -178,7 +178,8 @@ void Menu::update()
 
             if (levelMenu->isShown())
                 state = levelMenu->mouseClicked(sf::Vector2i(x, y));
-            else if (characterMenu->isShown()) {
+            else if (characterMenu->isShown())
+            {
                 character = characterMenu->mouseClicked(sf::Vector2i(x, y));
                 if (character != -1) state = 0;
             }

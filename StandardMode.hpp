@@ -33,6 +33,8 @@ private:
     float checkMovement(const sf::RectangleShape * rect, float offset);
     int random(int a, int b);
 
+    int score;
+
     sf::RenderWindow * window;
     sf::Texture platformTexture;
 
@@ -47,7 +49,7 @@ private:
     std::vector<Pterodactyl> pteros;
     sf::RectangleShape background;
     sf::Font font;
-    sf::Text score;
+    sf::Text scoreText;
 
     float velocity = 6.0;
 
@@ -56,6 +58,7 @@ private:
     float distance = velocity * 30  ; // minimal distance between cactuses
     float lastCactusX = 0;
     float lastPteroX = 0;
+
     std::mt19937 mt; // for c++11 random library
 
 

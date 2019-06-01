@@ -86,7 +86,7 @@ void StandardMode::update()
 
     window->setView(window->getDefaultView());
     updateScore();
-    window->draw(score);
+    window->draw(scoreText);
 
     window->display();
 
@@ -112,7 +112,7 @@ void StandardMode::initObjects()
 
     float pos = 4 * distance;
     for (i = 0; i < 5; i++) {
-        auto c = new Cactus(sf::Vector2f(pos, WIN_H - GROUND));
+        auto c = new Cactus(sf::Vector2f(pos, LVL_H - GROUND));
         cactuses.push_back(*c);
 
         lastCactusX = pos;
@@ -120,9 +120,10 @@ void StandardMode::initObjects()
     }
 
 
-    pos = 3000;
-    for (i = 0; i < 5; i++) {
-        auto p = new Pterodactyl(sf::Vector2f(pos, LVL_H - GROUND + 200), -3);
+
+    for (i = 0, pos = 3000; i < 5; i++)
+    {
+        auto p = new Pterodactyl(sf::Vector2f(pos, LVL_H - GROUND - 200), -3);
         p->setStMode();
         pteros.push_back(*p);
 
@@ -131,11 +132,11 @@ void StandardMode::initObjects()
     }
 
     font.loadFromFile("assets/font.ttf");
-    score.setFont(font);
-    score.setString("Hello");
-    score.setCharacterSize(24);
-    score.setFillColor(GRAY);
-    score.setPosition(WIN_W - score.getGlobalBounds().width, 0);
+    scoreText.setFont(font);
+    scoreText.setString("Hello");
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(GRAY);
+    scoreText.setPosition(WIN_W - scoreText.getGlobalBounds().width, 0);
 
 }
 
@@ -163,8 +164,18 @@ void StandardMode::redrawTiles()
         cactuses.erase(cactuses.begin());
 
         lastCactusX += random(int(distance), int(5 * distance));
-        auto c = new Cactus(sf::Vector2f(lastCactusX, WIN_H - GROUND));
+        auto c = new Cactus(sf::Vector2f(lastCactusX, LVL_H - GROUND));
         cactuses.push_back(*c);
+    }
+
+    // if pterodactyl is out of sight
+    if (cactuses[0].sprite.getPosition().x < l_border - 100)
+    {
+        pteros.erase(pteros.begin());
+
+        lastPteroX += random(int(4*distance), int(20*distance));
+        auto p = new Pterodactyl(sf::Vector2f(lastPteroX, LVL_H - GROUND - 200), -3);
+        pteros.push_back(*p);
     }
 
 }
@@ -177,10 +188,11 @@ int StandardMode::random(int a, int b)
 
 void StandardMode::updateScore()
 {
-    std::string sc = std::to_string((int) player.rect.getGlobalBounds().left / 70);
+    score = (int) player.rect.getGlobalBounds().left / 70;
+    std::string sc = std::to_string(score);
     for (int i = 0, len = 5 - sc.length(); i < len; i++)
-        sc.insert(0, "0"); // fucking weird
+        sc.insert(0, "0"); // it`s fucking weird
 
-    score.setString("SCORE: " + sc);
-    score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
+    scoreText.setString("SCORE: " + sc);
+    scoreText.setPosition(WIN_W - scoreText.getGlobalBounds().width - 20, 20);
 }
