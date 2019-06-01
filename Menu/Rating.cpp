@@ -76,9 +76,7 @@ void Rating::render()
 void Rating::readRating()
 {
     using namespace std;
-
-    string filename = "assets/rating.txt";
-    FILE * mapFile = fopen(filename.c_str(), "r");
+    FILE * mapFile = fopen("assets/rating.txt", "r");
     char ch;
     int i = 0;
 

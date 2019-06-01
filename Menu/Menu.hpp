@@ -19,9 +19,10 @@ public:
     size_t getState(); // returns number of level, if user intends to run some,
                        // or 0 if user intends to run "standard mode"
                        // or -1 if we`r still showing menu
-   int getCharacter() { return character; }
+    int getCharacter() { return character; }
     void open() { state = -1; };
     void update();
+    void writeHighscore(int score);
 
 private:
     void deactivateAll();
@@ -54,9 +55,9 @@ private:
     Rating * rating;
     TextField * textField;
 
-    int prevMouseX = 0, prevMouseY = 0;
+    std::string playerName;
 
-    std::string test = "";
+    int prevMouseX = 0, prevMouseY = 0;
 
 };
 

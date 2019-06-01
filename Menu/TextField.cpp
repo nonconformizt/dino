@@ -1,5 +1,6 @@
 
 #include "TextField.hpp"
+#include <iostream>
 
 TextField::TextField(sf::RenderWindow *win, sf::Font *f)
 {
@@ -19,15 +20,33 @@ TextField::TextField(sf::RenderWindow *win, sf::Font *f)
     title.setCharacterSize(34);
     title.setPosition(WIN_W / 2 - title.getGlobalBounds().width / 2, 150);
 
+    shown = true;
+
 }
 
 void TextField::render()
 {
     if (!shown) return;
 
-    window->draw(block);
     window->draw(bg);
+    window->draw(block);
     window->draw(title);
 
+}
+
+void TextField::input(sf::Uint32 code)
+{
+    if (code >= 33 && code <= 128 && str.length() <= 12)
+        str += (char) code;
+    else if (code == 8) // backspace
+        str = str.substr(0, str.length() - 1);
+
+    std::cout << str << std::endl;
+}
+
+void TextField::hide()
+{
+    str = "";
+    Modal::hide();
 }
 

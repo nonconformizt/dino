@@ -23,17 +23,21 @@ class StandardMode {
 public:
     explicit StandardMode(sf::RenderWindow * win);
     void update();
-    void reset() {};
+    void reset();
     void setCharacter(size_t ch) { player.setCharacter(ch); }
+    int getState() { return state; }
+    int getScore() { return score; }
 
 private:
     void initObjects();
     void redrawTiles();
     void updateScore();
+    void kill();
     float checkMovement(const sf::RectangleShape * rect, float offset);
     int random(int a, int b);
 
     int score;
+    int state = -1;
 
     sf::RenderWindow * window;
     sf::Texture platformTexture;

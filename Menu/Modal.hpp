@@ -9,7 +9,8 @@ class Modal {
 
 public:
     void show() { shown = true; }
-    void hide() { shown = false; }
+
+    virtual void hide() { shown = false; }
     bool isShown() { return shown; }
     virtual void render() = 0;
 

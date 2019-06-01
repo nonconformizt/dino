@@ -34,6 +34,11 @@ int main(int argc, const char ** argv)
             else if (state >= 1 && state <= 3)
                 level.load(state);
         }
+        else if (state == 0 && standard.getState() == -1) // infinite mode opened
+        {
+            menu.writeHighscore(standard.getScore());
+            state = -1;
+        }
         else if (state >= 1 && state <= 3 && level.getLevel() == -1) // level opened
         {
             // if level was finished

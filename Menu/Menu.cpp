@@ -69,6 +69,8 @@ Menu::Menu(sf::RenderWindow * win)
     levelMenu = new LevelMenu(window, &font);
     characterMenu = new CharacterMenu(window, &font);
     rating = new Rating(window, &font);
+    textField = new TextField(window, &font);
+
 }
 
 void Menu::update()
@@ -120,6 +122,8 @@ void Menu::update()
                 levelMenu->hide();
             else if (characterMenu->isShown())
                 characterMenu->hide();
+            else if (textField->isShown())
+                textField->hide();
             else
                 window->close();
         }
@@ -152,7 +156,13 @@ void Menu::update()
         }
         else if (ev.key.code == Keyboard::Enter && ev.type == Event::KeyPressed)
         {
-            if (activeBtn == 0) {
+            if (textField->isShown())
+            {
+                playerName = textField->getString();
+                textField->hide();
+            }
+            else if (activeBtn == 0)
+            {
                 if (characterMenu->isShown()) {
                     character = characterMenu->getCharacter();
                     characterMenu->hide();
@@ -161,7 +171,8 @@ void Menu::update()
                 } else
                     characterMenu->show();
             }
-            else if (activeBtn == 1) {
+            else if (activeBtn == 1)
+            {
                 if (levelMenu->isShown()) {
                     state = levelMenu->getLevel();
                     levelMenu->hide();
@@ -194,13 +205,10 @@ void Menu::update()
             }
 
         }
-        /*else if (ev.type == sf::Event::TextEntered)
+        else if (ev.type == sf::Event::TextEntered && textField->isShown())
         {
-            test += (char) ev.text.unicode;
-            std::cout << "Symbol: " << ev.text.unicode << std::endl;
-            std::cout << test << std::endl;
-
-        }*/
+            textField->input(ev.text.unicode);
+        }
     }
 
     if (activeChanged)
@@ -250,6 +258,7 @@ void Menu::update()
     rating->render();
     levelMenu->render();
     characterMenu->render();
+    textField->render();
 
     window->display();
 }
@@ -293,4 +302,44 @@ void Menu::updateSparks()
 
         window->draw(sparks[i]);
     }
+}
+
+void Menu::writeHighscore(int score)
+{
+    using namespace std;
+    FILE * mapFile = fopen("assets/rating.txt", "r");
+    char ch;
+    int i = 0;
+
+    string names[10] = {""};
+    int scores[10] = {0};
+
+    while (i++ < 10)
+    {
+        string name;
+        int sc;
+
+        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF)
+                name += ch;
+
+        fscanf(mapFile, "%d", &sc);
+
+        names[i] = name;
+        scores[i] = sc;
+
+        while ((ch = fgetc(mapFile)) != '\n' && ch != EOF);
+
+        if (ch == EOF) break;
+    }
+
+    // if highscore bigger then less score
+
+    // ask user for name
+
+    textField->show();
+
+    // push into correct place
+
+    // write to file
+
 }

@@ -196,3 +196,15 @@ void StandardMode::updateScore()
     scoreText.setString("SCORE: " + sc);
     scoreText.setPosition(WIN_W - scoreText.getGlobalBounds().width - 20, 20);
 }
+
+void StandardMode::kill()
+{
+    player.dead = true;
+    state = -1;
+
+}
+
+void StandardMode::reset()
+{
+    state = 1;
+}
