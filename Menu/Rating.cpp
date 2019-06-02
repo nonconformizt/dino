@@ -48,9 +48,10 @@ Rating::Rating(sf::RenderWindow * win, sf::Font * f)
 
     readRating();
 
-    for (int i = 0; i < SP_N; i++) {
-        sparks[i].setFillColor(sf::Color::White);
-        sparks[i].setSize(sf::Vector2f(6, 6));
+    for (auto & spark : sparks)
+    {
+        spark.setFillColor(sf::Color::White);
+        spark.setSize(sf::Vector2f(6, 6));
     }
     initSparks();
 }
@@ -94,7 +95,7 @@ void Rating::readRating()
         while ((ch = fgetc(ratingFile)) != '\n' && ch != EOF)
             ; // skip to the end of the line
 
-        listText[i++].setString(name + " - " + to_string(score));
+        listText[i++].setString(name +  (name.length() ? " - " : "")  + to_string(score));
 
         if (ch == EOF)
             break;
@@ -105,21 +106,19 @@ void Rating::readRating()
 
 void Rating::initSparks()
 {
-    for (int i = 0; i < SP_N; i++) {
-        sparks[i].setPosition( (rand() % 390) + 295,
+    for (auto & spark : sparks)
+        spark.setPosition( (rand() % 390) + 295,
                                (rand() % 70) + 50);
-    }
 }
 
 void Rating::updateSparks()
 {
-    for (int i = 0; i < SP_N; i++)
+    for (auto & spark : sparks)
     {
-        sparks[i].move(0, -1.7);
-        if (sparks[i].getPosition().y < 10)
-            sparks[i].setPosition( (rand() % 390) + 295,
-                                   (rand() % 70) + 50);
+        spark.move(0, -1.7);
+        if (spark.getPosition().y < 10)
+            spark.setPosition( (rand() % 390) + 295, (rand() % 70) + 50);
 
-        window->draw(sparks[i]);
+        window->draw(spark);
     }
 }

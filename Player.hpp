@@ -21,7 +21,7 @@ public:
     void teleport(sf::Vector2f pos);
     void stop() { velocity.x = velocity.y = 0; };
     void setCharacter(size_t character);
-    void setStandardMode(bool isStandard) {standardMode = isStandard;}
+    void setStandardMode(bool isStandard) {standardMode = isStandard; rect.setPosition(50, rect.getPosition().y); }
     void setStModeSpeed(float speed) {walkSpeed = speed;}
 
 private:

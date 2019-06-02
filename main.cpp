@@ -39,7 +39,6 @@ int main(int argc, const char ** argv)
             menu.writeHighscore(standard.getScore());
             menu.open();
             state = -1;
-            std::cout << "Here!\n";
         }
         else if (state >= 1 && state <= 3 && level.getLevel() == -1) // level opened
         {

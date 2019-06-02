@@ -117,8 +117,6 @@ void StandardMode::initObjects()
         pos += random(int(distance), int(5 * distance));
     }
 
-
-
     for (i = 0, pos = 3000; i < 5; i++)
     {
         auto p = new Pterodactyl(sf::Vector2f(pos, LVL_H - GROUND - 200), -3);
@@ -204,4 +202,35 @@ void StandardMode::kill()
 void StandardMode::reset()
 {
     state = 1;
+    player.dead = false;
+    lastPteroX = 0;
+    lastCactusX = 0;
+    score = 0;
+    scoreText.setString("SCORE: 0");
+    velocity = 6.0;
+    distance = velocity * 30;
+    cactuses.clear();
+    pteros.clear();
+    redrawTiles();
+
+    for (int i = 0, pos = 4 * (int) distance; i < 5; i++)
+    {
+        auto c = new Cactus(sf::Vector2f(pos, LVL_H - GROUND));
+        cactuses.push_back(*c);
+
+        lastCactusX = pos;
+        pos += random(int(distance), int(5 * distance));
+    }
+
+    for (int i = 0, pos = 3500; i < 5; i++)
+    {
+        auto p = new Pterodactyl(sf::Vector2f(pos, LVL_H - GROUND - 200), -3);
+        p->setStMode();
+        pteros.push_back(*p);
+
+        lastPteroX = pos;
+        pos += random(500, 1500);
+    }
+
+
 }

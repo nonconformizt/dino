@@ -2,6 +2,7 @@
 #ifndef DINO_CHARACTERMENU_HPP
 #define DINO_CHARACTERMENU_HPP
 
+#define SPRK_N 80
 #include "Modal.hpp"
 
 class CharacterMenu : public Modal {
@@ -18,12 +19,17 @@ public:
         { activeCharacter--; if (activeCharacter < 0) activeCharacter = 2; };
 
 private:
+    void initSparks();
+    void updateSparks();
+
     sf::RectangleShape block;
     sf::Texture characterListTex;
     sf::Sprite characterListBoxes[3];
 
     sf::Texture charactersTex[3];
     sf::Sprite characters[3];
+    sf::RectangleShape sparks[SPRK_N];
+
 
     int activeCharacter = -1; // numeration from zero;
 

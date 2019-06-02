@@ -4,7 +4,7 @@
 
 #include "Modal.hpp"
 
-#define SP_N 60
+#define SPRK_N 60
 
 class Rating : public Modal {
 
@@ -20,7 +20,7 @@ private:
     sf::Text listText[10],
              listNum[10];
     sf::RectangleShape listBullet[10];
-    sf::RectangleShape sparks[SP_N];
+    sf::RectangleShape sparks[SPRK_N];
 };
 
 

@@ -56,7 +56,7 @@ private:
     Rating * rating;
     TextField * textField;
 
-    int tempHigscore;
+    int tempHigscore = 0;
     std::string tempPlayerName;
 
     int prevMouseX = 0, prevMouseY = 0;

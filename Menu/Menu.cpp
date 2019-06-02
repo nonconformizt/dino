@@ -162,10 +162,8 @@ void Menu::update()
             if (textField->isShown())
             {
                 tempPlayerName = textField->getString();
-                std::cout << "Player name: " << tempPlayerName << "\n";
                 textField->hide();
                 pushHighscore();
-                std::cout << "Here!!!!\n";
             }
             else if (activeBtn == 0)
             {
@@ -190,8 +188,8 @@ void Menu::update()
         }
         else if (ev.mouseButton.button == Mouse::Left && ev.type == Event::MouseButtonPressed)
         {
-            int x = Mouse::getPosition(*window).x,
-                y = Mouse::getPosition(*window).y;
+            x = Mouse::getPosition(*window).x;
+            y = Mouse::getPosition(*window).y;
 
             if (levelMenu->isShown())
                 state = levelMenu->mouseClicked(sf::Vector2i(x, y));
@@ -247,7 +245,8 @@ void Menu::update()
     window->clear();
     window->draw(background);
 
-    if (activeBtn == 0 || activeBtn == 1) {
+    if (activeBtn == 0 || activeBtn == 1)
+    {
         updateSparks();
     }
 
@@ -385,8 +384,6 @@ void Menu::pushHighscore()
     if (i >= 10) return;
 
     int indexToPush = i;
-
-    std::cout << "Index: " << indexToPush << "\n";
 
     for(i = 9; i > indexToPush; i--)
     {

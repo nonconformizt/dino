@@ -37,7 +37,7 @@ CharacterMenu::CharacterMenu(sf::RenderWindow *win, sf::Font *f)
         characters[i].setPosition(left + 20, 265);
     }
 
-
+    initSparks();
 }
 
 void CharacterMenu::render()
@@ -63,6 +63,7 @@ void CharacterMenu::render()
     ///////////////////////////////////////////////////////
 
     window->draw(bg);
+    updateSparks();
     window->draw(block);
     window->draw(title);
 
@@ -93,4 +94,27 @@ int CharacterMenu::mouseClicked(sf::Vector2i pos)
     }
 
     return activeCharacter;
+}
+
+void CharacterMenu::initSparks()
+{
+    for (auto & spark : sparks)
+    {
+        spark.setFillColor(sf::Color::White);
+        spark.setSize(sf::Vector2f(6, 6));
+        spark.setPosition( (rand() % int( block.getSize().x - 5)) + block.getPosition().x,
+                           (rand() % 70) + 150);
+    }
+}
+
+void CharacterMenu::updateSparks()
+{
+    for (auto & spark : sparks)
+    {
+        spark.move(0, -1.7);
+        if (spark.getPosition().y < 50)
+            spark.setPosition( (rand() % int( block.getSize().x - 5)) + block.getPosition().x,
+                               (rand() % 50) + 150);
+        window->draw(spark);
+    }
 }
