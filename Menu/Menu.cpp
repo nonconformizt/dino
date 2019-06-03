@@ -15,26 +15,26 @@ Menu::Menu(sf::RenderWindow * win)
     title.setFont(font);
     title.setString("DINO REMASTERED_");
     title.setCharacterSize(57);
-    title.setFillColor(gray);
+    title.setFillColor(GRAY);
     title.setPosition(Vector2f((WIN_W - title.getGlobalBounds().width + 20) / 2, 86));
 
 
     subtitle.setFont(font);
     subtitle.setString("BY BOGDAN KORZH");
     subtitle.setCharacterSize(23);
-    subtitle.setFillColor(gray);
+    subtitle.setFillColor(GRAY);
     subtitle.setPosition(Vector2f((WIN_W - subtitle.getGlobalBounds().width) / 2, 155));
 
     btn1Label.setFont(font);
     btn1Label.setString("INFINITE MODE");
     btn1Label.setCharacterSize(28);
-    btn1Label.setFillColor(gray);
+    btn1Label.setFillColor(GRAY);
     btn1Label.setPosition(Vector2f((WIN_W - btn1Label.getGlobalBounds().width) / 2, 312));
 
     btn2Label.setFont(font);
     btn2Label.setString("LEVELS");
     btn2Label.setCharacterSize(34);
-    btn2Label.setFillColor(gray);
+    btn2Label.setFillColor(GRAY);
     btn2Label.setPosition(Vector2f((WIN_W - btn2Label.getGlobalBounds().width) / 2, 445));
 
     btnTexture.loadFromFile("assets/button.png");
@@ -62,7 +62,7 @@ Menu::Menu(sf::RenderWindow * win)
     smallBtns[2].setTextureRect(sf::IntRect(0, 0, 55, 55));
 
     for (auto & spark : sparks) {
-        spark.setFillColor(gray);
+        spark.setFillColor(GRAY);
         spark.setSize(Vector2f(6, 6));
     }
 
@@ -71,6 +71,9 @@ Menu::Menu(sf::RenderWindow * win)
     rating = new Rating(window, &font);
     textField = new TextField(window, &font);
 
+    navigateSoundBuf.loadFromFile("assets/sound/menu.wav");
+    navigateSound.setBuffer(navigateSoundBuf);
+    navigateSound.setVolume(30);
 }
 
 void Menu::update()
@@ -131,6 +134,7 @@ void Menu::update()
         {
             if (rating->isShown() || textField->isShown())
                 break;
+            navigateSound.play();
 
             if (levelMenu->isShown()) {
                 if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
@@ -281,20 +285,20 @@ void Menu::deactivateAll()
 {
     btn1.setTextureRect(sf::IntRect(0, 0, 293, 64));
     btn2.setTextureRect(sf::IntRect(0, 0, 293, 64));
-    btn1Label.setFillColor(gray);
-    btn2Label.setFillColor(gray);
+    btn1Label.setFillColor(GRAY);
+    btn2Label.setFillColor(GRAY);
 
-    for (int i = 0; i < 3; i++)
-        smallBtns[i].setTextureRect(sf::IntRect(0, 0, 55, 55));
+    for (auto & btn : smallBtns)
+        btn.setTextureRect(sf::IntRect(0, 0, 55, 55));
 }
 
 void Menu::initSparks()
 {
     int topOffset = (activeBtn) ? 435 : 297;
 
-    for (int i = 0; i < SPARKS_N; i++) {
-        sparks[i].setPosition( (rand() % (286)) + 350,
-                               (rand() % (65)) + topOffset - 10 );
+    for (auto & spark : sparks) {
+        spark.setPosition( (rand() % 286) + 350,
+                           (rand() % 65) + topOffset - 10 );
     }
 }
 
@@ -302,14 +306,14 @@ void Menu::updateSparks()
 {
     int topOffset = (activeBtn) ? 435 : 297;
 
-    for (int i = 0; i < SPARKS_N; i++)
+    for (auto & spark : sparks)
     {
-        sparks[i].move(0, -1.7);
-        if (sparks[i].getPosition().y < topOffset - 50)
-            sparks[i].setPosition( (rand() % (286)) + 350,
-                                   (rand() % (65)) + topOffset - 10 );
+        spark.move(0, -1.7);
+        if (spark.getPosition().y < topOffset - 50)
+            spark.setPosition( (rand() % 286) + 350,
+                               (rand() % 65) + topOffset - 10 );
 
-        window->draw(sparks[i]);
+        window->draw(spark);
     }
 }
 

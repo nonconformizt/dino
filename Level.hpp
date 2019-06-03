@@ -72,6 +72,9 @@ private:
     sf::Sprite gameOver;
     sf::Text gameOverText, gameoverSmallText;
 
+    sf::SoundBuffer coinSoundBuf;
+    sf::Sound coinSound;
+
 };
 
 

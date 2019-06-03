@@ -81,8 +81,6 @@ void Level::getLevelFromFile() {
 
     startPosition = saving = sf::Vector2f(tempX, LVL_H - tempY);
 
-    std::cout << "Start position: " << tempX << " " << tempY << "\n";
-
     // read flag position
     fscanf(mapFile, "%d", &tempX);
     fscanf(mapFile, "%d", &tempY);
@@ -181,9 +179,9 @@ void Level::update() {
     }
     window->draw(player.sprite);
 
-    int posX = int( player.rect.getPosition().x);
+    /*int posX = int( player.rect.getPosition().x);
     int posY = int( LVL_H - (player.rect.getPosition().y + player.rect.getSize().y) );
-    std::cout << "x: " << posX << "; y: " << posY << std::endl;
+    std::cout << "x: " << posX << "; y: " << posY << std::endl;*/
 
     drawScore();
 
@@ -223,6 +221,7 @@ void Level::update() {
                 && !coinIter->isCollected()) {
             coinIter->collect();
             coinsCollected++;
+            coinSound.play();
         }
     }
 
@@ -271,7 +270,8 @@ void Level::initObjects() {
 
 
     heart.loadFromFile("assets/heart.png");
-    for (int i = LIVES_N - 1; i >= 0; i--) {
+    for (int i = LIVES_N - 1; i >= 0; i--)
+    {
         hearts[i].setTextureRect(sf::IntRect(0, 0, 22, 20));
         hearts[i].setTexture(heart);
         hearts[i].setPosition(WIN_W - 40 - i * 30, 50);
@@ -283,6 +283,9 @@ void Level::initObjects() {
     flag.setTexture(flagTexture);
     flag.setTextureRect(sf::IntRect(0, 0, 30, 55));
     flag.setPosition(flagPosition);
+
+    coinSoundBuf.loadFromFile("assets/sound/collect.wav");
+    coinSound.setBuffer(coinSoundBuf);
 }
 
 void Level::createEntities() {

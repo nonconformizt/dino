@@ -40,4 +40,4 @@ add_executable(
         Menu/TextField.hpp
 )
 
-target_link_libraries(dino sfml-main sfml-graphics sfml-window sfml-system)
+target_link_libraries(dino sfml-main sfml-audio sfml-graphics sfml-window sfml-system)

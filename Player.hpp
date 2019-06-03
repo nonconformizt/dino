@@ -5,6 +5,7 @@
 #include "Entity.hpp"
 #include "Missile.hpp"
 #include <iostream>
+#include <SFML/Audio.hpp>
 
 class Player : public Entity {
 
@@ -36,6 +37,9 @@ private:
          spacePressed = false;
 
     void fire();
+
+    sf::SoundBuffer jumpBuf;
+    sf::Sound jumpSound;
 
 };
 

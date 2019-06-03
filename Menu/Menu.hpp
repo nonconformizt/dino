@@ -3,6 +3,7 @@
 #define DINO_MENU_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include "../config.h"
 #include "Rating.hpp"
@@ -36,7 +37,6 @@ private:
     int character = -1;
 
     sf::Font font;
-    const sf::Color gray = sf::Color(83, 83, 83);
     sf::Text title,
              subtitle,
              btn1Label,
@@ -55,6 +55,9 @@ private:
     CharacterMenu * characterMenu;
     Rating * rating;
     TextField * textField;
+
+    sf::SoundBuffer navigateSoundBuf;
+    sf::Sound navigateSound;
 
     int tempHigscore = 0;
     std::string tempPlayerName;

@@ -14,6 +14,8 @@ Player::Player()
     nextPos.setSize(sf::Vector2f(64, 72));
     nextPos.setPosition(0, 20);
 
+    jumpBuf.loadFromFile("assets/sound/jump.wav");
+    jumpSound.setBuffer(jumpBuf);
 }
 
 void Player::setCharacter(size_t character)
@@ -39,8 +41,10 @@ void Player::update()
     // JUMP
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         if (!upPressed && !jump ) { // can`t jump in flight
+            // JUMP!!!
             jump = true;
             velocity.y = - jumpSpeed;
+            jumpSound.play();
         }
         upPressed = true;
     }
@@ -155,7 +159,6 @@ void Player::render(float offset)
 
 void Player::teleport(sf::Vector2f pos)
 {
-    std::cout << "========\nTeleport: " << pos.y << " of " << LVL_H << "\n";
     rect.setPosition(pos);
     nextPos.setPosition(pos);
     velocity = {0, 0};
