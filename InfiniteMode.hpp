@@ -2,8 +2,8 @@
 // Created by nonconformist on 12.05.2019.
 //
 
-#ifndef DINO_STANDARDMODE_HPP
-#define DINO_STANDARDMODE_HPP
+#ifndef DINO_INFINITEMODE_HPP
+#define DINO_INFINITEMODE_HPP
 
 #include <iostream>
 #include <random>
@@ -18,10 +18,10 @@
 #define A 0.001
 #define GROUND (TILE_H * 50)
 
-class StandardMode {
+class InfiniteMode {
 
 public:
-    explicit StandardMode(sf::RenderWindow * win);
+    explicit InfiniteMode(sf::RenderWindow * win);
     void update();
     void reset();
     void setCharacter(size_t ch) { player.setCharacter(ch); }
@@ -69,4 +69,4 @@ private:
 };
 
 
-#endif //DINO_STANDARDMODE_HPP
+#endif //DINO_INFINITEMODE_HPP

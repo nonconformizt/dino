@@ -2,7 +2,7 @@
 #include "globals.hpp"
 #include <SFML/Graphics.hpp>
 #include "Level.hpp"
-#include "StandardMode.hpp"
+#include "InfiniteMode.hpp"
 #include "Menu/Menu.hpp"
 
 int lvlTilesW, lvlTilesH;
@@ -18,7 +18,7 @@ int main(int argc, const char ** argv)
 
     Menu menu(&window);
     Level level(&window);
-    StandardMode standard(&window);
+    InfiniteMode infinite(&window);
 
 
     while (window.isOpen())
@@ -28,15 +28,15 @@ int main(int argc, const char ** argv)
             state = menu.getState();
 
             if (state == 0 ) {
-                standard.setCharacter(menu.getCharacter());
-                standard.reset();
+                infinite.setCharacter(menu.getCharacter());
+                infinite.reset();
             }
             else if (state >= 1 && state <= 3)
                 level.load(state);
         }
-        else if (state == 0 && standard.getState() == -1) // infinite mode opened
+        else if (state == 0 && infinite.getState() == -1) // infinite mode opened
         {
-            menu.writeHighscore(standard.getScore());
+            menu.writeHighscore(infinite.getScore());
             menu.open();
             state = -1;
         }
@@ -51,7 +51,7 @@ int main(int argc, const char ** argv)
         if (state == -1)
             menu.update();
         else if(state == 0)
-            standard.update();
+            infinite.update();
         else
             level.update();
 

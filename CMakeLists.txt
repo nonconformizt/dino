@@ -29,8 +29,8 @@ add_executable(
         Menu/LevelMenu.hpp
         Menu/Modal.cpp
         Menu/Modal.hpp
-        StandardMode.cpp
-        StandardMode.hpp
+        InfiniteMode.cpp
+        InfiniteMode.hpp
         globals.hpp
         Coin.cpp
         Coin.hpp

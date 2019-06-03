@@ -16,6 +16,9 @@ Player::Player()
 
     jumpBuf.loadFromFile("assets/sound/jump.wav");
     jumpSound.setBuffer(jumpBuf);
+    hitBuf.loadFromFile("assets/sound/hit.wav");
+    hitSound.setBuffer(hitBuf);
+    hitSound.setVolume(80);
 }
 
 void Player::setCharacter(size_t character)
@@ -68,7 +71,7 @@ void Player::update()
         down = false;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !jump && !standardMode) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !jump && !infiniteMode) {
         // go left
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144 + 39, 83, 39));
@@ -79,7 +82,7 @@ void Player::update()
         left = true;
     }
     // in standard mode u r walking right permanently
-    else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D) || standardMode) && !jump) {
+    else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D) || infiniteMode) && !jump) {
         // go right
         if (down)
             sprite.setTextureRect(sf::IntRect((walk_counter / 5)*83, 144, 83, 39));
@@ -92,7 +95,7 @@ void Player::update()
     else {
         // stand still
 
-        if (!jump && !standardMode) // keep horizontal speed in flight and in standard mode
+        if (!jump && !infiniteMode) // keep horizontal speed in flight and in standard mode
             velocity.x = 0;
 
         if (left) {
@@ -112,7 +115,7 @@ void Player::update()
     walk_counter = (++walk_counter) % 10; // hehe, funny thing
 
     // FIRE!!!!
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !standardMode) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !infiniteMode) {
         if (!spacePressed)
             fire();
         spacePressed = true;
@@ -131,6 +134,7 @@ void Player::update()
 
 void Player::fire()
 {
+    hitSound.play();
     auto m = new Missile(rect.getPosition(), left ? -1 : 1);
     missiles.push_back(*m);
 }

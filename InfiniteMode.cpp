@@ -1,7 +1,7 @@
 
-#include "StandardMode.hpp"
+#include "InfiniteMode.hpp"
 
-StandardMode::StandardMode(sf::RenderWindow * win)
+InfiniteMode::InfiniteMode(sf::RenderWindow * win)
 {
     window = win;
     initObjects();
@@ -10,13 +10,13 @@ StandardMode::StandardMode(sf::RenderWindow * win)
     view.setSize(window->getSize().x, window->getSize().y);
     window->setView(view);
 
-    player.setStandardMode(true);
+    player.setInfiniteMode(true);
 
     mt.seed(time(nullptr) * sf::Mouse::getPosition().x);
 }
 
 
-float StandardMode::checkMovement(const sf::RectangleShape * rect, float offset)
+float InfiniteMode::checkMovement(const sf::RectangleShape * rect, float offset)
 {
     // always can go up
     if (offset <= 0)
@@ -30,7 +30,7 @@ float StandardMode::checkMovement(const sf::RectangleShape * rect, float offset)
     return offset;
 }
 
-void StandardMode::update()
+void InfiniteMode::update()
 {
     sf::Event event;
     while (window->pollEvent(event))
@@ -63,7 +63,7 @@ void StandardMode::update()
 
     redrawTiles();
 
-    player.setStModeSpeed(velocity);
+    player.setInfModeSpeed(velocity);
     player.update();
     playerOffset = checkMovement(&player.rect, player.desiredOffsetY);
     player.render(playerOffset);
@@ -91,7 +91,7 @@ void StandardMode::update()
     velocity += A;
 }
 
-void StandardMode::initObjects()
+void InfiniteMode::initObjects()
 {
     background.setPosition(-velocity, 0);
     background.setSize(sf::Vector2f(WIN_W, WIN_H));
@@ -136,7 +136,7 @@ void StandardMode::initObjects()
 
 }
 
-void StandardMode::redrawTiles()
+void InfiniteMode::redrawTiles()
 {
     float l_border = view.getCenter().x - WIN_W / 2;
 
@@ -176,13 +176,13 @@ void StandardMode::redrawTiles()
 
 }
 
-int StandardMode::random(int a, int b)
+int InfiniteMode::random(int a, int b)
 {
     std::uniform_real_distribution<float> dist(a, b);
     return floor(dist(mt));
 }
 
-void StandardMode::updateScore()
+void InfiniteMode::updateScore()
 {
     score = (int) player.rect.getGlobalBounds().left / 70;
     std::string sc = std::to_string(score);
@@ -193,13 +193,13 @@ void StandardMode::updateScore()
     scoreText.setPosition(WIN_W - scoreText.getGlobalBounds().width - 20, 20);
 }
 
-void StandardMode::kill()
+void InfiniteMode::kill()
 {
     player.dead = true;
     state = -1;
 }
 
-void StandardMode::reset()
+void InfiniteMode::reset()
 {
     state = 1;
     player.dead = false;
