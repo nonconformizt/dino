@@ -8,9 +8,11 @@ class Coin : public Entity {
 public:
     explicit Coin(sf::Vector2f pos);
     void update() final;
+    void collect() { shown = false; }
+    bool isCollected() { return !shown; }
 
 private:
-
+    bool shown = true;
 
 };
 

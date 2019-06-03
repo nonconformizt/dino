@@ -81,6 +81,8 @@ void Level::getLevelFromFile() {
 
     startPosition = saving = sf::Vector2f(tempX, LVL_H - tempY);
 
+    std::cout << "Start position: " << tempX << " " << tempY << "\n";
+
     // read flag position
     fscanf(mapFile, "%d", &tempX);
     fscanf(mapFile, "%d", &tempY);
@@ -159,8 +161,10 @@ void Level::update() {
     }
 
     for (auto &coin: coins) {
-        coin.update();
-        window->draw(coin.sprite);
+        if (!coin.isCollected()) {
+            coin.update();
+            window->draw(coin.sprite);
+        }
     }
 
     for (auto &missile : player.missiles) {
@@ -177,11 +181,9 @@ void Level::update() {
     }
     window->draw(player.sprite);
 
-    /*
     int posX = int( player.rect.getPosition().x);
     int posY = int( LVL_H - (player.rect.getPosition().y + player.rect.getSize().y) );
     std::cout << "x: " << posX << "; y: " << posY << std::endl;
-    */
 
     drawScore();
 
@@ -217,11 +219,10 @@ void Level::update() {
     // check if coin collected
 
     for (auto coinIter = coins.begin(); coinIter != coins.end(); coinIter++) {
-        if (player.rect.getGlobalBounds().intersects(coinIter->sprite.getGlobalBounds())) {
-            delete (&coinIter);
-            coins.erase(coinIter);
+        if (player.rect.getGlobalBounds().intersects(coinIter->sprite.getGlobalBounds())
+                && !coinIter->isCollected()) {
+            coinIter->collect();
             coinsCollected++;
-            coinIter--;
         }
     }
 
@@ -282,8 +283,6 @@ void Level::initObjects() {
     flag.setTexture(flagTexture);
     flag.setTextureRect(sf::IntRect(0, 0, 30, 55));
     flag.setPosition(flagPosition);
-
-    player.teleport(startPosition);
 }
 
 void Level::createEntities() {
@@ -331,7 +330,8 @@ void Level::drawGameOver() {
     window->draw(gameoverSmallText);
 }
 
-void Level::drawHearts() {
+void Level::drawHearts()
+{
     for (int i = 0; i < LIVES_N; i++)
         hearts[i].setTextureRect(sf::IntRect(lives > i ? 0 : 22, 0, 22, 20));
 }
@@ -376,7 +376,6 @@ void Level::load(const size_t lvl) {
     lives = LIVES_N;
     playerOffset = 0;
     player.dead = false;
-    player.teleport(sf::Vector2f(100, 800));
     drawHearts();
 
     score.setString("COINS: 0");
@@ -386,5 +385,7 @@ void Level::load(const size_t lvl) {
     createEntities();
 
     background.setSize(sf::Vector2f(LVL_W, LVL_H));
+
+    player.teleport(startPosition);
 }
 

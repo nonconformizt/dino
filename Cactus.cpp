@@ -17,7 +17,8 @@ bool Cactus::collision(sf::FloatRect player)
           cactCenterX = sprite.getPosition().x + (float) CACTUS_W / 2,
           cactCenterY = sprite.getPosition().y + (float) CACTUS_H / 2;
 
-    return sqrtf((cactCenterX - plCenterX)*(cactCenterX - plCenterX) + (cactCenterY - plCenterY)*(cactCenterY - plCenterY)) < CACTUS_W + 3;
+    return
+    sqrtf((cactCenterX - plCenterX)*(cactCenterX - plCenterX) + (cactCenterY - plCenterY)*(cactCenterY - plCenterY)) < CACTUS_W + 6;
 }
 
 void Cactus::update() {

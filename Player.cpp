@@ -10,9 +10,9 @@ Player::Player()
     sprite.setTextureRect(sf::IntRect(0, 0, 64, 72));
 
     rect.setSize(sf::Vector2f(64, 72));
-    rect.setPosition(50, 800);
+    rect.setPosition(0, 20);
     nextPos.setSize(sf::Vector2f(64, 72));
-    nextPos.setPosition(50, 800);
+    nextPos.setPosition(0, 20);
 
 }
 
@@ -155,6 +155,7 @@ void Player::render(float offset)
 
 void Player::teleport(sf::Vector2f pos)
 {
+    std::cout << "========\nTeleport: " << pos.y << " of " << LVL_H << "\n";
     rect.setPosition(pos);
     nextPos.setPosition(pos);
     velocity = {0, 0};
