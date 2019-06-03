@@ -1,8 +1,7 @@
 
 #include "Level.hpp"
 
-Level::Level(sf::RenderWindow * win)
-{
+Level::Level(sf::RenderWindow *win) {
     window = win;
     getLevelFromFile();
     initObjects();
@@ -11,10 +10,9 @@ Level::Level(sf::RenderWindow * win)
 
 }
 
-void Level::getLevelFromFile()
-{
-    std::string filename = "assets/level"+ std::to_string(currentLevel) +".txt";
-    FILE * mapFile = fopen(filename.c_str(), "r");
+void Level::getLevelFromFile() {
+    std::string filename = "assets/level" + std::to_string(currentLevel) + ".txt";
+    FILE *mapFile = fopen(filename.c_str(), "r");
 
     char ch;
     int i = 0, j = 0;
@@ -38,8 +36,7 @@ void Level::getLevelFromFile()
     int tempX, tempY, tempSpeed;
 
     // read pterodactyls position
-    while (true)
-    {
+    while (true) {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1) // -1 is a sign of pterodactyl array end
             break;
@@ -55,8 +52,7 @@ void Level::getLevelFromFile()
     }
 
     // read cactuses position
-    while (true)
-    {
+    while (true) {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1)
             break;
@@ -68,8 +64,7 @@ void Level::getLevelFromFile()
     }
 
     // read coins position
-    while (true)
-    {
+    while (true) {
         fscanf(mapFile, "%d", &tempX);
         if (tempX == -1)
             break;
@@ -95,8 +90,7 @@ void Level::getLevelFromFile()
     fclose(mapFile);
 }
 
-float Level::checkMovement(sf::RectangleShape rect, float offset)
-{
+float Level::checkMovement(sf::RectangleShape rect, float offset) {
     // always can go up
     if (offset <= 0)
         return offset;
@@ -105,8 +99,8 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
 
     sf::FloatRect tile = {0, 0, TILE_W, TILE_H};
     int leftTile_j = int(rect.getPosition().x + 25) / TILE_W, // the most left tile under player (index)
-        rightTile_j = int(rect.getPosition().x + rect.getSize().x - 15) / TILE_W, // the most right one
-        topRow = int(rect.getPosition().y) / TILE_H - int(offset*2) / TILE_H + 4; // the upper tilemap layer
+            rightTile_j = int(rect.getPosition().x + rect.getSize().x - 15) / TILE_W, // the most right one
+            topRow = int(rect.getPosition().y) / TILE_H - int(offset * 2) / TILE_H + 4; // the upper tilemap layer
     float limit;
 
 
@@ -120,7 +114,7 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
 
                         rect.move(0, -offset); // revert to initial position
                         limit = tile.top - rect.getPosition().y - rect.getSize().y; // player can move down
-                                                                                    // only to this point, never lower
+                        // only to this point, never lower
 
                         if (limit < 0) limit = offset; // very strange thing
 
@@ -134,12 +128,10 @@ float Level::checkMovement(sf::RectangleShape rect, float offset)
     return offset;
 }
 
-void Level::update()
-{
+void Level::update() {
     // Process events
     sf::Event event = sf::Event();
-    while (window->pollEvent(event))
-    {
+    while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
             currentLevel = -1; // menu will open
         else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Q)
@@ -155,31 +147,30 @@ void Level::update()
 
     window->draw(background);
 
-    for( auto const& platform: platforms )
+    for (auto const &platform: platforms)
         window->draw(platform);
 
-    for( auto const& cactus: cactuses )
+    for (auto const &cactus: cactuses)
         window->draw(cactus.sprite);
 
-    for( auto & ptero: pteros ) {
+    for (auto &ptero: pteros) {
         ptero.update();
         window->draw(ptero.sprite);
     }
 
-    for( auto & coin: coins ) {
+    for (auto &coin: coins) {
         coin.update();
         window->draw(coin.sprite);
     }
 
-    for( auto & missile : player.missiles ) {
+    for (auto &missile : player.missiles) {
         missile.update();
         window->draw(missile.sprite);
     }
 
     window->draw(flag);
 
-    if (!player.dead)
-    {
+    if (!player.dead) {
         player.update();
         playerOffset = checkMovement(player.rect, player.desiredOffsetY);
         player.render(playerOffset);
@@ -198,18 +189,18 @@ void Level::update()
         drawGameOver();
 
 
-    for (const auto & h : hearts)
+    for (const auto &h : hearts)
         window->draw(h);
 
     // check if player must die
 
-    for( auto & cactus: cactuses )
+    for (auto &cactus: cactuses)
         if (cactus.collision(player.sprite.getGlobalBounds())) {
             kill();
             break;
         }
 
-    for( auto & ptero: pteros )
+    for (auto &ptero: pteros)
         if (!ptero.dead && ptero.collision(player.sprite.getGlobalBounds())) {
             kill();
             break;
@@ -217,19 +208,17 @@ void Level::update()
 
     // check if pterodactyl must die
 
-    for( auto & missile : player.missiles )
-        for( auto & ptero: pteros )
+    for (auto &missile : player.missiles)
+        for (auto &ptero: pteros)
             if (!ptero.dead)
                 if (ptero.collision(missile.sprite.getGlobalBounds()))
                     ptero.dead = true;
 
     // check if coin collected
 
-    for (auto coinIter = coins.begin(); coinIter != coins.end(); coinIter++)
-    {
-        if (player.rect.getGlobalBounds().intersects(coinIter->sprite.getGlobalBounds()))
-        {
-            delete(&coinIter);
+    for (auto coinIter = coins.begin(); coinIter != coins.end(); coinIter++) {
+        if (player.rect.getGlobalBounds().intersects(coinIter->sprite.getGlobalBounds())) {
+            delete (&coinIter);
             coins.erase(coinIter);
             coinsCollected++;
             coinIter--;
@@ -243,8 +232,7 @@ void Level::update()
     window->display();
 }
 
-void Level::initObjects()
-{
+void Level::initObjects() {
     background.setPosition(0, 0);
     background.setSize(sf::Vector2f(LVL_W, LVL_H));
     background.setFillColor(sf::Color::White);
@@ -282,8 +270,7 @@ void Level::initObjects()
 
 
     heart.loadFromFile("assets/heart.png");
-    for (int i = LIVES_N - 1; i >= 0; i--)
-    {
+    for (int i = LIVES_N - 1; i >= 0; i--) {
         hearts[i].setTextureRect(sf::IntRect(0, 0, 22, 20));
         hearts[i].setTexture(heart);
         hearts[i].setPosition(WIN_W - 40 - i * 30, 50);
@@ -299,8 +286,7 @@ void Level::initObjects()
     player.teleport(startPosition);
 }
 
-void Level::createEntities()
-{
+void Level::createEntities() {
     sf::Sprite tempSprite;
     tempSprite.setTexture(platformTexture);
     tempSprite.setTextureRect(sf::IntRect(0, 0, 30, 10));
@@ -331,34 +317,29 @@ void Level::createEntities()
 }
 
 
-void Level::drawScore()
-{
+void Level::drawScore() {
     window->setView(window->getDefaultView());
     score.setString("COINS: " + std::to_string(coinsCollected));
     score.setPosition(WIN_W - score.getGlobalBounds().width - 20, 20);
     window->draw(score);
 }
 
-void Level::drawGameOver()
-{
+void Level::drawGameOver() {
     window->setView(window->getDefaultView());
     window->draw(gameOver);
     window->draw(gameOverText);
     window->draw(gameoverSmallText);
 }
 
-void Level::drawHearts()
-{
+void Level::drawHearts() {
     for (int i = 0; i < LIVES_N; i++)
         hearts[i].setTextureRect(sf::IntRect(lives > i ? 0 : 22, 0, 22, 20));
 }
 
-void Level::kill()
-{
+void Level::kill() {
     lives--;
 
-    if (lives <= 0)
-    {
+    if (lives <= 0) {
         player.dead = true;
         return;
     }
@@ -374,8 +355,7 @@ void Level::kill()
 }
 
 // almost constructor
-void Level::load(const size_t lvl)
-{
+void Level::load(const size_t lvl) {
     currentLevel = lvl;
 
     cactuses.clear();

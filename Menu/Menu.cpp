@@ -81,7 +81,7 @@ void Menu::update()
         y = sf::Mouse::getPosition(*window).y,
         newActive;
 
-    if (x != prevMouseX || y != prevMouseY)
+    if ((x != prevMouseX || y != prevMouseY) && !rating->isShown() && !levelMenu->isShown() && !characterMenu->isShown() && !textField->isShown())
     {
         // fucking kostyl
 
@@ -138,7 +138,7 @@ void Menu::update()
                 else
                     levelMenu->navBack();
             }
-            if (characterMenu->isShown())
+            else if (characterMenu->isShown())
             {
                 if (!Keyboard::isKeyPressed(Keyboard::LShift) && !Keyboard::isKeyPressed(Keyboard::RShift))
                     characterMenu->navForward();
@@ -197,6 +197,10 @@ void Menu::update()
             {
                 character = characterMenu->mouseClicked(sf::Vector2i(x, y));
                 if (character != -1) state = 0;
+            }
+            else if (rating->isShown())
+            {
+                rating->mouseClicked(sf::Vector2i(x, y));
             }
             else
             {

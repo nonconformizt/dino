@@ -179,5 +179,9 @@ int LevelMenu::mouseClicked(sf::Vector2i pos)
         if (levelListBoxes[i].getGlobalBounds().contains(pos.x, pos.y))
             return i + 1;
 
+    if (!block.getGlobalBounds().contains(pos.x, pos.y))
+        hide();
+
+
     return -1;
 }

@@ -10,6 +10,7 @@ class Rating : public Modal {
 
 public:
     explicit Rating(sf::RenderWindow * win, sf::Font * f);
+    void mouseClicked(sf::Vector2i pos);
     void render() final;
     void readRating();
 

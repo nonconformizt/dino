@@ -122,3 +122,9 @@ void Rating::updateSparks()
         window->draw(spark);
     }
 }
+
+void Rating::mouseClicked(sf::Vector2i pos)
+{
+    if (!block.getGlobalBounds().contains(pos.x, pos.y))
+        hide();
+}
